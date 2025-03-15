@@ -6,7 +6,7 @@ export default function CommonHeader() {
   return (
     <main className="flex justify-between items-center container mx-auto">
       <CommonLogo/>
-      <section className='pr-12'>
+      <section className='pr-12 pt-4'>
         <ul className="flex gap-12 text-darkFontColor">
           {headerData?.options?.map((item: any) => (
             <li key={item.id}>

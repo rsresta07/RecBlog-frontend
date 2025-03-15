@@ -1,6 +1,6 @@
 {
   "logoTitle": "Blog site",
-  "logoImage": "next.svg",
+  "logoImage": "/L038.jpg",
   "options": [
     {
       "id": "01",
@@ -10,7 +10,7 @@
     {
       "id": "02",
       "title": "Projects",
-      "link": "/blog"
+      "link": "https://github.com/rsresta07"
     },
     {
       "id": "03",
