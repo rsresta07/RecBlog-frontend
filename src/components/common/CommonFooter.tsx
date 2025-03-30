@@ -1,5 +1,5 @@
-import Link from "next/link"
-import footerData from "@/utils/mock/footerData.json"
+import Link from "next/link";
+import footerData from "@/utils/mock/footerData.json";
 
 export default function CommonFooter() {
   return (
@@ -13,5 +13,5 @@ export default function CommonFooter() {
         ))}
       </ul>
     </main>
-  )
+  );
 }
