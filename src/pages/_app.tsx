@@ -7,7 +7,13 @@ import { useRouter } from "next/router";
 import { MantineProvider } from "@mantine/core";
 import { Notifications } from "@mantine/notifications";
 
-export default function App({ Component, pageProps }: AppProps) {
+type CustomAppProps = AppProps & {
+  Component: {
+    getLayout?: (page: React.ReactElement) => React.ReactElement;
+  };
+};
+
+export default function App({ Component, pageProps }: CustomAppProps) {
   const router = useRouter();
   const getLayout = Component.getLayout ?? ((page: React.ReactElement) => page);
 

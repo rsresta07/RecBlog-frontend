@@ -9,4 +9,4 @@ const AboutUs = () => {
 };
 
 export default AboutUs;
-AboutUs.getLayout = (page) => <HeroLayout>{page}</HeroLayout>;
+AboutUs.getLayout = (page: any) => <HeroLayout>{page}</HeroLayout>;

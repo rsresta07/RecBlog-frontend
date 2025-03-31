@@ -7,4 +7,4 @@ const Blog = () => {
 
 export default Blog;
 
-Blog.getLayout = (page) => <HeroLayout>{page}</HeroLayout>;
+Blog.getLayout = (page: any) => <HeroLayout>{page}</HeroLayout>;
