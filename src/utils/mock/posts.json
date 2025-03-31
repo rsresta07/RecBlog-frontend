@@ -1,0 +1,496 @@
+[
+  {
+    "id": "01",
+    "author": "Rameshwor Shrestha",
+    "title": "A New Day",
+    "slug": "a-new-day",
+    "description": "How do you create compelling presentations that wow your colleagues and impress your managers?",
+    "image": "/L001.jpg",
+    "date": "2025/01/01",
+    "tag": [
+      { "id": "01", "title": "Design" },
+      { "id": "02", "title": "Colors" }
+    ]
+  },
+  {
+    "id": "02",
+    "author": "Alayna Pradhan",
+    "title": "The Last Day",
+    "slug": "the-last-day",
+    "description": "A grid system is a design tool used to arrange content on a webpage...",
+    "image": "/L002.jpg",
+    "date": "2025/01/02",
+    "tag": [
+      { "id": "01", "title": "Life" },
+      { "id": "02", "title": "Roamer" }
+    ]
+  },
+  {
+    "id": "03",
+    "author": "Rejina Shrestha",
+    "title": "Into the Wild",
+    "slug": "into-the-wild",
+    "description": "Exploring the beauty of nature and learning how to survive in the wild.",
+    "image": "/L003.jpg",
+    "date": "2025/01/03",
+    "tag": [
+      { "id": "01", "title": "Adventure" },
+      { "id": "02", "title": "Survival" }
+    ]
+  },
+  {
+    "id": "04",
+    "author": "Swariya Shakya",
+    "title": "Code Like a Pro",
+    "slug": "code-like-a-pro",
+    "description": "Tips and tricks to improve your coding skills and write efficient code.",
+    "image": "/L004.jpg",
+    "date": "2025/01/04",
+    "tag": [
+      { "id": "01", "title": "Programming" },
+      { "id": "02", "title": "Development" }
+    ]
+  },
+  {
+    "id": "05",
+    "author": "Salin Manandhar",
+    "title": "Healthy Living",
+    "slug": "healthy-living",
+    "description": "Discover the secrets to a healthier lifestyle and balanced diet.",
+    "image": "/L005.jpg",
+    "date": "2025/01/05",
+    "tag": [
+      { "id": "01", "title": "Health" },
+      { "id": "02", "title": "Wellness" }
+    ]
+  },
+  {
+    "id": "06",
+    "author": "Prabhat Pandey",
+    "title": "Mastering Public Speaking",
+    "slug": "mastering-public-speaking",
+    "description": "Overcome your fear of speaking and deliver impactful presentations.",
+    "image": "/L006.jpg",
+    "date": "2025/01/06",
+    "tag": [
+      { "id": "01", "title": "Communication" },
+      { "id": "02", "title": "Confidence" }
+    ]
+  },
+  {
+    "id": "07",
+    "author": "Swariya Shakya",
+    "title": "Mindful Meditation",
+    "slug": "mindful-meditation",
+    "description": "Learn the art of mindfulness and meditation to calm your mind.",
+    "image": "/L007.jpg",
+    "date": "2025/01/07",
+    "tag": [
+      { "id": "01", "title": "Mindfulness" },
+      { "id": "02", "title": "Mental Health" }
+    ]
+  },
+  {
+    "id": "08",
+    "author": "Salin Manandhar",
+    "title": "The Future of AI",
+    "slug": "the-future-of-ai",
+    "description": "Exploring the potential and challenges of artificial intelligence.",
+    "image": "/L008.jpg",
+    "date": "2025/01/08",
+    "tag": [
+      { "id": "01", "title": "Technology" },
+      { "id": "02", "title": "AI" }
+    ]
+  },
+  {
+    "id": "09",
+    "author": "Prabhat Pandey",
+    "title": "Travel Diaries",
+    "slug": "travel-diaries",
+    "description": "Documenting the most beautiful places around the world.",
+    "image": "/L009.jpg",
+    "date": "2025/01/09",
+    "tag": [
+      { "id": "01", "title": "Travel" },
+      { "id": "02", "title": "Adventure" }
+    ]
+  },
+  {
+    "id": "10",
+    "author": "Rejina Shrestha",
+    "title": "Fitness Journey",
+    "slug": "fitness-journey",
+    "description": "Sharing my fitness journey and workout routines.",
+    "image": "/L010.jpg",
+    "date": "2025/01/10",
+    "tag": [
+      { "id": "01", "title": "Fitness" },
+      { "id": "02", "title": "Health" }
+    ]
+  },
+  {
+    "id": "11",
+    "author": "Alayna Pradhan",
+    "title": "Art of Photography",
+    "slug": "art-of-photography",
+    "description": "Capturing the beauty of the world through the lens.",
+    "image": "/L011.jpg",
+    "date": "2025/01/11",
+    "tag": [
+      { "id": "01", "title": "Photography" },
+      { "id": "02", "title": "Art" }
+    ]
+  },
+  {
+    "id": "12",
+    "author": "Rameshwor Shrestha",
+    "title": "Learning to Cook",
+    "slug": "learning-to-cook",
+    "description": "Easy and delicious recipes to try at home.",
+    "image": "/L012.jpg",
+    "date": "2025/01/12",
+    "tag": [
+      { "id": "01", "title": "Cooking" },
+      { "id": "02", "title": "Food" }
+    ]
+  },
+  {
+    "id": "13",
+    "author": "Swariya Shakya",
+    "title": "Web Design Trends",
+    "slug": "web-design-trends",
+    "description": "The latest trends shaping the future of web design.",
+    "image": "/L013.jpg",
+    "date": "2025/01/13",
+    "tag": [
+      { "id": "01", "title": "Design" },
+      { "id": "02", "title": "Technology" }
+    ]
+  },
+  {
+    "id": "14",
+    "author": "Salin Manandhar",
+    "title": "Sustainable Living",
+    "slug": "sustainable-living",
+    "description": "Tips for reducing your carbon footprint and living greener.",
+    "image": "/L014.jpg",
+    "date": "2025/01/14",
+    "tag": [
+      { "id": "01", "title": "Environment" },
+      { "id": "02", "title": "Lifestyle" }
+    ]
+  },
+  {
+    "id": "15",
+    "author": "Prabhat Pandey",
+    "title": "The Power of Networking",
+    "slug": "the-power-of-networking",
+    "description": "How to build meaningful professional relationships.",
+    "image": "/L015.jpg",
+    "date": "2025/01/15",
+    "tag": [
+      { "id": "01", "title": "Career" },
+      { "id": "02", "title": "Communication" }
+    ]
+  },
+  {
+    "id": "16",
+    "author": "Rejina Shrestha",
+    "title": "Yoga for Beginners",
+    "slug": "yoga-for-beginners",
+    "description": "A guide to starting your yoga practice at home.",
+    "image": "/L016.jpg",
+    "date": "2025/01/16",
+    "tag": [
+      { "id": "01", "title": "Fitness" },
+      { "id": "02", "title": "Wellness" }
+    ]
+  },
+  {
+    "id": "17",
+    "author": "Alayna Pradhan",
+    "title": "Digital Illustration",
+    "slug": "digital-illustration",
+    "description": "Mastering the tools and techniques of digital art.",
+    "image": "/L017.jpg",
+    "date": "2025/01/17",
+    "tag": [
+      { "id": "01", "title": "Art" },
+      { "id": "02", "title": "Technology" }
+    ]
+  },
+  {
+    "id": "18",
+    "author": "Rameshwor Shrestha",
+    "title": "Time Management Hacks",
+    "slug": "time-management-hacks",
+    "description": "Boost productivity with these simple time-saving tips.",
+    "image": "/L018.jpg",
+    "date": "2025/01/18",
+    "tag": [
+      { "id": "01", "title": "Productivity" },
+      { "id": "02", "title": "Lifestyle" }
+    ]
+  },
+  {
+    "id": "19",
+    "author": "Swariya Shakya",
+    "title": "Building Mobile Apps",
+    "slug": "building-mobile-apps",
+    "description": "A beginner’s guide to creating your first mobile application.",
+    "image": "/L019.jpg",
+    "date": "2025/01/19",
+    "tag": [
+      { "id": "01", "title": "Programming" },
+      { "id": "02", "title": "Development" }
+    ]
+  },
+  {
+    "id": "20",
+    "author": "Salin Manandhar",
+    "title": "Gardening Basics",
+    "slug": "gardening-basics",
+    "description": "How to start your own garden and grow fresh produce.",
+    "image": "/L020.jpg",
+    "date": "2025/01/20",
+    "tag": [
+      { "id": "01", "title": "Gardening" },
+      { "id": "02", "title": "Nature" }
+    ]
+  },
+  {
+    "id": "21",
+    "author": "Prabhat Pandey",
+    "title": "Remote Work Success",
+    "slug": "remote-work-success",
+    "description": "Strategies for thriving in a remote work environment.",
+    "image": "/L021.jpg",
+    "date": "2025/01/21",
+    "tag": [
+      { "id": "01", "title": "Career" },
+      { "id": "02", "title": "Productivity" }
+    ]
+  },
+  {
+    "id": "22",
+    "author": "Rejina Shrestha",
+    "title": "DIY Home Decor",
+    "slug": "diy-home-decor",
+    "description": "Creative ideas to personalize your living space.",
+    "image": "/L022.jpg",
+    "date": "2025/01/22",
+    "tag": [
+      { "id": "01", "title": "DIY" },
+      { "id": "02", "title": "Design" }
+    ]
+  },
+  {
+    "id": "23",
+    "author": "Alayna Pradhan",
+    "title": "Street Photography",
+    "slug": "street-photography",
+    "description": "Tips for capturing candid moments in urban settings.",
+    "image": "/L023.jpg",
+    "date": "2025/01/23",
+    "tag": [
+      { "id": "01", "title": "Photography" },
+      { "id": "02", "title": "Travel" }
+    ]
+  },
+  {
+    "id": "24",
+    "author": "Rameshwor Shrestha",
+    "title": "Budget Travel",
+    "slug": "budget-travel",
+    "description": "How to explore the world without breaking the bank.",
+    "image": "/L024.jpg",
+    "date": "2025/01/24",
+    "tag": [
+      { "id": "01", "title": "Travel" },
+      { "id": "02", "title": "Lifestyle" }
+    ]
+  },
+  {
+    "id": "25",
+    "author": "Swariya Shakya",
+    "title": "Cybersecurity Basics",
+    "slug": "cybersecurity-basics",
+    "description": "Protecting yourself online in an increasingly digital world.",
+    "image": "/L025.jpg",
+    "date": "2025/01/25",
+    "tag": [
+      { "id": "01", "title": "Technology" },
+      { "id": "02", "title": "Security" }
+    ]
+  },
+  {
+    "id": "26",
+    "author": "Salin Manandhar",
+    "title": "Minimalist Living",
+    "slug": "minimalist-living",
+    "description": "Embracing simplicity for a clutter-free life.",
+    "image": "/L026.jpg",
+    "date": "2025/01/26",
+    "tag": [
+      { "id": "01", "title": "Lifestyle" },
+      { "id": "02", "title": "Mindfulness" }
+    ]
+  },
+  {
+    "id": "27",
+    "author": "Prabhat Pandey",
+    "title": "Leadership Skills",
+    "slug": "leadership-skills",
+    "description": "How to inspire and lead a team effectively.",
+    "image": "/L027.jpg",
+    "date": "2025/01/27",
+    "tag": [
+      { "id": "01", "title": "Career" },
+      { "id": "02", "title": "Communication" }
+    ]
+  },
+  {
+    "id": "28",
+    "author": "Rejina Shrestha",
+    "title": "Plant-Based Diet",
+    "slug": "plant-based-diet",
+    "description": "Transitioning to a healthier, plant-focused lifestyle.",
+    "image": "/L028.jpg",
+    "date": "2025/01/28",
+    "tag": [
+      { "id": "01", "title": "Health" },
+      { "id": "02", "title": "Food" }
+    ]
+  },
+  {
+    "id": "29",
+    "author": "Alayna Pradhan",
+    "title": "Portrait Painting",
+    "slug": "portrait-painting",
+    "description": "Techniques for creating stunning portrait artwork.",
+    "image": "/L029.jpg",
+    "date": "2025/01/29",
+    "tag": [
+      { "id": "01", "title": "Art" },
+      { "id": "02", "title": "Creativity" }
+    ]
+  },
+  {
+    "id": "30",
+    "author": "Rameshwor Shrestha",
+    "title": "Financial Freedom",
+    "slug": "financial-freedom",
+    "description": "Steps to manage your money and achieve independence.",
+    "image": "/L030.jpg",
+    "date": "2025/01/30",
+    "tag": [
+      { "id": "01", "title": "Finance" },
+      { "id": "02", "title": "Lifestyle" }
+    ]
+  },
+  {
+    "id": "31",
+    "author": "Swariya Shakya",
+    "title": "Game Development",
+    "slug": "game-development",
+    "description": "Building your first video game from scratch.",
+    "image": "/L031.jpg",
+    "date": "2025/01/31",
+    "tag": [
+      { "id": "01", "title": "Programming" },
+      { "id": "02", "title": "Gaming" }
+    ]
+  },
+  {
+    "id": "32",
+    "author": "Salin Manandhar",
+    "title": "Eco-Friendly Tech",
+    "slug": "eco-friendly-tech",
+    "description": "Innovations driving sustainability in technology.",
+    "image": "/L032.jpg",
+    "date": "2025/02/01",
+    "tag": [
+      { "id": "01", "title": "Technology" },
+      { "id": "02", "title": "Environment" }
+    ]
+  },
+  {
+    "id": "33",
+    "author": "Prabhat Pandey",
+    "title": "Solo Travel Adventures",
+    "slug": "solo-travel-adventures",
+    "description": "Embracing the freedom of traveling alone.",
+    "image": "/L033.jpg",
+    "date": "2025/02/02",
+    "tag": [
+      { "id": "01", "title": "Travel" },
+      { "id": "02", "title": "Adventure" }
+    ]
+  },
+  {
+    "id": "34",
+    "author": "Rejina Shrestha",
+    "title": "Strength Training",
+    "slug": "strength-training",
+    "description": "Building muscle and confidence with weightlifting.",
+    "image": "/L034.jpg",
+    "date": "2025/02/03",
+    "tag": [
+      { "id": "01", "title": "Fitness" },
+      { "id": "02", "title": "Health" }
+    ]
+  },
+  {
+    "id": "35",
+    "author": "Alayna Pradhan",
+    "title": "Nature Photography",
+    "slug": "nature-photography",
+    "description": "Tips for capturing stunning landscapes and wildlife.",
+    "image": "/L035.jpg",
+    "date": "2025/02/04",
+    "tag": [
+      { "id": "01", "title": "Photography" },
+      { "id": "02", "title": "Nature" }
+    ]
+  },
+  {
+    "id": "36",
+    "author": "Rameshwor Shrestha",
+    "title": "Creative Writing",
+    "slug": "creative-writing",
+    "description": "Unleashing your imagination through storytelling.",
+    "image": "/L036.jpg",
+    "date": "2025/02/05",
+    "tag": [
+      { "id": "01", "title": "Writing" },
+      { "id": "02", "title": "Creativity" }
+    ]
+  },
+  {
+    "id": "37",
+    "author": "Swariya Shakya",
+    "title": "Blockchain Basics",
+    "slug": "blockchain-basics",
+    "description": "Understanding the technology behind cryptocurrencies.",
+    "image": "/L037.jpg",
+    "date": "2025/02/06",
+    "tag": [
+      { "id": "01", "title": "Technology" },
+      { "id": "02", "title": "Finance" }
+    ]
+  },
+  {
+    "id": "38",
+    "author": "Salin Manandhar",
+    "title": "Zero Waste Living",
+    "slug": "zero-waste-living",
+    "description": "Practical steps to reduce waste in daily life.",
+    "image": "/L038.jpg",
+    "date": "2025/02/07",
+    "tag": [
+      { "id": "01", "title": "Environment" },
+      { "id": "02", "title": "Lifestyle" }
+    ]
+  }
+]

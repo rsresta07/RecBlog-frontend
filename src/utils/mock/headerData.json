@@ -1,0 +1,26 @@
+{
+  "logoTitle": "Blog site",
+  "logoImage": "/L038.jpg",
+  "options": [
+    {
+      "id": "01",
+      "title": "Blog",
+      "link": "/blog"
+    },
+    {
+      "id": "02",
+      "title": "Projects",
+      "link": "https://github.com/rsresta07"
+    },
+    {
+      "id": "03",
+      "title": "About",
+      "link": "/about-us"
+    },
+    {
+      "id": "04",
+      "title": "Newsletter",
+      "link": "#"
+    }
+  ]
+}
