@@ -11,13 +11,16 @@ function CommonLoader({ type }: { type?: string }) {
           <Loader />
         </div>
       ) : (
-        <Image
-          src={commonData?.projectImage}
-          alt={commonData?.projectTitle}
-          width={1024}
-          height={1024}
-          className="h-[16rem] w-[16rem] pl-5 object-contain"
-        />
+        // <Image
+        //   src={commonData?.projectImage}
+        //   alt={commonData?.projectTitle}
+        //   width={1024}
+        //   height={1024}
+        //   className="h-[16rem] w-[16rem] pl-5 object-contain"
+        // />
+        <h1 className="text-center text-4xl font-bold text-darkFontColor">
+          {commonData?.projectTitle}
+        </h1>
       )}
     </section>
   );
