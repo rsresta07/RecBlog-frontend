@@ -1,6 +1,7 @@
 import RecentBlog from "@/components/modules/RecentBlog";
 import AllBlogPost from "@/components/modules/AllBlogPost";
 import commonData from "@/utils/mock/commonData.json";
+import PostPagination from "./BlogPostPagination";
 
 export default function HeroSection() {
   return (
@@ -9,8 +10,9 @@ export default function HeroSection() {
         <h1 className="text-center text-[200px] font-bold text-darkFontColor">
           {commonData?.projectTitle}
         </h1>
+
         <RecentBlog />
-        <AllBlogPost limit={6} />
+        <PostPagination />
       </section>
     </main>
   );

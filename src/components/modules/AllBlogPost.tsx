@@ -36,7 +36,7 @@ const AllBlogPost = ({ limit }: any) => {
         ) : (
           posts?.slice(0, limit)?.map((post) => (
             <div className={`col-span-4 grid grid-row-2 gap-8`} key={post?.id}>
-              <Link href={`#`}>
+              <Link href={`/blog/${post?.slug}`}>
                 <Image
                   src={post?.image}
                   alt={post?.title}
@@ -47,10 +47,10 @@ const AllBlogPost = ({ limit }: any) => {
               </Link>
               <div>
                 <span className={`text-purple-700 text-sm`}>
-                  <Link href={`#`}>{post?.author}</Link>-
+                  <Link href={`#`}>{post?.author}</Link>&nbsp;-&nbsp;
                   <Link href={`#`}>{post?.date}</Link>
                 </span>
-                <Link href={`#`}>
+                <Link href={`/blog/${post?.slug}`}>
                   <h3 className={`text-xl line-clamp-1`}>{post?.title}</h3>
                   <p className={`mb-4 line-clamp-2 text-sm`}>
                     {post?.description}
