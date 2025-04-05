@@ -14,7 +14,7 @@ interface LayoutProps {
   children: ReactNode;
 }
 
-const Layout: React.FC<LayoutProps> = ({ children }) => {
+const HeroLayout: React.FC<LayoutProps> = ({ children }) => {
   return (
     // <Provider store={store}>
     <main className={poppins.className}>
@@ -26,4 +26,4 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   );
 };
 
-export default Layout;
+export default HeroLayout;
