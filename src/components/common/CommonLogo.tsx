@@ -17,7 +17,7 @@ const CommonLogo = () => {
         className="h-[2rem] w-auto object-contain"
       /> */}
       <h1 className="text-center text-4xl font-bold text-darkFontColor">
-        {commonData?.projectTitle}
+        {commonData?.projectTitleNep}
       </h1>
     </Link>
   );

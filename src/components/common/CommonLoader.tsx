@@ -19,7 +19,7 @@ function CommonLoader({ type }: { type?: string }) {
         //   className="h-[16rem] w-[16rem] pl-5 object-contain"
         // />
         <h1 className="text-center text-4xl font-bold text-darkFontColor">
-          {commonData?.projectTitle}
+          {commonData?.projectTitleNep}
         </h1>
       )}
     </section>
