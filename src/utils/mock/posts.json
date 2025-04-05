@@ -395,7 +395,7 @@
     "title": "Game Development",
     "slug": "game-development",
     "description": "Building your first video game from scratch.",
-    "image": "/L031.jpg",
+    "image": "/P030.jpg",
     "date": "2025/01/31",
     "tag": [
       { "id": "01", "title": "Programming" },
@@ -408,7 +408,7 @@
     "title": "Eco-Friendly Tech",
     "slug": "eco-friendly-tech",
     "description": "Innovations driving sustainability in technology.",
-    "image": "/L032.jpg",
+    "image": "/P029.jpg",
     "date": "2025/02/01",
     "tag": [
       { "id": "01", "title": "Technology" },
@@ -421,7 +421,7 @@
     "title": "Solo Travel Adventures",
     "slug": "solo-travel-adventures",
     "description": "Embracing the freedom of traveling alone.",
-    "image": "/L033.jpg",
+    "image": "/P028.jpg",
     "date": "2025/02/02",
     "tag": [
       { "id": "01", "title": "Travel" },
@@ -434,7 +434,7 @@
     "title": "Strength Training",
     "slug": "strength-training",
     "description": "Building muscle and confidence with weightlifting.",
-    "image": "/L034.jpg",
+    "image": "/P027.jpg",
     "date": "2025/02/03",
     "tag": [
       { "id": "01", "title": "Fitness" },
@@ -447,7 +447,7 @@
     "title": "Nature Photography",
     "slug": "nature-photography",
     "description": "Tips for capturing stunning landscapes and wildlife.",
-    "image": "/L035.jpg",
+    "image": "/P026.jpg",
     "date": "2025/02/04",
     "tag": [
       { "id": "01", "title": "Photography" },
@@ -460,7 +460,7 @@
     "title": "Creative Writing",
     "slug": "creative-writing",
     "description": "Unleashing your imagination through storytelling.",
-    "image": "/L036.jpg",
+    "image": "/P025.jpg",
     "date": "2025/02/05",
     "tag": [
       { "id": "01", "title": "Writing" },
@@ -473,7 +473,7 @@
     "title": "Blockchain Basics",
     "slug": "blockchain-basics",
     "description": "Understanding the technology behind cryptocurrencies.",
-    "image": "/L037.jpg",
+    "image": "/P024.jpg",
     "date": "2025/02/06",
     "tag": [
       { "id": "01", "title": "Technology" },
