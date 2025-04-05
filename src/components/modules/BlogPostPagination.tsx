@@ -32,8 +32,8 @@ const PostPagination = () => {
       <section>
         <section className="grid grid-cols-12 gap-8">
           {currentPosts.map((post) => (
-            <div className="col-span-4 grid grid-row-2 gap-8" key={post?.id}>
-              <Link href={`#`}>
+            <div className={`col-span-4 grid grid-row-2 gap-8`} key={post?.id}>
+              <Link href={`/blog/${post?.slug}`}>
                 <Image
                   src={post?.image}
                   alt={post?.title}
@@ -43,13 +43,14 @@ const PostPagination = () => {
                 />
               </Link>
               <div>
-                <span className="text-purple-700 text-sm">
-                  <Link href={`#`}>{post?.author}</Link>-
+                <span className={`text-purple-700 text-sm`}>
+                  <Link href={`/user/${post?.author}`}>{post?.author}</Link>
+                  &nbsp;-&nbsp;
                   <Link href={`#`}>{post?.date}</Link>
                 </span>
-                <Link href={`#`}>
-                  <h3 className="text-xl line-clamp-1">{post?.title}</h3>
-                  <p className="mb-4 line-clamp-2 text-sm">
+                <Link href={`/blog/${post?.slug}`}>
+                  <h3 className={`text-xl line-clamp-1`}>{post?.title}</h3>
+                  <p className={`mb-4 line-clamp-2 text-sm`}>
                     {post?.description}
                   </p>
                 </Link>

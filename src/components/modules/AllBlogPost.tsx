@@ -47,7 +47,8 @@ const AllBlogPost = ({ limit }: any) => {
               </Link>
               <div>
                 <span className={`text-purple-700 text-sm`}>
-                  <Link href={`#`}>{post?.author}</Link>&nbsp;-&nbsp;
+                  <Link href={`/user/${post?.author}`}>{post?.author}</Link>
+                  &nbsp;-&nbsp;
                   <Link href={`#`}>{post?.date}</Link>
                 </span>
                 <Link href={`/blog/${post?.slug}`}>
