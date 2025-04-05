@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@hookform/resolvers": "^5.0.1",
     "@mantine/carousel": "^7.14.2",
     "@mantine/charts": "^7.14.2",
     "@mantine/core": "^7.14.3",
@@ -33,12 +34,13 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-easy-crop": "^4.7.5",
-    "react-hook-form": "^7.53.2",
+    "react-hook-form": "^7.55.0",
     "react-redux": "^9.2.0",
     "react-router-dom": "^7.0.2",
     "recharts": "^2.13.3",
     "suneditor": "^2.45.1",
-    "suneditor-react": "^3.6.1"
+    "suneditor-react": "^3.6.1",
+    "zod": "^3.24.2"
   },
   "devDependencies": {
     "@types/js-cookie": "^3.0.6",
