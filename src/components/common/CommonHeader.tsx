@@ -1,8 +1,26 @@
 import Link from "next/link";
 import headerData from "@/utils/mock/headerData.json";
 import CommonLogo from "@/components/common/CommonLogo";
+import LoginModal from "../modals/LoginModal";
+import RegisterModal from "../modals/RegisterModal";
+import { useState } from "react";
 
 export default function CommonHeader() {
+  const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+
+  // handles the state for opening and closing the modals
+  // ensures that only one modal (either the register or login modal) is open at a time.
+  const openRegisterModal = () => {
+    setIsRegisterModalOpen(true);
+    setIsLoginModalOpen(false);
+  };
+
+  const openLoginModal = () => {
+    setIsLoginModalOpen(true);
+    setIsRegisterModalOpen(false);
+  };
+
   return (
     <main className="flex justify-between items-center container mx-auto pt-4">
       <CommonLogo />
@@ -16,9 +34,10 @@ export default function CommonHeader() {
             </li>
           ))}
           <li>
-            <Link href={`#`} className={`text-xl`}>
-              Login
-            </Link>
+            <div className="flex items-center gap-2">
+              <LoginModal openRegisterModal={openRegisterModal} /> |
+              <RegisterModal openLoginModal={openLoginModal} />
+            </div>
           </li>
         </ul>
       </section>
