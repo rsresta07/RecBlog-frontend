@@ -15,6 +15,11 @@ export default function CommonHeader() {
               </Link>
             </li>
           ))}
+          <li>
+            <Link href={`#`} className={`text-xl`}>
+              Login
+            </Link>
+          </li>
         </ul>
       </section>
     </main>
