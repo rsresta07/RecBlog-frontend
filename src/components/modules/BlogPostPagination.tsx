@@ -4,6 +4,8 @@ import posts from "@/utils/mock/posts.json";
 import Link from "next/link";
 import Image from "next/image";
 import CommonLoader from "../common/CommonLoader";
+import { ApiGetPost } from "@/api/blog";
+import CommonBlogList from "@/components/common/CommonBlogList";
 
 function chunk<T>(array: T[], size: number): T[][] {
   return array.length
@@ -13,13 +15,27 @@ function chunk<T>(array: T[], size: number): T[][] {
 
 const PostPagination = () => {
   const itemsPerPage = 6;
-  const paginatedPosts = chunk(posts, itemsPerPage);
   const [loading, setLoading] = useState(false);
   const [activePage, setPage] = useState(1);
+
+  const [postData, setPostData] = useState<any[]>([]);
+  const paginatedPosts = chunk(postData, itemsPerPage);
   const currentPosts = paginatedPosts[activePage - 1] || [];
+
+  const fetchData = async () => {
+    setLoading(true);
+    try {
+      const response = await ApiGetPost();
+      setPostData(response?.data);
+    } catch (error) {
+      console.error("Failed to fetch:", error);
+    }
+    setLoading(false);
+  };
 
   useEffect(() => {
     setLoading(true);
+    fetchData();
     const timeout = setTimeout(() => setLoading(false), 500); // Simulate loading delay
     return () => clearTimeout(timeout);
   }, [activePage]);
@@ -31,40 +47,7 @@ const PostPagination = () => {
       </h2>
       <section>
         <section className="grid grid-cols-12 gap-8">
-          {currentPosts.map((post) => (
-            <div className={`col-span-4 grid grid-row-2 gap-8`} key={post?.id}>
-              <Link href={`/blog/${post?.slug}`}>
-                <Image
-                  src={post?.image}
-                  alt={post?.title}
-                  width={1024}
-                  height={1024}
-                  className="h-[13rem] object-cover"
-                />
-              </Link>
-              <div>
-                <span className={`text-purple-700 text-sm`}>
-                  <Link href={`/user/${post?.author}`}>{post?.author}</Link>
-                  &nbsp;-&nbsp;
-                  <Link href={`#`}>{post?.date}</Link>
-                </span>
-                <Link href={`/blog/${post?.slug}`}>
-                  <h3 className={`text-xl line-clamp-1`}>{post?.title}</h3>
-                  <p className={`mb-4 line-clamp-2 text-sm`}>
-                    {post?.description}
-                  </p>
-                </Link>
-                {post?.tag?.map((tag) => (
-                  <span
-                    key={tag?.id}
-                    className="text-sm px-2 bg-purple-200 rounded-lg text-purple-700 m-1"
-                  >
-                    <Link href={`#`}>{tag?.title}</Link>
-                  </span>
-                ))}
-              </div>
-            </div>
-          ))}
+          {currentPosts?.map((post) => <CommonBlogList post={post} />)}
         </section>
         <div className="flex justify-center mt-4">
           <Pagination

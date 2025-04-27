@@ -6,20 +6,20 @@ import RegisterModal from "../modals/RegisterModal";
 import { useState } from "react";
 
 export default function CommonHeader() {
-  const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
-  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+  // const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
+  // const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
 
   // handles the state for opening and closing the modals
-  // ensures that only one modal (either the register or login modal) is open at a time.
-  const openRegisterModal = () => {
-    setIsRegisterModalOpen(true);
-    setIsLoginModalOpen(false);
-  };
+  // // ensures that only one modal (either the register or login modal) is open at a time.
+  // const openRegisterModal = () => {
+  //   setIsRegisterModalOpen(true);
+  //   setIsLoginModalOpen(false);
+  // };
 
-  const openLoginModal = () => {
-    setIsLoginModalOpen(true);
-    setIsRegisterModalOpen(false);
-  };
+  // const openLoginModal = () => {
+  //   setIsLoginModalOpen(true);
+  //   setIsRegisterModalOpen(false);
+  // };
 
   return (
     <main className="flex justify-between items-center container mx-auto pt-4">
@@ -33,12 +33,12 @@ export default function CommonHeader() {
               </Link>
             </li>
           ))}
-          <li>
-            <div className="flex items-center gap-2">
-              <LoginModal openRegisterModal={openRegisterModal} /> |
-              <RegisterModal openLoginModal={openLoginModal} />
-            </div>
-          </li>
+          {/*<li>*/}
+          {/*  <div className="flex items-center gap-2">*/}
+          {/*    <LoginModal openRegisterModal={openRegisterModal} /> |*/}
+          {/*    <RegisterModal openLoginModal={openLoginModal} />*/}
+          {/*  </div>*/}
+          {/*</li>*/}
         </ul>
       </section>
     </main>
