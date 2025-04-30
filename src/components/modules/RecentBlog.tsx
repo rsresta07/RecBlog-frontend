@@ -5,14 +5,16 @@ import { ApiGetPost } from "@/api/blog";
 
 const BlogPostVertical = ({ post }: any) => {
   return (
-    <div className="flex flex-col gap-8">
-      <Image
-        src={post?.image}
-        alt={post?.title}
-        width={1024}
-        height={1024}
-        className="h-[13rem] object-cover"
-      />
+    <div className="flex flex-col gap-4">
+      <Link href={`/blog/${post?.slug}`}>
+        <Image
+          src={post?.image}
+          alt={post?.title}
+          width={1024}
+          height={1024}
+          className="h-[13rem] object-cover"
+        />
+      </Link>
       <div>
         <span className="text-purple-700 text-sm">
           {post?.users?.[0] && (
@@ -22,8 +24,13 @@ const BlogPostVertical = ({ post }: any) => {
           )}
           {/*- {post.date}*/}
         </span>
-        <h3 className="text-2xl">{post?.title}</h3>
-        <p className="mb-4 line-clamp-4">{post?.content}</p>
+        <Link href={`/blog/${post?.slug}`}>
+          <h3 className="text-2xl">{post?.title}</h3>
+          <p
+            dangerouslySetInnerHTML={{ __html: post?.content }}
+            className={`mb-4 line-clamp-3`}
+          />
+        </Link>
         {post?.tags?.map((tag: any) => (
           <span
             key={tag?.id}
@@ -40,13 +47,15 @@ const BlogPostVertical = ({ post }: any) => {
 const BlogPostHorizontal = ({ post, imageHeight }: any) => {
   return (
     <div className="grid grid-cols-2 gap-8">
-      <Image
-        src={post?.image}
-        alt={post?.title}
-        width={1024}
-        height={1024}
-        className={`${imageHeight} w-full object-cover`}
-      />
+      <Link href={`/blog/${post?.slug}`}>
+        <Image
+          src={post?.image}
+          alt={post?.title}
+          width={1024}
+          height={1024}
+          className={`${imageHeight} w-full object-cover`}
+        />
+      </Link>
       <div>
         <span className="text-purple-700 text-sm">
           {post?.users?.[0] && (
@@ -56,11 +65,13 @@ const BlogPostHorizontal = ({ post, imageHeight }: any) => {
           )}
           {/*- {post.date}*/}
         </span>
-        <h3 className="text-2xl">{post?.title}</h3>
-        <p
-          dangerouslySetInnerHTML={{ __html: post?.content }}
-          className={`mb-4 line-clamp-3`}
-        />
+        <Link href={`/blog/${post?.slug}`}>
+          <h3 className="text-2xl">{post?.title}</h3>
+          <p
+            dangerouslySetInnerHTML={{ __html: post?.content }}
+            className={`mb-4 line-clamp-3`}
+          />
+        </Link>
         {post?.tags?.map((tag: any) => (
           <span
             key={tag?.id}

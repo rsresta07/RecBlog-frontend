@@ -1,9 +1,5 @@
 import { useState, useEffect } from "react";
 import { Pagination } from "@mantine/core";
-import posts from "@/utils/mock/posts.json";
-import Link from "next/link";
-import Image from "next/image";
-import CommonLoader from "../common/CommonLoader";
 import { ApiGetPost } from "@/api/blog";
 import CommonBlogList from "@/components/common/CommonBlogList";
 

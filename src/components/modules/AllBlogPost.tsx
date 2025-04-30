@@ -5,12 +5,23 @@ import CommonLoader from "@/components/common/CommonLoader";
 import Link from "next/link";
 import { ApiGetPost } from "@/api/blog";
 import CommonBlogList from "@/components/common/CommonBlogList";
+import { Pagination } from "@mantine/core";
+
+function chunk<T>(array: T[], size: number): T[][] {
+  return array.length
+    ? [array.slice(0, size), ...chunk(array.slice(size), size)]
+    : [];
+}
 
 // Display Cards of the Blog
 // TODO: Make the links work
 const AllBlogPost = ({ limit }: any) => {
+  const itemsPerPage = 30;
   const [loading, setLoading] = useState(false);
+  const [activePage, setPage] = useState(1);
   const [postData, setPostData] = useState<any[]>([]);
+  const paginatedPosts = chunk(postData, itemsPerPage);
+  const currentPosts = paginatedPosts[activePage - 1] || [];
 
   const fetchData = async () => {
     setLoading(true);
@@ -41,11 +52,20 @@ const AllBlogPost = ({ limit }: any) => {
             <h2>No post found</h2>
           </div>
         ) : (
-          postData
+          currentPosts
             ?.slice(0, limit)
             ?.map((post) => <CommonBlogList post={post} />)
         )}
       </section>
+      <div className="flex justify-center mt-4">
+        <Pagination
+          total={paginatedPosts.length}
+          siblings={2}
+          value={activePage}
+          onChange={setPage}
+          mt="sm"
+        />
+      </div>
     </main>
   );
 };
