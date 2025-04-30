@@ -9,8 +9,6 @@ export default function CommonHeader() {
   const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
 
-  // handles the state for opening and closing the modals
-  // ensures that only one modal (either the register or login modal) is open at a time.
   const openRegisterModal = () => {
     setIsRegisterModalOpen(true);
     setIsLoginModalOpen(false);
@@ -24,11 +22,11 @@ export default function CommonHeader() {
   return (
     <main className="flex justify-between items-center container mx-auto pt-4">
       <CommonLogo />
-      <section className="">
+      <section>
         <ul className="flex items-center gap-12 text-darkFontColor">
           {headerData?.options?.map((item: any) => (
             <li key={item.id}>
-              <Link href={item?.link} className={`text-xl`}>
+              <Link href={item?.link} className="text-xl">
                 {item?.title}
               </Link>
             </li>

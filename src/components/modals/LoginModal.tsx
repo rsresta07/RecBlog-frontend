@@ -3,6 +3,10 @@ import { useState } from "react";
 import CommonForm from "../common/CommonForm";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
+import { ApiLogin } from "@/api/auth";
+import { setCookie } from "cookies-next";
+import { SubmitHandler } from "react-hook-form";
+import { useRouter } from "next/router";
 
 const schema = z.object({
   email: z.string().email("Email not valid"),
@@ -13,12 +17,18 @@ const schema = z.object({
     .regex(/[0-9]/, "Password should contain at least one number"),
 });
 
+interface LoginForm {
+  email: string;
+  password: string;
+}
+
 const LoginModal = ({
   openRegisterModal,
 }: {
   openRegisterModal: () => void;
 }) => {
   const [noTransitionOpened, setNoTransitionOpened] = useState(false);
+  const router = useRouter();
 
   const fields = [
     { name: "email", label: "Email", placeholder: "Enter your email" },
@@ -30,8 +40,26 @@ const LoginModal = ({
     },
   ];
 
-  const handleSubmit = (data: any) => {
-    console.log(data);
+  const handleSubmit: SubmitHandler<LoginForm> = async (data) => {
+    try {
+      const res = await ApiLogin(data);
+
+      if (res?.data?.id) {
+        const user = {
+          id: res?.data?.id,
+          email: res?.data?.email,
+          username: res?.data?.username,
+          role: res?.data?.role,
+        };
+        setCookie("token", res?.data?.token);
+        setCookie("user", JSON.stringify(user));
+        await router.push("/dashboard");
+      } else {
+        console.log("Wrong credentials");
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -56,8 +84,8 @@ const LoginModal = ({
           footerLinkText="Don't have an account?"
           footerLinkLabel="Sign Up"
           footerLinkAction={() => {
-            setNoTransitionOpened(false); // Close the login modal
-            openRegisterModal(); // Open the register modal
+            setNoTransitionOpened(false);
+            openRegisterModal();
           }}
           twoColumnLayout={false}
         />
