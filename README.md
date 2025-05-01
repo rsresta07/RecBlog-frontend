@@ -44,13 +44,6 @@ $ yarn dev
 $ yarn run start:prod
 ```
 
-## Features
-
-- Light/dark mode toggle
-- Live previews
-- Fullscreen mode
-- Cross platform
-
 ## Reference
 
 The UI was reference from Figma Community. [Link](https://www.figma.com/proto/r19t6yYbD7IICxLFK4tQqT/The-Blog---A-Web-Personal-Blog--Community-?node-id=614-679&starting-point-node-id=614%3A679&show-proto-sidebar=1&t=qbZKgvjOyJU2kww9-1)
