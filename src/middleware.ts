@@ -1,62 +1,66 @@
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 
-// cookie helpers
-function getUser(request: NextRequest) {
-  const raw = request.cookies.get("user")?.value;
-  return (raw && JSON.parse(raw)) || null;
+// helpers
+function getUser(req: NextRequest) {
+  const raw = req.cookies.get("user")?.value;
+  return raw ? JSON.parse(raw) : null;
+}
+function getToken(req: NextRequest) {
+  return req.cookies.get("token")?.value || null;
 }
 
-function getUserToken(request: NextRequest): string | null {
-  return request.cookies.get("token")?.value || null;
-}
-
-export function middleware(request: NextRequest) {
-  const { pathname } = request.nextUrl;
-  const token = getUserToken(request);
-  const user = getUser(request);
+// middleware
+export function middleware(req: NextRequest) {
+  const { pathname } = req.nextUrl;
+  const token = getToken(req);
+  const user = getUser(req);
 
   const isLogin = pathname.startsWith("/login");
   const isHome = pathname === "/";
   const onDashboard = pathname.startsWith("/dashboard");
-  const onUserPage = pathname.startsWith("/user");
+  const onUserEdit = /^\/user\/[^/]+\/edit$/.test(pathname);
 
-  const needsAuth = onDashboard || onUserPage;
+  //  routes that require auth
+  const needsAuth = onDashboard || onUserEdit;
 
   // 1. Block unauthenticated access
-  if (!token && needsAuth) {
-    return NextResponse.redirect(new URL("/login", request.nextUrl));
+  if (needsAuth && !token) {
+    return NextResponse.redirect(new URL("/login", req.nextUrl));
   }
 
-  if (!user) return NextResponse.next(); // cookie missing → let it pass
+  // No user cookie? just continue
+  if (!user) return NextResponse.next();
 
-  // 2. Role‑based redirects for logged‑in users
-  const slug = user?.slug ?? ""; // assume slug lives on the user cookie
+  const slug = user.slug ?? "";
 
-  // 2a. User hits /login while already signed in
+  // already‑signed‑in hits /login
   if (isLogin) {
     if (user.role === "SUPER_ADMIN") {
-      return NextResponse.redirect(new URL("/dashboard", request.nextUrl));
+      return NextResponse.redirect(new URL("/dashboard", req.nextUrl));
     }
     if (user.role === "USER") {
-      return NextResponse.redirect(new URL(`/user/${slug}`, request.nextUrl));
+      return NextResponse.redirect(new URL(`/user/${slug}`, req.nextUrl));
     }
   }
 
-  // 2b. USER tries to access /dashboard
+  // normal role redirects you already had
   if (onDashboard && user.role === "USER") {
-    return NextResponse.redirect(new URL(`/user/${slug}`, request.nextUrl));
+    return NextResponse.redirect(new URL(`/user/${slug}`, req.nextUrl));
   }
-
-  // 2c. ADMIN tries to access /user/*
-  if (onUserPage && user.role === "SUPER_ADMIN") {
-    return NextResponse.redirect(new URL("/dashboard", request.nextUrl));
+  if (onUserEdit && user.role === "SUPER_ADMIN") {
+    // Optional: prevent admins editing user profiles
+    return NextResponse.redirect(new URL("/dashboard", req.nextUrl));
   }
 
   return NextResponse.next();
 }
 
-// Apply middleware to relevant routes
+// middleware scope
 export const config = {
-  matcher: ["/", "/login", "/dashboard/:path*", "/user/:path*"],
+  matcher: [
+    "/login",
+    "/dashboard/:path*",
+    "/user/:slug*/edit", // edit page only
+  ],
 };
