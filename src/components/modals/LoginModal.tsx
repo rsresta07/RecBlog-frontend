@@ -1,5 +1,5 @@
 import { Button, Modal } from "@mantine/core";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CommonForm from "../common/CommonForm";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -48,12 +48,21 @@ const LoginModal = ({
         const user = {
           id: res?.data?.id,
           email: res?.data?.email,
-          username: res?.data?.username,
+          slug: res?.data?.slug,
           role: res?.data?.role,
         };
+
         setCookie("token", res?.data?.token);
         setCookie("user", JSON.stringify(user));
-        await router.push("/dashboard");
+
+        // ✅ Redirect based on role
+        if (user.role === "SUPER_ADMIN") {
+          await router.push("/dashboard");
+        } else if (user.role === "USER") {
+          await router.push(`/user/${user.slug}`);
+        } else {
+          console.log("Unknown role");
+        }
       } else {
         console.log("Wrong credentials");
       }
@@ -61,6 +70,12 @@ const LoginModal = ({
       console.log(error);
     }
   };
+
+  useEffect(() => {
+    const handleRouteStart = () => setNoTransitionOpened(false);
+    router.events.on("routeChangeStart", handleRouteStart);
+    return () => router.events.off("routeChangeStart", handleRouteStart);
+  }, [router.events]);
 
   return (
     <>

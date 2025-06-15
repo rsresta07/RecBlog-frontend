@@ -1,55 +1,62 @@
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 
-// Function to get user from cookies
-function getUser(request: NextRequest): any {
-  const user = request.cookies.get("user")?.value;
-  return (user && JSON.parse(user)) || "";
+// cookie helpers
+function getUser(request: NextRequest) {
+  const raw = request.cookies.get("user")?.value;
+  return (raw && JSON.parse(raw)) || null;
 }
 
-// Function to get token from cookies
 function getUserToken(request: NextRequest): string | null {
   return request.cookies.get("token")?.value || null;
 }
 
-// function getUserTracker(request: NextRequest): string | null {
-//   return request.cookies.get("tracker")?.value || null;
-// }
-
-// Middleware
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const token = getUserToken(request);
   const user = getUser(request);
 
-  const needsAuth = pathname.startsWith("/dashboard");
   const isLogin = pathname.startsWith("/login");
+  const isHome = pathname === "/";
+  const onDashboard = pathname.startsWith("/dashboard");
+  const onUserPage = pathname.startsWith("/user");
 
-  // Handle unauthenticated access
-  if (needsAuth && !token) {
+  const needsAuth = onDashboard || onUserPage;
+
+  // 1. Block unauthenticated access
+  if (!token && needsAuth) {
     return NextResponse.redirect(new URL("/login", request.nextUrl));
   }
 
-  // Handle authenticated redirects
-  if (isLogin && token) {
-    if (user?.role === "ADMIN" && pathname !== "/dashboard") {
-      return NextResponse.redirect(new URL("/dashboard", request.nextUrl));
-    } else if (pathname !== "/") {
+  if (!user) return NextResponse.next(); // cookie missing → let it pass
+
+  // 2. Role‑based redirects for logged‑in users
+  const slug = user?.slug ?? ""; // assume slug lives on the user cookie
+
+  // 2a. User hits /login while already signed in
+  if (isLogin) {
+    if (user.role === "SUPER_ADMIN") {
       return NextResponse.redirect(new URL("/dashboard", request.nextUrl));
     }
+    if (user.role === "USER") {
+      return NextResponse.redirect(new URL(`/user/${slug}`, request.nextUrl));
+    }
   }
+
+  // 2b. USER tries to access /dashboard
+  if (onDashboard && user.role === "USER") {
+    return NextResponse.redirect(new URL(`/user/${slug}`, request.nextUrl));
+  }
+
+  // 2c. ADMIN tries to access /user/*
+  if (onUserPage && user.role === "SUPER_ADMIN") {
+    return NextResponse.redirect(new URL("/dashboard", request.nextUrl));
+  }
+
   return NextResponse.next();
-
-  // If authenticated, ensure the user is on their respective dashboard
-  // if (pathname == "/") {
-  //     return NextResponse.redirect(new URL("/login", request.nextUrl));
-  // } else {
-  //     return NextResponse.next();
-  // }
-
-  // return NextResponse.next();
 }
 
+// Apply middleware to relevant routes
 export const config = {
-  matcher: ["/", "/login", "/dashboard/:path*"],
+  matcher: ["/", "/login", "/dashboard/:path*", "/user/:path*"],
 };
