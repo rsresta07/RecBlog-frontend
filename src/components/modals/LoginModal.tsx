@@ -55,11 +55,13 @@ const LoginModal = ({
         setCookie("token", res?.data?.token);
         setCookie("user", JSON.stringify(user));
 
-        // ✅ Redirect based on role
+        // Redirect based on role
         if (user.role === "SUPER_ADMIN") {
           await router.push("/dashboard");
+          window.location.reload();
         } else if (user.role === "USER") {
           await router.push(`/user/${user.slug}`);
+          window.location.reload();
         } else {
           console.log("Unknown role");
         }

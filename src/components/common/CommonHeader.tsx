@@ -4,10 +4,12 @@ import CommonLogo from "@/components/common/CommonLogo";
 import LoginModal from "../modals/LoginModal";
 import RegisterModal from "../modals/RegisterModal";
 import { useState } from "react";
+import { useAuth } from "@/utils/hooks/useAuth";
 
 export default function CommonHeader() {
   const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+  const { user, logout } = useAuth();
 
   const openRegisterModal = () => {
     setIsRegisterModalOpen(true);
@@ -33,8 +35,29 @@ export default function CommonHeader() {
           ))}
           <li>
             <div className="flex items-center gap-2">
-              <LoginModal openRegisterModal={openRegisterModal} /> |
-              <RegisterModal openLoginModal={openLoginModal} />
+              {user ? (
+                <>
+                  <Link
+                    href={
+                      user.role === "SUPER_ADMIN"
+                        ? "/dashboard"
+                        : `/user/${user.slug}`
+                    }
+                  >
+                    <span className="cursor-pointer text-xl">Profile</span>
+                  </Link>
+                  |
+                  <button onClick={logout} className="text-xl text-red-600">
+                    Logout
+                  </button>
+                </>
+              ) : (
+                <>
+                  <LoginModal openRegisterModal={openRegisterModal} />
+                  |
+                  <RegisterModal openLoginModal={openLoginModal} />
+                </>
+              )}
             </div>
           </li>
         </ul>
