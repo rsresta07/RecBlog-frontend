@@ -6,4 +6,4 @@ export const ApiGetAllPost = () =>
   GetRequest(`/post/all`);
 
 export const APIGetPostDetails = (slug: any) =>
-  GetRequest(`/post/${slug}`);
+  GetRequest(`/post/details/${slug}`);
