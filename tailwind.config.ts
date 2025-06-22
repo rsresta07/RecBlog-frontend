@@ -1,4 +1,4 @@
-import type {Config} from "tailwindcss";
+import type { Config } from "tailwindcss";
 
 export default {
   content: [
@@ -11,7 +11,8 @@ export default {
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
-        darkFontColor: "#1A1A1A",
+        "dark-font": "#1A1A1A",
+        "primary-btn": "#7e22ce",
       },
     },
   },
