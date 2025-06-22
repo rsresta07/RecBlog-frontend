@@ -44,7 +44,7 @@ const PostDetail = () => {
     <main className="container mx-auto grid grid-cols-10 gap-[4rem] mt-[4rem]">
       {/*Recent Blogs*/}
       <section className="col-span-3">
-        <h2 className="text-2xl font-bold text-darkFontColor mb-4">
+        <h2 className="text-2xl font-bold text-dark-font mb-4">
           Recent blog post
         </h2>
         <div>

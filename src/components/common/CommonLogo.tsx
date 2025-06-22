@@ -16,7 +16,7 @@ const CommonLogo = () => {
         onClick={() => router.push("/")}
         className="h-[2rem] w-auto object-contain"
       /> */}
-      <h1 className="text-center text-4xl font-bold text-darkFontColor">
+      <h1 className="text-center text-4xl font-bold text-dark-font">
         {commonData?.projectTitleNep}
       </h1>
     </Link>

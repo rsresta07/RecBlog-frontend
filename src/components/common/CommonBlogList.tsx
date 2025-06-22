@@ -14,7 +14,7 @@ const CommonBlogList = ({ post }: any) => {
         />
       </Link>
       <div>
-        <span className={`text-purple-700 text-sm`}>
+        <span className={`text-primary-btn text-sm`}>
           {post?.users?.[0] && (
             <Link href={`/user/${post?.users[0]?.slug}`}>
               {post?.users[0]?.fullName}
@@ -33,7 +33,7 @@ const CommonBlogList = ({ post }: any) => {
         {post?.tags?.map((tag: any) => (
           <span
             key={tag?.id}
-            className="text-sm px-2 bg-purple-200 rounded-lg text-purple-700 m-1"
+            className="text-sm px-2 bg-purple-200 rounded-lg text-primary-btn m-1"
           >
             <Link href={`#`}>{tag?.title}</Link>
           </span>

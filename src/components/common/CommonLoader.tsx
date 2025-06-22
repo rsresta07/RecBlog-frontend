@@ -18,7 +18,7 @@ function CommonLoader({ type }: { type?: string }) {
         //   height={1024}
         //   className="h-[16rem] w-[16rem] pl-5 object-contain"
         // />
-        <h1 className="text-center text-4xl font-bold text-darkFontColor">
+        <h1 className="text-center text-4xl font-bold text-dark-font">
           {commonData?.projectTitleNep}
         </h1>
       )}

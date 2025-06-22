@@ -25,7 +25,7 @@ export default function CommonHeader() {
     <main className="flex justify-between items-center container mx-auto pt-4">
       <CommonLogo />
       <section>
-        <ul className="flex items-center gap-12 text-darkFontColor">
+        <ul className="flex items-center gap-12 text-dark-font">
           {headerData?.options?.map((item: any) => (
             <li key={item.id}>
               <Link href={item?.link} className="text-xl">
