@@ -10,9 +10,16 @@ interface UserPostProps {
 const UserPostList = ({ userData, isOwner }: UserPostProps) => {
   return (
     <section className="my-12 flex flex-col gap-4">
-      <Title order={3} className="mb-4">
-        Posts ({userData?.posts?.length})
-      </Title>
+      <div className="flex justify-between items-center">
+        <Title order={3} className="mb-4">
+          Posts ({userData?.posts?.length})
+        </Title>
+
+        <CommonLink
+          link={`/user/${userData?.username}/add-post`}
+          linkLabel="Add Post"
+        />
+      </div>
 
       <Grid gutter="md">
         {userData?.posts?.map((post: any) => (

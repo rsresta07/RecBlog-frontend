@@ -4,8 +4,6 @@ import { ApiGetMe, ApiGetUser } from "@/api/user";
 import HeroLayout from "@/layouts/HeroLayout";
 import UserInfo from "@/components/modules/UserInfo";
 import UserPostList from "@/components/modules/UserPostList";
-import Link from "next/link";
-import CommonLink from "@/components/common/CommonLink";
 
 const UserPage = () => {
   const router = useRouter();
@@ -45,9 +43,6 @@ const UserPage = () => {
     <div className="p-6 max-w-7xl mx-auto">
       {/* ────── header ────── */}
       <UserInfo userData={userData} isOwner={isOwner} />
-
-      {/* ────── Add New Post ────── */}
-      <CommonLink link={`/user/${userSlug}/add-post`} linkLabel="Add Post" />
 
       {/* ────── posts ────── */}
       <UserPostList userData={userData} isOwner={isOwner} />
