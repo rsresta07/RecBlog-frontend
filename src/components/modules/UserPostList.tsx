@@ -1,5 +1,6 @@
-import { Badge, Grid, Image, Title } from "@mantine/core";
+import { Badge, Button, Grid, Image, Title } from "@mantine/core";
 import Link from "next/link";
+import CommonLink from "../common/CommonLink";
 
 interface UserPostProps {
   userData: any;
@@ -8,7 +9,7 @@ interface UserPostProps {
 
 const UserPostList = ({ userData, isOwner }: UserPostProps) => {
   return (
-    <section className="container mx-auto my-12 flex flex-col gap-4">
+    <section className="my-12 flex flex-col gap-4">
       <Title order={3} className="mb-4">
         Posts ({userData?.posts?.length})
       </Title>
@@ -43,11 +44,24 @@ const UserPostList = ({ userData, isOwner }: UserPostProps) => {
                   <h3 className="text-xl font-semibold line-clamp-1">
                     {post?.title}
                   </h3>
-                  <p
+                  {/* <p
                     dangerouslySetInnerHTML={{ __html: post?.content }}
                     className="mb-4 line-clamp-2 text-sm text-gray-600"
-                  />
+                  /> */}
                 </Link>
+              </div>
+
+              <div className="flex justify-between items-center">
+                <CommonLink
+                  link={`/blog/${post?.slug}/edit-post`}
+                  linkLabel="Edit Post"
+                />
+
+                <Button variant="filled" color="red" radius="md">
+                  {/* <span className="inline-block mt-2 px-4 py-1 bg-primary-btn text-btn-text rounded-lg"> */}
+                  Delete Post
+                  {/* </span> */}
+                </Button>
               </div>
             </div>
           </Grid.Col>

@@ -1,6 +1,7 @@
 import { Card, Group, Text, Title } from "@mantine/core";
 import Link from "next/link";
 import { IconAt, IconMapPin, IconPhone } from "@tabler/icons-react";
+import CommonLink from "../common/CommonLink";
 
 interface UserInfoProps {
   userData: any;
@@ -21,12 +22,10 @@ const UserInfo = ({ userData, isOwner }: UserInfoProps) => {
             </Text>
           </div>
           {isOwner && (
-            <Link
-              href={`/user/${userData?.username}/edit`}
-              className="inline-block mt-2 px-4 py-1 bg-primary-btn text-btn-text rounded-lg"
-            >
-              Edit profile
-            </Link>
+            <CommonLink
+              link={`/user/${userData?.username}/edit-profile`}
+              linkLabel="Edit profile"
+            />
           )}
         </div>
       </Group>
