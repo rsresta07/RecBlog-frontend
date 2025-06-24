@@ -4,7 +4,6 @@ import { getCookie } from "cookies-next/client";
 
 const axiosInstance: any = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_BASE_URL,
-
   headers: {
     "Content-Type": "application/json",
     "Access-Control-Allow-Origin": "*",
@@ -34,7 +33,7 @@ axiosInstance.interceptors.request.use(
   function (error: any) {
     // Do something with request error
     return Promise.reject(error);
-  },
+  }
 );
 
 // Add a response interceptor
@@ -54,7 +53,7 @@ axiosInstance.interceptors.response.use(
     }
 
     return Promise.reject(error?.response?.data?.message);
-  },
+  }
 );
 
 export default axiosInstance;

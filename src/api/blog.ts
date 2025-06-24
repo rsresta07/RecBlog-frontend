@@ -1,9 +1,14 @@
-import { GetRequest } from "@/plugins/http";
+import { GetRequest, PostRequest, PutRequest } from "@/plugins/http";
 
 export const ApiGetPost = () => GetRequest("/post/active");
 
-export const ApiGetAllPost = () =>
-  GetRequest(`/post/all`);
+export const ApiGetAllPost = () => GetRequest(`/post/all`);
 
-export const APIGetPostDetails = (slug: any) =>
+export const APIGetPostDetails = (slug: string) =>
   GetRequest(`/post/details/${slug}`);
+
+export const APIUpdateProduct = (id: string, data: any) =>
+  PutRequest(`menu-item/update/${id}`, data);
+
+export const APIAddBlog = (slug: string, data: any) =>
+  PostRequest(`/post/create/${slug}`, data);
