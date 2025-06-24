@@ -40,7 +40,7 @@ export default function CommonHeader() {
                   <Link
                     href={
                       user.role === "SUPER_ADMIN"
-                        ? "/dashboard"
+                        ? `/dashboard/${user.slug}`
                         : `/user/${user.slug}`
                     }
                   >

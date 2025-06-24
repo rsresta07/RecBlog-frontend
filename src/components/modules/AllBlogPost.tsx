@@ -1,8 +1,5 @@
-import Image from "next/image";
-import posts from "@/utils/mock/posts.json";
 import { useEffect, useState } from "react";
 import CommonLoader from "@/components/common/CommonLoader";
-import Link from "next/link";
 import { ApiGetPost } from "@/api/blog";
 import CommonBlogList from "@/components/common/CommonBlogList";
 import { Pagination } from "@mantine/core";
@@ -45,7 +42,7 @@ const AllBlogPost = ({ limit }: any) => {
       <section className={`grid grid-cols-12 gap-8`}>
         {loading ? (
           <CommonLoader />
-        ) : posts.length === 0 ? (
+        ) : currentPosts.length === 0 ? (
           <div className="flex justify-center items-center">
             <h2>No post found</h2>
           </div>

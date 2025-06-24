@@ -1,4 +1,4 @@
-import { GetRequest, PostRequest, PutRequest } from "@/plugins/http";
+import { DeleteRequest, GetRequest, PostRequest, PutRequest } from "@/plugins/http";
 
 export const ApiGetPost = () => GetRequest("/post/active");
 
@@ -12,3 +12,5 @@ export const APIUpdateProduct = (id: string, data: any) =>
 
 export const APIAddBlog = (slug: string, data: any) =>
   PostRequest(`/post/create/${slug}`, data);
+
+export const ApiDeletePost = (id: string) => DeleteRequest(`/post/${id}`);
