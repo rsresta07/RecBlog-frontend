@@ -1,0 +1,6 @@
+[
+  { "id": "home", "title": "Home", "slug": "/" },
+  { "id": "posts", "title": "View Posts", "slug": "posts" },
+  { "id": "tags", "title": "View Tags", "slug": "tags" },
+  { "id": "users", "title": "View Users", "slug": "users" }
+]
