@@ -1,7 +1,6 @@
 import { useForm, Controller } from "react-hook-form";
 import dynamic from "next/dynamic";
-import "suneditor/dist/css/suneditor.min.css"; // Import Sun Editor's CSS File
-import imageCompression from "browser-image-compression";
+import "suneditor/dist/css/suneditor.min.css";
 import CommonLogo from "@/components/common/CommonLogo";
 import showNotify from "@/utils/notify";
 import {
@@ -15,14 +14,11 @@ import {
 } from "@mantine/core";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { ApiGetUser } from "@/api/user";
 import { APIAddBlog } from "@/api/blog";
 import { ApiGetTag } from "@/api/tag";
+import { uploadImageToCloudinary } from "@/utils/lib/cloudinaryUpload"; // NEW
 
-// Dynamically import SunEditor as it's not SSR-compatible
-const SunEditor = dynamic(() => import("suneditor-react"), {
-  ssr: false,
-});
+const SunEditor = dynamic(() => import("suneditor-react"), { ssr: false });
 
 const AddPost = () => {
   const {
@@ -35,7 +31,7 @@ const AddPost = () => {
     defaultValues: {
       title: "",
       content: "",
-      tagIds: [] as string[], // Add tagIds to form state
+      tagIds: [] as string[],
       image: null as File | null,
     },
   });
@@ -45,76 +41,56 @@ const AddPost = () => {
   const [loading, setLoading] = useState(false);
   const [tagData, setTagData] = useState<any[]>([]);
 
-  // Prepare tag options for MultiSelect
-  const tagOptions = tagData.map((tag) => ({
-    value: tag.id,
-    label: tag.title,
-  }));
-
-  const fetchTagData = async () => {
-    setLoading(true);
-    try {
-      const response = await ApiGetTag();
-      setTagData(response?.data);
-    } catch (error) {
-      console.error("Failed to fetch:", error);
-    }
-    setLoading(false);
-  };
-
+  /* ───────────────── fetch tags ───────────────── */
   useEffect(() => {
-    fetchTagData();
+    (async () => {
+      try {
+        const res = await ApiGetTag();
+        setTagData(res.data);
+      } catch (e) {
+        console.error("Failed to fetch tags", e);
+      }
+    })();
   }, []);
 
+  const tagOptions = tagData.map((t) => ({ value: t.id, label: t.title }));
+
+  /* ───────────────── submit ───────────────── */
   const onSubmit = async (data: {
     title: string;
     content: string;
     image: File | null;
-    tagIds: string[]; // Update data type to include tagIds
+    tagIds: string[];
   }) => {
-    if (!data.image) {
-      console.error("Please select an image.");
-      return;
-    }
+    if (!data.image) return showNotify("error", "Please select an image.");
 
-    const compressionOptions = {
-      maxSizeMB: 1, // Max file size in MB
-      maxWidthOrHeight: 1920, // Max width or height
-      useWebWorker: true,
-    };
-
+    setLoading(true);
     try {
-      const compressedFile = await imageCompression(
-        data.image,
-        compressionOptions
-      );
+      // 1) upload to Cloudinary → url
+      const imageUrl = await uploadImageToCloudinary(data.image);
 
-      const formData = new FormData();
-      formData.append("title", data.title);
-      formData.append("description", data.content); // Assuming backend expects 'description' for content
-      formData.append("image", compressedFile, compressedFile.name); // Append the compressed file
-      formData.append("tagIds", JSON.stringify(data.tagIds)); // Send tagIds as a JSON string
+      // 2) build JSON payload
+      const payload = {
+        title: data.title,
+        description: data.content, // field name expected by backend
+        image: imageUrl,
+        tagIds: data.tagIds,
+      };
 
-      console.log(
-        "FormData prepared for submission. You can now send it to your API."
-      );
-
-      try {
-        const resp = await APIAddBlog(slug, formData);
-        showNotify("success", resp?.message || "Post added successfully!");
-        reset();
-        router.push(`/user/${slug}`); // Navigate back to user profile after successful post
-      } catch (e: any) {
-        showNotify("error", e);
-      }
-    } catch (error) {
-      console.error(
-        "Error during image compression or form submission:",
-        error
-      );
+      // 3) POST to your backend
+      const resp = await APIAddBlog(slug, payload); // APIAddBlog must send JSON
+      showNotify("success", resp?.message || "Post added successfully!");
+      reset();
+      router.push(`/user/${slug}`);
+    } catch (e: any) {
+      console.error(e);
+      showNotify("error", "Failed to add post.");
+    } finally {
+      setLoading(false);
     }
   };
 
+  /* ───────────────── UI ───────────────── */
   return (
     <main className="container mx-auto mt-5">
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -124,17 +100,16 @@ const AddPost = () => {
             <Text>Draft</Text>
           </div>
           <div className="flex gap-6 items-center">
-            <Button type="submit" radius={"xl"} color="dark">
+            <Button type="submit" radius="xl" color="dark" loading={loading}>
               Publish
             </Button>
             <Text>Profile</Text>
           </div>
         </section>
+
         <section className="space-y-6">
           <Grid gutter="md">
-            {/* Use Mantine Grid for layout */}
             <Grid.Col span={{ base: 12, md: 8 }}>
-              {/* Title takes 2/3 width on medium and up */}
               <TextInput
                 label="Title"
                 placeholder="Your post title"
@@ -144,24 +119,25 @@ const AddPost = () => {
               />
             </Grid.Col>
             <Grid.Col span={{ base: 12, md: 4 }}>
-              {/* Tags takes 1/3 width on medium and up */}
               <Controller
                 name="tagIds"
                 control={control}
-                rules={{ required: "At least one tag is required" }}
+                rules={{ required: "Select at least one tag" }}
                 render={({ field }) => (
                   <MultiSelect
                     label="Tags"
-                    placeholder="Select tags for your post"
+                    placeholder="Choose up to 3"
                     data={tagOptions}
                     maxValues={3}
-                    {...field} // Spreads value and onChange
+                    searchable
+                    {...field}
                     error={errors.tagIds?.message?.toString()}
                   />
                 )}
               />
             </Grid.Col>
           </Grid>
+
           <Input.Wrapper
             id="content-editor"
             label="Content"
@@ -171,11 +147,12 @@ const AddPost = () => {
             <Controller
               name="content"
               control={control}
-              rules={{ required: "Content is required." }}
+              rules={{ required: "Content is required" }}
               render={({ field }) => (
                 <SunEditor
+                  setContents={field.value}
+                  onChange={field.onChange}
                   setOptions={{
-                    // height: 200,
                     buttonList: [
                       ["undo", "redo"],
                       ["font", "fontSize", "formatBlock"],
@@ -196,8 +173,7 @@ const AddPost = () => {
                       ["preview", "print"],
                     ],
                   }}
-                  onChange={field.onChange}
-                  setContents={field.value}
+                  height="250px"
                 />
               )}
             />
@@ -207,13 +183,13 @@ const AddPost = () => {
             name="image"
             control={control}
             rules={{ required: "A featured image is required" }}
-            render={({ field: { onChange, value } }) => (
+            render={({ field }) => (
               <FileInput
                 label="Featured Image"
                 placeholder="Upload an image"
                 withAsterisk
-                value={value}
-                onChange={onChange}
+                accept="image/*"
+                {...field}
                 error={errors.image?.message?.toString()}
               />
             )}

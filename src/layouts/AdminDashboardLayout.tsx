@@ -25,7 +25,7 @@ export function AdminDashboardLayout({
   const handleLogout = async () => {
     await deleteCookie("user");
     await deleteCookie("token");
-    router.push("/login");
+    router.push("/");
   };
 
   return (

@@ -1,11 +1,8 @@
-import type { NextConfig } from "next";
-
-const nextConfig: NextConfig = {
-  output: "standalone",
+/** @type {import('next').NextConfig} */
+const nextConfig = {
   images: {
-    dangerouslyAllowSVG: true,
-    domains: ["storage.googleapis.com"],
+    domains: ["res.cloudinary.com"], // Allow images from Cloudinary domain
   },
 };
 
-export default nextConfig;
+module.exports = nextConfig;
