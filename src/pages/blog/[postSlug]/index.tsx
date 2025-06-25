@@ -65,7 +65,7 @@ const PostDetail = () => {
         </div>
         <Image
           src={details?.image}
-          alt={details?.title}
+          alt={details?.title || "Blog Post Image"}
           width={1024}
           height={1024}
           className="w-auto object-cover"
@@ -83,7 +83,7 @@ const PostDetail = () => {
               <Link href={`/blog/${post?.slug}`}>
                 <Image
                   src={post?.image}
-                  alt={post?.title}
+                  alt={post?.title || "Blog Post Image"}
                   width={2048}
                   height={2048}
                   className="h-[13rem] object-cover"

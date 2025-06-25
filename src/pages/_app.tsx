@@ -18,11 +18,9 @@ export default function App({ Component, pageProps }: CustomAppProps) {
   const getLayout = Component.getLayout ?? ((page: React.ReactElement) => page);
 
   return (
-    <main>
-      <MantineProvider>
-        <Notifications />
-        <div>{getLayout(<Component {...pageProps} />)}</div>
-      </MantineProvider>
-    </main>
+    <MantineProvider>
+      <Notifications />
+      {getLayout(<Component {...pageProps} />)}
+    </MantineProvider>
   );
 }

@@ -47,9 +47,11 @@ const AllBlogPost = ({ limit }: any) => {
             <h2>No post found</h2>
           </div>
         ) : (
-          currentPosts
-            ?.slice(0, limit)
-            ?.map((post) => <CommonBlogList post={post} />)
+          currentPosts?.slice(0, limit)?.map((post) => (
+            <div key={post?.id} className="col-span-12 sm:col-span-6 md:col-span-4 lg:col-span-3">
+              <CommonBlogList post={post} />
+            </div>
+          ))
         )}
       </section>
       <div className="flex justify-center mt-4">

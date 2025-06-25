@@ -49,7 +49,7 @@ const UserPostList = ({ userData, isOwner }: UserPostProps) => {
                 <Link href={`/blog/${post.slug}`}>
                   <Image
                     src={post.image}
-                    alt={post.title}
+                    alt={post.title || "Blog Post Image"}
                     width={1024}
                     height={1024}
                     className="h-[13rem] w-full object-cover rounded-md"

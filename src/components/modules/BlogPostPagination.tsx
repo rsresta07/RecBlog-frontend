@@ -41,7 +41,14 @@ const PostPagination = () => {
       <h2 className="text-2xl font-bold text-dark-font mb-4">All Blog Posts</h2>
       <section>
         <section className="grid grid-cols-12 gap-8">
-          {currentPosts?.map((post) => <CommonBlogList post={post} />)}
+          {currentPosts?.map((post) => (
+            <div
+              key={post?.id}
+              className="col-span-12 sm:col-span-6 md:col-span-4 lg:col-span-3"
+            >
+              <CommonBlogList post={post} />
+            </div>
+          ))}
         </section>
         <div className="flex justify-center mt-4">
           <Pagination
