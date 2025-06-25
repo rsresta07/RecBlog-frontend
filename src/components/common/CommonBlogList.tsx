@@ -15,9 +15,9 @@ const CommonBlogList = ({ post }: any) => {
       </Link>
       <div>
         <span className={`text-btn-text text-sm`}>
-          {post?.users?.[0] && (
-            <Link href={`/user/${post?.users[0]?.slug}`}>
-              {post?.users[0]?.fullName}
+          {post?.user && (
+            <Link href={`/user/${post?.user?.slug}`}>
+              {post?.user?.fullName}
             </Link>
           )}
           {/*&nbsp;-&nbsp;*/}

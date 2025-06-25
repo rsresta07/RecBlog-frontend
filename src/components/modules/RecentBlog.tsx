@@ -17,9 +17,9 @@ const BlogPostVertical = ({ post }: any) => {
       </Link>
       <div>
         <span className="text-purple-700 text-sm">
-          {post?.users?.[0] && (
-            <Link href={`/user/${post?.users[0]?.slug}`}>
-              {post?.users[0]?.fullName}
+          {post?.user && (
+            <Link href={`/user/${post?.user?.slug}`}>
+              {post?.user?.fullName}
             </Link>
           )}
           {/*- {post.date}*/}
@@ -58,9 +58,9 @@ const BlogPostHorizontal = ({ post, imageHeight }: any) => {
       </Link>
       <div>
         <span className="text-purple-700 text-sm">
-          {post?.users?.[0] && (
-            <Link href={`/user/${post?.users[0]?.slug}`}>
-              {post?.users[0]?.fullName}
+          {post?.user && (
+            <Link href={`/user/${post?.user?.slug}`}>
+              {post?.user?.fullName}
             </Link>
           )}
           {/*- {post.date}*/}
