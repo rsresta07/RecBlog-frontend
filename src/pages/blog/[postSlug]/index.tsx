@@ -76,7 +76,7 @@ const PostDetail = () => {
             alt={details?.title || "Blog Post Image"}
             width={1024}
             height={1024}
-            className="w-full object-contain"
+            className="w-full object-contain rounded-lg"
           />
           <div dangerouslySetInnerHTML={{ __html: details?.content }} />
         </div>
@@ -93,17 +93,17 @@ const PostDetail = () => {
               <Link href={`/blog/${post?.slug}`}>
                 <Image
                   src={post?.image}
-                  alt={post?.title || "Blog Post Image"}
-                  width={2048}
-                  height={2048}
-                  className="h-[13rem] object-cover"
+                  alt={post?.title}
+                  width={1024}
+                  height={1024}
+                  className="h-[14rem] object-cover rounded-lg"
                 />
               </Link>
               <div>
-                <span className={`text-purple-700 text-sm`}>
-                  {post?.users?.[0] && (
-                    <Link href={`/user/${post?.users[0]?.slug}`}>
-                      {post?.users[0]?.fullName}
+                <span className={`text-btn-text text-sm`}>
+                  {post?.user && (
+                    <Link href={`/user/${post?.user?.slug}`}>
+                      {post?.user?.fullName}
                     </Link>
                   )}
                   {/*&nbsp;-&nbsp;*/}
@@ -113,13 +113,13 @@ const PostDetail = () => {
                   <h3 className={`text-xl line-clamp-1`}>{post?.title}</h3>
                   <p
                     dangerouslySetInnerHTML={{ __html: post?.content }}
-                    className={`mb-4 line-clamp-3 text-sm`}
+                    className={`mb-4 line-clamp-2 text-sm`}
                   />
                 </Link>
                 {post?.tags?.map((tag: any) => (
                   <span
                     key={tag?.id}
-                    className="text-sm px-2 bg-purple-200 rounded-lg text-purple-700 m-1"
+                    className="text-sm px-2 bg-primary-btn rounded-lg text-btn-text m-1"
                   >
                     <Link href={`#`}>{tag?.title}</Link>
                   </span>

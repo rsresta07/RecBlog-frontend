@@ -12,7 +12,7 @@ const BlogPostVertical = ({ post }: any) => {
           alt={post?.title || "Blog Post Image"}
           width={1024}
           height={1024}
-          className="h-[13rem] object-cover"
+          className="h-[13rem] object-cover rounded-lg"
         />
       </Link>
       <div>
@@ -53,7 +53,7 @@ const BlogPostHorizontal = ({ post, imageHeight }: any) => {
           alt={post?.title || "Blog Post Image"}
           width={1024}
           height={1024}
-          className={`${imageHeight} w-full object-cover`}
+          className={`${imageHeight} w-full object-cover rounded-lg`}
         />
       </Link>
       <div>

@@ -48,7 +48,7 @@ const AllBlogPost = ({ limit }: any) => {
           </div>
         ) : (
           currentPosts?.slice(0, limit)?.map((post) => (
-            <div key={post?.id} className="col-span-12 sm:col-span-6 md:col-span-4 lg:col-span-3">
+            <div key={post?.id} className="col-span-12 sm:col-span-6 md:col-span-4 lg:col-span-4">
               <CommonBlogList post={post} />
             </div>
           ))
