@@ -81,6 +81,8 @@ const RegisterModal = ({ openLoginModal }: { openLoginModal: () => void }) => {
         status: "APPROVED",
       };
 
+      const { username } = data;
+
       const res = await ApiRegister(payload);
 
       if (res?.data?.id) {
@@ -95,7 +97,9 @@ const RegisterModal = ({ openLoginModal }: { openLoginModal: () => void }) => {
         setCookie("user", JSON.stringify(user));
 
         setNoTransitionOpened(false);
-        openLoginModal();
+        // openLoginModal();
+        window.location.reload();
+        await router.push(`/user/${username}`); // Redirect to home page after registration
       } else {
         console.log("Registration failed");
       }

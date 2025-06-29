@@ -7,7 +7,7 @@ const CommonLogo = () => {
   return (
     <Link href="/">
       <h1 className="text-center text-4xl font-bold text-dark-font">
-        {commonData?.projectTitleNep}
+        {commonData?.projectTitleSmall}
       </h1>
     </Link>
   );

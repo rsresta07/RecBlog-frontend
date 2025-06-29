@@ -141,9 +141,9 @@ export default function CommonHeader() {
                 <>
                   <Link
                     href={
-                      user.role === "SUPER_ADMIN"
-                        ? `/dashboard/${user.slug}`
-                        : `/user/${user.slug}`
+                      user.role === "SUPER_ADMIN" // Assuming dashboard also uses slug for consistency
+                        ? `/dashboard/${user?.slug}`
+                        : `/user/${user?.slug}`
                     }
                   >
                     <span className="cursor-pointer text-xl">Profile</span>
