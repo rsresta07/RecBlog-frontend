@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ApiGetPost, APIGetPostDetails } from "@/api/blog";
 import { useEffect, useState } from "react";
+import CommonButton from "@/components/common/CommonButton";
 
 const PostDetail = () => {
   const router = useRouter();
@@ -41,39 +42,48 @@ const PostDetail = () => {
     }
   }, [postSlug]);
   return (
-    <main className="container mx-auto grid grid-cols-10 gap-[4rem] mt-[4rem]">
-      <section className="col-span-7 flex flex-col gap-8">
-        <span className={`text-purple-700`}>
-          {details?.user && (
-            <Link href={`/user/${details?.user?.username}`}>
-              {details?.user?.fullName}
-            </Link>
-          )}
-          {/*&nbsp;-&nbsp;*/}
-          {/*<Link href={`#`}>2025/03/30</Link>*/}
-        </span>
-        <h2 className={`text-4xl font-bold`}>{details?.title}</h2>
-        <div>
-          {details?.tags?.map((tag: any) => (
-            <span
-              key={tag?.id}
-              className="px-2 bg-purple-200 rounded-lg text-purple-700 m-1"
-            >
-              <Link href="#">{tag?.title}</Link>
-            </span>
-          ))}
+    <main className="container mx-auto grid grid-cols-12 gap-[4rem] mt-[4rem]">
+      <section className="col-span-8 flex flex-col gap-4">
+        <div className="flex items-center gap-4">
+          <h2 className={`text-4xl font-bold`}>{details?.title}</h2>
+          <div>
+            {details?.tags?.map((tag: any) => (
+              <span
+                key={tag?.id}
+                className="px-2 bg-purple-200 rounded-lg text-purple-700 m-1"
+              >
+                <Link href="#">{tag?.title}</Link>
+              </span>
+            ))}
+          </div>
         </div>
-        <Image
-          src={details?.image}
-          alt={details?.title || "Blog Post Image"}
-          width={1024}
-          height={1024}
-          className="w-auto object-cover"
-        />
-        <div dangerouslySetInnerHTML={{ __html: details?.content }} />
+        <div className="flex items-center justify-between">
+          <p className={`text-purple-700 text-xl`}>
+            {details?.user && (
+              <Link href={`/user/${details?.user?.username}`}>
+                {details?.user?.fullName}
+              </Link>
+            )}
+          </p>
+          <div className="w-fit">
+            <CommonButton label="Follow" onClick={() => {}} radius="lg" />
+          </div>
+        </div>
+
+        <div className="flex flex-col gap-8">
+          <Image
+            src={details?.image}
+            alt={details?.title || "Blog Post Image"}
+            width={1024}
+            height={1024}
+            className="w-full object-contain"
+          />
+          <div dangerouslySetInnerHTML={{ __html: details?.content }} />
+        </div>
       </section>
+
       {/*Recent Blogs*/}
-      <section className="col-span-3">
+      <section className="col-span-4">
         <h2 className="text-2xl font-bold text-dark-font mb-4">
           Recent blog post
         </h2>
