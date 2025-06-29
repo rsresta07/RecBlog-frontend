@@ -4,6 +4,7 @@ import { ApiGetMe, ApiGetUser } from "@/api/user";
 import HeroLayout from "@/layouts/HeroLayout";
 import UserInfo from "@/components/modules/UserInfo";
 import UserPostList from "@/components/modules/UserPostList";
+import CommonButton from "@/components/common/CommonButton";
 
 const UserPage = () => {
   const router = useRouter();
@@ -38,11 +39,22 @@ const UserPage = () => {
   if (!userData) return <p className="text-center mt-10">User not found.</p>;
 
   const isOwner = me && me?.data?.username === userData?.username;
+  const isNewUser = userData?.posts?.length === 0;
 
   return (
     <div className="p-6 max-w-7xl mx-auto">
       {/* ────── header ────── */}
       <UserInfo userData={userData} isOwner={isOwner} />
+
+      {isOwner && isNewUser && (
+        <div className="my-8 flex justify-center">
+          <CommonButton
+            label="Choose Preferences"
+            variant="light"
+            onClick={() => router.push(`/user/${userSlug}/preferences`)}
+          />
+        </div>
+      )}
 
       {/* ────── posts ────── */}
       <UserPostList userData={userData} isOwner={isOwner} />
