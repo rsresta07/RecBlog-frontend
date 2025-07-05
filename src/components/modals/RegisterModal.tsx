@@ -7,6 +7,7 @@ import { useRouter } from "next/router";
 import { SubmitHandler } from "react-hook-form";
 import { setCookie } from "cookies-next";
 import { ApiRegister } from "@/api/auth";
+import showNotify from "@/utils/notify";
 
 const schema = z
   .object({
@@ -42,8 +43,18 @@ const RegisterModal = ({ openLoginModal }: { openLoginModal: () => void }) => {
   const router = useRouter();
 
   const fields = [
-    { name: "username", label: "Username", placeholder: "Enter username" },
-    { name: "fullName", label: "Full Name", placeholder: "Enter full name" },
+    {
+      name: "username",
+      label: "Username",
+      placeholder: "Enter username",
+      autoComplete: "off",
+    },
+    {
+      name: "fullName",
+      label: "Full Name",
+      placeholder: "Enter full name",
+      autoComplete: "off",
+    },
     {
       name: "email",
       label: "Email",
@@ -64,12 +75,14 @@ const RegisterModal = ({ openLoginModal }: { openLoginModal: () => void }) => {
       label: "Password",
       placeholder: "Password",
       type: "password",
+      autoComplete: "new-password",
     },
     {
       name: "confirmPassword",
       label: "Confirm Password",
       placeholder: "Confirm password",
       type: "password",
+      autoComplete: "new-password",
     },
   ];
 
@@ -101,10 +114,18 @@ const RegisterModal = ({ openLoginModal }: { openLoginModal: () => void }) => {
         window.location.reload();
         await router.push(`/user/${username}`); // Redirect to home page after registration
       } else {
-        console.log("Registration failed");
+        showNotify("fail", "Unknown error, try again later.");
       }
-    } catch (error) {
-      console.error("Error during registration", error);
+    } catch (error: any) {
+      const code = error?.response?.data?.statusCode ?? error?.response?.status;
+      const message = error?.response?.data?.message || "Something went wrong";
+
+      if (code === 409) {
+        showNotify("fail", "Account already exists — please log in.");
+        openLoginModal(); // jump to login modal
+      } else {
+        showNotify("fail", message);
+      }
     }
   };
 
