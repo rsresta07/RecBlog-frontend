@@ -16,11 +16,12 @@ export function AdminDashboardLayout({
   const id = router.query.projectId;
 
   useEffect(() => {
+    if (!router.isReady) return;
     const token = getCookie("token");
     if (!token) {
       router.push("/"); // Redirect to login if no token
     }
-  }, [router.pathname, router.query, router]); // Added router to dependency array for completeness
+  }, [router.isReady, router.pathname, router.query, router]); // Added router to dependency array for completeness
 
   const handleLogout = async () => {
     await deleteCookie("user");
