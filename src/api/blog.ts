@@ -22,4 +22,4 @@ export const APIAddBlog = (slug: string, data: any) =>
 export const ApiDeletePost = (id: string) => DeleteRequest(`/post/${id}`);
 
 export const ApiUpdatePost = (id: string, payload: any) =>
-  PatchRequest(`/post/${id}`, payload);
+  PatchRequest(`/post/update/${id}`, payload);

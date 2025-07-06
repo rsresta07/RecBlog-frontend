@@ -1,6 +1,5 @@
 import { Loader } from "@mantine/core";
 import commonData from "@/utils/mock/commonData.json";
-import Image from "next/image";
 
 // The logo loader when the data is being fetched from API
 function CommonLoader({ type }: { type?: string }) {
@@ -11,13 +10,6 @@ function CommonLoader({ type }: { type?: string }) {
           <Loader />
         </div>
       ) : (
-        // <Image
-        //   src={commonData?.projectImage}
-        //   alt={commonData?.projectTitle}
-        //   width={1024}
-        //   height={1024}
-        //   className="h-[16rem] w-[16rem] pl-5 object-contain"
-        // />
         <h1 className="text-center text-4xl font-bold text-dark-font">
           {commonData?.projectTitleNep}
         </h1>

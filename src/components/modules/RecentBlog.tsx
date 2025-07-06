@@ -8,8 +8,8 @@ const BlogPostVertical = ({ post }: any) => {
     <div className="flex flex-col gap-4">
       <Link href={`/blog/${post?.slug}`}>
         <Image
-          src={post?.image}
-          alt={post?.title}
+          src={post?.image || "/vercel.svg"}
+          alt={post?.title || "Blog Post Image"}
           width={1024}
           height={1024}
           className="h-[13rem] object-cover"
@@ -49,8 +49,8 @@ const BlogPostHorizontal = ({ post, imageHeight }: any) => {
     <div className="grid grid-cols-2 gap-8">
       <Link href={`/blog/${post?.slug}`}>
         <Image
-          src={post?.image}
-          alt={post?.title}
+          src={post?.image || "/vercel.svg"}
+          alt={post?.title || "Blog Post Image"}
           width={1024}
           height={1024}
           className={`${imageHeight} w-full object-cover`}
