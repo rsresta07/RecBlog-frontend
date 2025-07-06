@@ -7,6 +7,7 @@ import { ApiLogin } from "@/api/auth";
 import { setCookie } from "cookies-next";
 import { SubmitHandler } from "react-hook-form";
 import { useRouter } from "next/router";
+import showNotify from "@/utils/notify";
 
 const schema = z.object({
   email: z.string().email("Email not valid"),
@@ -56,20 +57,18 @@ const LoginModal = ({
         setCookie("user", JSON.stringify(user));
 
         // Redirect based on role
-        if (user.role === "SUPER_ADMIN") {
-          await router.push("/dashboard");
-          window.location.reload();
-        } else if (user.role === "USER") {
-          await router.push(`/user/${user.slug}`);
-          window.location.reload();
+        if (user?.role === "SUPER_ADMIN") {
+          window.location.href = "/dashboard";
+        } else if (user?.role === "USER") {
+          window.location.href = `/user/${user?.slug}`;
         } else {
           console.log("Unknown role");
         }
       } else {
-        console.log("Wrong credentials");
+        showNotify("error", "Wrong credentials");
       }
     } catch (error) {
-      console.log(error);
+      showNotify("error", "Wrong credentials");
     }
   };
 

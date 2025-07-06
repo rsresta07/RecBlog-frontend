@@ -3,12 +3,19 @@ import { Button } from "@mantine/core";
 type ButtonProps = {
   label: string;
   onClick?: () => void;
-  className?: string;
   fullWidth?: boolean;
-  variant?: string;
+  variant?:
+    | "filled"
+    | "light"
+    | "outline"
+    | "subtle"
+    | "default"
+    | "white"
+    | "transparent";
   radius?: string;
   size?: string;
   type?: "button" | "submit" | "reset";
+  color?: string;
 };
 
 // ! DO NOT GIVE CLASSNAME FOR BUTTONS IN <CommonButton />
@@ -16,23 +23,26 @@ type ButtonProps = {
 const CommonButton = ({
   label,
   onClick,
-  radius,
-  variant,
-  size,
-  type,
+  radius = "md",
+  variant = "filled",
+  size = "md",
+  type = "button",
+  fullWidth = true,
+  color = "grape",
   ...props
 }: ButtonProps) => {
   return (
     <Button
       onClick={onClick}
-      fullWidth
-      color="#7e22ce"
-      {...props}
+      fullWidth={fullWidth}
       className="shadow-lg"
+      color="primary-btn"
       variant={variant}
       radius={radius}
       size={size}
       type={type}
+      // autoContrast
+      {...props}
     >
       {label}
     </Button>

@@ -4,8 +4,9 @@ import { useEffect } from "react";
 const User = () => {
   const router = useRouter();
   useEffect(() => {
+    if (!router.isReady) return;
     router.push("/");
-  }, [router]);
+  }, [router.isReady, router]);
 };
 
 export default User;

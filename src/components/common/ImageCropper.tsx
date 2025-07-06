@@ -1,6 +1,7 @@
 import getCroppedImg from "@/utils/getCropImage";
 import { Button, Modal, Slider, Text } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
+import { useRouter } from "next/router";
 import { useCallback, useEffect, useState } from "react";
 import Cropper from "react-easy-crop";
 
@@ -23,6 +24,7 @@ const ImageCropper = ({
   const [aspect, setAspect] = useState(16 / 9); // Default aspect ratio for blog posts
   const [originalImageRatio, setOriginalImageRatio] = useState(16 / 9);
   const largerScreen = useMediaQuery("(min-width: 768px)");
+  const router = useRouter();
 
   const onCropComplete = useCallback(
     (croppedArea: any, croppedAreaPixels: any) => {
@@ -75,10 +77,11 @@ const ImageCropper = ({
   };
 
   useEffect(() => {
+    if (!router.isReady) return;
     if (imgSrc) {
       setOpened(true);
     }
-  }, [imgSrc]);
+  }, [imgSrc, router.isReady]);
 
   return (
     <Modal

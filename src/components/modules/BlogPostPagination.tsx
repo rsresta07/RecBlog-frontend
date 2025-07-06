@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Pagination } from "@mantine/core";
 import { ApiGetPost } from "@/api/blog";
 import CommonBlogList from "@/components/common/CommonBlogList";
+import { useRouter } from "next/router";
 
 function chunk<T>(array: T[], size: number): T[][] {
   return array.length
@@ -17,6 +18,7 @@ const PostPagination = () => {
   const [postData, setPostData] = useState<any[]>([]);
   const paginatedPosts = chunk(postData, itemsPerPage);
   const currentPosts = paginatedPosts[activePage - 1] || [];
+  const router = useRouter();
 
   const fetchData = async () => {
     setLoading(true);
@@ -30,11 +32,12 @@ const PostPagination = () => {
   };
 
   useEffect(() => {
+    if (!router.isReady) return;
     setLoading(true);
     fetchData();
     const timeout = setTimeout(() => setLoading(false), 500); // Simulate loading delay
     return () => clearTimeout(timeout);
-  }, [activePage]);
+  }, [router.isReady, activePage]);
 
   return (
     <main className="container mx-auto my-12">

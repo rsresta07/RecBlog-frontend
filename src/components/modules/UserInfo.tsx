@@ -2,6 +2,7 @@ import { Card, Group, Text, Title } from "@mantine/core";
 import Link from "next/link";
 import { IconAt, IconMapPin, IconPhone } from "@tabler/icons-react";
 import CommonLink from "../common/CommonLink";
+import EditPreferencesModal from "../modals/EditPreferencesModal";
 
 interface UserInfoProps {
   userData: any;
@@ -13,37 +14,41 @@ const UserInfo = ({ userData, isOwner }: UserInfoProps) => {
 
   return (
     <Card shadow="sm" padding="lg" radius="md" withBorder className="mb-8">
-      <Group>
-        <div className="flex justify-between items-start w-full">
-          <div>
+      <section className="flex justify-between items-start w-full">
+        <section>
+          <div className="flex gap-4 items-center">
             <Title order={2}>{userData?.fullName}</Title>
             <Text size="sm" color="dimmed">
               @{userData?.username}
             </Text>
           </div>
-          {isOwner && (
+          <div className="flex flex-col gap-2">
+            <div className="flex items-center gap-1">
+              <IconAt size={16} />
+              <Text size="sm">{userData?.email}</Text>
+            </div>
+            <div className="flex items-center gap-1">
+              <IconPhone size={16} />
+              <Text size="sm">{userData?.contact}</Text>
+            </div>
+            <div className="flex items-center gap-1">
+              <IconMapPin size={16} />
+              <Text size="sm">{userData?.location}</Text>
+            </div>
+          </div>
+        </section>
+        {isOwner && (
+          <div className="flex flex-col gap-4">
             <CommonLink
               link={`/user/${userData?.username}/edit-profile`}
               linkLabel="Edit profile"
             />
-          )}
-        </div>
-      </Group>
-
-      <Group mt="md">
-        <Group>
-          <IconAt size={16} />
-          <Text size="sm">{userData?.email}</Text>
-        </Group>
-        <Group>
-          <IconMapPin size={16} />
-          <Text size="sm">{userData?.location}</Text>
-        </Group>
-        <Group>
-          <IconPhone size={16} />
-          <Text size="sm">{userData?.contact}</Text>
-        </Group>
-      </Group>
+            <>
+              <EditPreferencesModal />
+            </>
+          </div>
+        )}
+      </section>
     </Card>
   );
 };
