@@ -10,7 +10,7 @@ const CommonBlogList = ({ post }: any) => {
           alt={post?.title}
           width={1024}
           height={1024}
-          className="h-[13rem] object-cover"
+          className="h-[18rem] object-cover rounded-lg"
         />
       </Link>
       <div>

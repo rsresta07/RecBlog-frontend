@@ -16,6 +16,7 @@ import {
 } from "@mantine/spotlight";
 import { IconSearch } from "@tabler/icons-react";
 import { ApiGetPost } from "@/api/blog";
+import CommonLink from "./CommonLink";
 
 export default function CommonHeader() {
   /* ────────────────────────────── state ─────────────────────────────── */
@@ -128,6 +129,12 @@ export default function CommonHeader() {
       {/* ─────────── Nav & Auth ─────────── */}
       <section>
         <ul className="flex items-center gap-12 text-dark-font">
+          {user && (
+            <CommonLink
+              link={`/user/${user?.slug}/add-post`}
+              linkLabel="Add Post"
+            />
+          )}
           {headerData?.options?.map((item: any) => (
             <li key={item.id}>
               <Link href={item?.link} className="text-xl">
@@ -138,7 +145,7 @@ export default function CommonHeader() {
           <li>
             <div className="flex items-center gap-2">
               {user ? (
-                <>
+                <div className="flex items-center gap-6">
                   <Link
                     href={
                       user.role === "SUPER_ADMIN" // Assuming dashboard also uses slug for consistency
@@ -152,7 +159,7 @@ export default function CommonHeader() {
                   <button onClick={logout} className="text-xl text-red-600">
                     Logout
                   </button>
-                </>
+                </div>
               ) : (
                 <>
                   <LoginModal openRegisterModal={openRegisterModal} />
