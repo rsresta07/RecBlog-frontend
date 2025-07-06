@@ -65,10 +65,10 @@ const LoginModal = ({
           console.log("Unknown role");
         }
       } else {
-        showNotify("fail", "Wrong credentials");
+        showNotify("error", "Wrong credentials");
       }
     } catch (error) {
-      console.log(error);
+      showNotify("error", "Wrong credentials");
     }
   };
 
