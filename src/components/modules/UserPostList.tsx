@@ -52,6 +52,7 @@ const UserPostList = ({ userData, isOwner }: UserPostProps) => {
                     alt={post.title || "Blog Post Image"}
                     width={1024}
                     height={1024}
+                    radius={"md"}
                     className="h-[13rem] w-full object-cover rounded-md"
                   />
                 </Link>

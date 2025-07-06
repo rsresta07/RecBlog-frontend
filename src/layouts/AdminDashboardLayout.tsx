@@ -40,9 +40,10 @@ export function AdminDashboardLayout({
       padding="md"
     >
       <AppShell.Header>
-        <div className="flex justify-between container mx-auto items-center h-full">
-          {/* Replaced h1 with Next.js Image component for logo */}
-          <h1>{websiteData?.projectTitleNep}</h1>
+        <div className="flex justify-between items-center mt-4 container mx-auto">
+          <h1 className="text-2xl text-darkText font-bold">
+            {websiteData?.projectTitleSmall}
+          </h1>
           <h1 className="text-2xl text-darkText font-bold">ADMIN DASHBOARD</h1>
           <div>
             <Button
@@ -60,7 +61,7 @@ export function AdminDashboardLayout({
       <AppShell.Navbar>
         {/* Removed redundant fixed Box, AppShell.Navbar handles positioning */}
         <Box
-          className="flex flex-col gap-4" // Apply flex and gap to the container Box
+          className="flex flex-col gap-4 container mx-auto" // Apply flex and gap to the container Box
           style={{
             width: "100%", // Take full width of the navbar
             padding: "10px",

@@ -94,15 +94,14 @@ const RegisterModal = ({ openLoginModal }: { openLoginModal: () => void }) => {
         status: "APPROVED",
       };
 
-      const { username } = data;
-
       const res = await ApiRegister(payload);
+      console.log(res);
 
       if (res?.data?.id) {
         const user = {
           id: res?.data?.id,
           email: res?.data?.email,
-          username: res?.data?.username,
+          slug: res?.data?.slug,
           role: res?.data?.role,
         };
 
@@ -111,8 +110,7 @@ const RegisterModal = ({ openLoginModal }: { openLoginModal: () => void }) => {
 
         setNoTransitionOpened(false);
         // openLoginModal();
-        window.location.reload();
-        await router.push(`/user/${username}`); // Redirect to home page after registration
+        window.location.href = `/user/${user?.slug}`;
       } else {
         showNotify("fail", "Unknown error, try again later.");
       }

@@ -165,16 +165,18 @@ const PostDetail = () => {
     <main className="container mx-auto grid grid-cols-12 gap-16 mt-16">
       <section className="col-span-8 flex flex-col gap-4">
         {/* Title + tags */}
-        <header className="flex items-center gap-4">
+        <header className="flex items-center gap-8">
           <h1 className="text-4xl font-bold">{details?.title}</h1>
-          {details?.tags?.map((t: any) => (
-            <span
-              key={t.id}
-              className="px-2 bg-purple-200 rounded-lg text-purple-700 m-1"
-            >
-              <Link href="#">{t.title}</Link>
-            </span>
-          ))}
+          <div className="ml-auto flex flex-col items-end">
+            {details?.tags?.map((t: any) => (
+              <span
+                key={t.id}
+                className=" px-2 bg-purple-200 rounded-lg text-purple-700 m-1 w-fit"
+              >
+                <Link href="#">{t.title}</Link>
+              </span>
+            ))}
+          </div>
         </header>
 
         {/* author + follow */}

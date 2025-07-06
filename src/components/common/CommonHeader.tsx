@@ -113,6 +113,7 @@ export default function CommonHeader() {
       <CommonLogo />
 
       {/* ─────────── Spotlight Search ─────────── */}
+      <div>Ctrl + K for search</div>
       <Spotlight
         actions={actions}
         searchProps={{
