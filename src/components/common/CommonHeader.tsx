@@ -8,7 +8,7 @@ import LoginModal from "../modals/LoginModal";
 import RegisterModal from "../modals/RegisterModal";
 import { useAuth } from "@/utils/hooks/useAuth";
 import { useHotkeys } from "@mantine/hooks";
-import { Shortcut } from "@/utils/lib/Shortcut"; // make sure this exists
+import { Shortcut } from "@/utils/lib/Shortcut";
 import {
   Spotlight,
   spotlight,
@@ -17,20 +17,21 @@ import {
 import { IconSearch } from "@tabler/icons-react";
 import { ApiGetPost } from "@/api/blog";
 import CommonLink from "./CommonLink";
+import { TextInput } from "@mantine/core";
 
 export default function CommonHeader() {
-  /* ────────────────────────────── state ─────────────────────────────── */
+  // State
   const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const [actions, setActions] = useState<SpotlightActionData[]>([]);
 
-  /* ────────────────────────────── auth ──────────────────────────────── */
+  // auth
   const { user, logout } = useAuth();
 
-  /* ───────────────────────────── router ─────────────────────────────── */
+  // router
   const router = useRouter();
 
-  /* ─────────────────────────── modals ctl ───────────────────────────── */
+  // modals ctl
   const openRegisterModal = () => {
     setIsRegisterModalOpen(true);
     setIsLoginModalOpen(false);
@@ -41,7 +42,8 @@ export default function CommonHeader() {
     setIsRegisterModalOpen(false);
   };
 
-  /* ────────────────────── fun Easter-egg rickroll ───────────────────── */
+  // TODO: remove this
+  // fun Easter-egg rickroll
   const rickroll = () =>
     window.open(
       "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
@@ -49,7 +51,7 @@ export default function CommonHeader() {
       "noopener,noreferrer"
     );
 
-  /* ───────────────────── global keyboard shortcuts ──────────────────── */
+  // global hotkeys
   function GlobalHotkeys() {
     useHotkeys([
       ["mod+K", () => spotlight.open()],
@@ -58,10 +60,10 @@ export default function CommonHeader() {
     return null;
   }
 
-  /* ────────────────────── build Spotlight actions ───────────────────── */
+  // build spotlight actions
   useEffect(() => {
     async function loadData() {
-      /* 1. BLOG POSTS (no slice) */
+      // Blog posts (no slice)
       let postActions: SpotlightActionData[] = [];
       try {
         const { data: posts } = await ApiGetPost(); // grab “all”
@@ -107,13 +109,30 @@ export default function CommonHeader() {
     loadData();
   }, [router]);
 
-  /* ───────────────────────────── render ─────────────────────────────── */
   return (
     <main className="flex justify-between items-center container mx-auto pt-4">
       <CommonLogo />
 
-      {/* ─────────── Spotlight Search ─────────── */}
-      <div>Ctrl + K for search</div>
+      <div className="md:hidden">
+        <button
+          aria-label="Search"
+          onClick={() => spotlight.open()}
+          className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700"
+        >
+          <IconSearch size={22} stroke={1.5} />
+        </button>
+      </div>
+      <div className="hidden md:flex w-[20rem]">
+        <TextInput
+          placeholder="Search…"
+          readOnly
+          onClick={() => spotlight.open()}
+          leftSection={<IconSearch size={18} stroke={1.5} />}
+          className="w-[20rem]"
+          radius="lg"
+        />
+      </div>
+
       <Spotlight
         actions={actions}
         searchProps={{
@@ -127,7 +146,7 @@ export default function CommonHeader() {
         <Shortcut symbol="X" description="Rickroll" />
       </Spotlight>
 
-      {/* ─────────── Nav & Auth ─────────── */}
+      {/* nav & auth */}
       <section>
         <ul className="flex items-center gap-12 text-dark-font">
           {user && (
