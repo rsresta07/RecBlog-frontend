@@ -1,8 +1,8 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import HeroLayout from "@/layouts/HeroLayout";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import Link from "next/link";
+import { useAuth } from "@/utils/hooks/useAuth";
 
 import { ApiGetPost, APIGetPostDetails } from "@/api/blog";
 import {
@@ -32,8 +32,10 @@ const PostDetail = () => {
   const router = useRouter();
   const { isReady, query } = router;
   const postSlug = typeof query.postSlug === "string" ? query.postSlug : "";
+  const { user } = useAuth();
+  const isLoggedIn = !!user;
 
-  /* ---------- UI state ---------- */
+  // UI State
   const [details, setDetails] = useState<any | null>(null);
   const [postData, setPostData] = useState<any[]>([]);
   const [isFollowing, setIsFollowing] = useState(false);
@@ -43,8 +45,11 @@ const PostDetail = () => {
 
   const [shareOpen, { open: openShare, close: closeShare }] =
     useDisclosure(false);
+  // login modal control
+  const [loginOpen, { open: openLogin, close: closeLogin }] =
+    useDisclosure(false);
 
-  /* ---------- initial fetches ---------- */
+  // initial fetch
   const loadDetails = useCallback(async () => {
     if (!postSlug) return;
     const { data } = await APIGetPostDetails(postSlug);
@@ -79,7 +84,7 @@ const PostDetail = () => {
     loadRecent();
   }, [loadRecent]);
 
-  /* ---------- follow / unfollow ---------- */
+  // follow / unfollow
   const handleFollowToggle = async () => {
     if (!details?.user?.id) return;
     try {
@@ -94,7 +99,7 @@ const PostDetail = () => {
     }
   };
 
-  /* ---------- like / unlike ---------- */
+  // like / unlike
   const handleLikeToggle = async () => {
     if (!details?.id) return;
     try {
@@ -109,7 +114,7 @@ const PostDetail = () => {
     }
   };
 
-  /* ---------- comments ---------- */
+  // refresh comments
   const refreshComments = async (postId: string) => {
     if (!postId) return;
     const r = await APIListComments(postId);
@@ -127,14 +132,14 @@ const PostDetail = () => {
     }
   };
 
-  /* ---------- helpers ---------- */
+  // scroll to comment section
   const scrollToComments = () => {
     const el = document.getElementById("comment-section");
     if (el) el.scrollIntoView({ behavior: "smooth" });
   };
 
   const likeCommentSection = () => (
-    <section className="flex items-center justify-between bg-slate-200 p-2 px-4 rounded-lg">
+    <section className="flex items-center justify-between bg-slate-100 p-2 px-4 rounded-lg">
       <div className="flex items-center">
         <ActionIcon
           onClick={handleLikeToggle}
@@ -152,15 +157,14 @@ const PostDetail = () => {
         >
           <IconMessage stroke={2} />
         </Button>
+        <Button onClick={openShare} variant="transparent" radius="lg">
+          <IconShare stroke={2} />
+        </Button>
+        <ShareModal opened={shareOpen} onClose={closeShare} />
       </div>
-      <Button onClick={openShare} variant="default" radius="lg">
-        <IconShare stroke={2} />
-      </Button>
-      <ShareModal opened={shareOpen} onClose={closeShare} />
     </section>
   );
 
-  /* ---------- render ---------- */
   return (
     <main className="container mx-auto grid grid-cols-12 gap-16 mt-16">
       <section className="col-span-8 flex flex-col gap-4">
@@ -193,11 +197,14 @@ const PostDetail = () => {
               label={isFollowing ? "Following" : "Follow"}
               onClick={handleFollowToggle}
               radius="lg"
+              size="xs"
             />
           </div>
         </div>
 
-        {likeCommentSection()}
+        <hr />
+
+        {/* {likeCommentSection()} */}
 
         {/* image + content */}
         <section className="flex flex-col gap-8">
@@ -216,38 +223,47 @@ const PostDetail = () => {
 
         {/* comments */}
         <section className="flex flex-col gap-4 mt-12" id="comment-section">
-          {likeCommentSection()}
+          {isLoggedIn && likeCommentSection()}
 
-          <h3 className="text-xl font-semibold">Comments</h3>
+          {(isLoggedIn || comments.length > 0) && ( // show nothing if guest & 0 comments
+            <>
+              <h3 className="text-xl font-semibold">Comments</h3>
 
-          <textarea
-            className="w-full border rounded p-2"
-            rows={4}
-            placeholder="Write your comment..."
-            value={newComment}
-            onChange={(e) => setNewComment(e.target.value)}
-          />
-          <Button onClick={handleCommentSubmit} disabled={!newComment.trim()}>
-            Submit Comment
-          </Button>
+              {isLoggedIn && (
+                <>
+                  <textarea
+                    className="w-full border rounded p-2"
+                    rows={4}
+                    placeholder="Write your comment..."
+                    value={newComment}
+                    onChange={(e) => setNewComment(e.target.value)}
+                  />
+                  <Button
+                    onClick={handleCommentSubmit}
+                    disabled={!newComment.trim()}
+                  >
+                    Submit Comment
+                  </Button>
+                </>
+              )}
 
-          <div className="space-y-4 max-h-64 overflow-y-auto border p-4 rounded-lg bg-white shadow-sm">
-            {comments.length === 0 ? (
-              <p>No comments yet.</p>
-            ) : (
-              comments.map((c) => (
-                <div key={c.id} className="border-b pb-2 last:border-b-0">
-                  <p className="font-semibold">
-                    {c.user?.fullName || "Anonymous"}
-                  </p>
-                  <p>{c.content}</p>
-                  <small className="text-gray-500">
-                    {new Date(c.createdAt).toLocaleString()}
-                  </small>
+              {comments.length > 0 && (
+                <div className="space-y-4 max-h-64 overflow-y-auto border p-4 rounded-lg bg-white shadow-sm">
+                  {comments.map((c) => (
+                    <div key={c.id} className="border-b pb-2 last:border-b-0">
+                      <p className="font-semibold">
+                        {c.user?.fullName || "Anonymous"}
+                      </p>
+                      <p>{c.content}</p>
+                      <small className="text-gray-500">
+                        {new Date(c.createdAt).toLocaleString()}
+                      </small>
+                    </div>
+                  ))}
                 </div>
-              ))
-            )}
-          </div>
+              )}
+            </>
+          )}
         </section>
       </section>
 
