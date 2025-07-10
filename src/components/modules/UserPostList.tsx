@@ -26,8 +26,8 @@ const UserPostList = ({ userData, isOwner }: UserPostProps) => {
   };
 
   return (
-    <section className="my-12 flex flex-col gap-4">
-      <div className="flex justify-between items-center">
+    <section className="my-[4rem] flex flex-col gap-4">
+      <div className="flex justify-between items-center mb-6">
         <Title order={3} className="mb-4">
           Posts ({posts.length})
         </Title>
@@ -43,7 +43,7 @@ const UserPostList = ({ userData, isOwner }: UserPostProps) => {
       <Grid gutter="md">
         {posts.map((post: any) => (
           <Grid.Col span={{ base: 12, sm: 6, md: 4, lg: 3 }} key={post.id}>
-            <div className="flex flex-col gap-4 bg-[#ffffff] p-4 rounded-lg">
+            <div className="flex flex-col gap-4 bg-[#ffffff] p-4 rounded-lg transform transition-transform duration-300 hover:scale-[1.05]">
               {/* thumbnail + tags */}
               <div className="relative">
                 <Link href={`/blog/${post.slug}`}>
