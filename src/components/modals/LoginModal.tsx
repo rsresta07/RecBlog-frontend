@@ -25,8 +25,12 @@ interface LoginForm {
 
 const LoginModal = ({
   openRegisterModal,
+  triggerOpen,
+  setTriggerOpen,
 }: {
   openRegisterModal: () => void;
+  triggerOpen?: boolean;
+  setTriggerOpen?: (val: boolean) => void;
 }) => {
   const [noTransitionOpened, setNoTransitionOpened] = useState(false);
   const router = useRouter();
@@ -78,6 +82,17 @@ const LoginModal = ({
     return () => router.events.off("routeChangeStart", handleRouteStart);
   }, [router.events]);
 
+  useEffect(() => {
+    if (triggerOpen !== undefined) {
+      setNoTransitionOpened(triggerOpen);
+    }
+  }, [triggerOpen]);
+
+  const closeModal = () => {
+    setNoTransitionOpened(false);
+    if (setTriggerOpen) setTriggerOpen(false);
+  };
+
   return (
     <>
       <Modal
@@ -107,14 +122,14 @@ const LoginModal = ({
         />
       </Modal>
 
-      <Button
+      {/* <Button
         variant="transparent"
         color="black"
         size="compact-xl"
         onClick={() => setNoTransitionOpened(true)}
       >
         <label className="font-normal">Sign In</label>
-      </Button>
+      </Button> */}
     </>
   );
 };

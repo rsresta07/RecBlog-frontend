@@ -17,7 +17,7 @@ import {
 import { IconSearch } from "@tabler/icons-react";
 import { ApiGetPost } from "@/api/blog";
 import CommonLink from "./CommonLink";
-import { TextInput } from "@mantine/core";
+import { Button, TextInput } from "@mantine/core";
 
 export default function CommonHeader() {
   // State
@@ -30,6 +30,7 @@ export default function CommonHeader() {
 
   // router
   const router = useRouter();
+  const [showLoginModal, setShowLoginModal] = useState(false);
 
   // modals ctl
   const openRegisterModal = () => {
@@ -182,7 +183,19 @@ export default function CommonHeader() {
                 </div>
               ) : (
                 <>
-                  <LoginModal openRegisterModal={openRegisterModal} />
+                  <Button
+                    onClick={() => setShowLoginModal(true)}
+                    variant="transparent"
+                    color="black"
+                    size="compact-xl"
+                  >
+                    <label className="font-normal">Sign In</label>
+                  </Button>
+                  <LoginModal
+                    openRegisterModal={() => {}}
+                    triggerOpen={showLoginModal}
+                    setTriggerOpen={setShowLoginModal}
+                  />
                   <span className="mx-1">|</span>
                   <RegisterModal openLoginModal={openLoginModal} />
                 </>

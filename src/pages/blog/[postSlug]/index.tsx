@@ -27,6 +27,8 @@ import {
 import ShareModal from "@/components/modals/ShareModal";
 import { ActionIcon, Button } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
+import { truncateHTML } from "@/utils/helpers/helpers";
+import LoginModal from "@/components/modals/LoginModal";
 
 const PostDetail = () => {
   const router = useRouter();
@@ -36,6 +38,7 @@ const PostDetail = () => {
   const isLoggedIn = !!user;
 
   // UI State
+  const [showLoginModal, setShowLoginModal] = useState(false);
   const [details, setDetails] = useState<any | null>(null);
   const [postData, setPostData] = useState<any[]>([]);
   const [isFollowing, setIsFollowing] = useState(false);
@@ -184,14 +187,17 @@ const PostDetail = () => {
         </header>
 
         {/* author + follow */}
-        <div className="flex items-center justify-between">
-          <p className="text-purple-700 text-xl">
-            {details?.user && (
-              <Link href={`/user/${details.user.username}`}>
-                {details.user.fullName}
-              </Link>
-            )}
-          </p>
+        <div className="flex gap-8">
+          <div className="flex items-end gap-2 text-slate-700">
+            <p className="text-purple-700 text-xl">
+              {details?.user && (
+                <Link href={`/user/${details.user.username}`}>
+                  {details?.user?.fullName}
+                </Link>
+              )}
+            </p>
+            <p>{details?.user?.position}</p>
+          </div>
           <div>
             <CommonButton
               label={isFollowing ? "Following" : "Follow"}
@@ -218,7 +224,36 @@ const PostDetail = () => {
               priority
             />
           )}
-          <div dangerouslySetInnerHTML={{ __html: details?.content }} />
+
+          {!user ? (
+            <div className="relative overflow-hidden rounded-lg">
+              {/* Blurred content */}
+              <div
+                className="blur-sm select-none pointer-events-none max-h-[300px] overflow-hidden"
+                dangerouslySetInnerHTML={{
+                  __html: truncateHTML(details?.content || "", 1000),
+                }}
+              />
+
+              {/* Gradient + button overlay */}
+              <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-white via-white/80 to-transparent flex justify-center items-end pb-4">
+                <Button
+                  onClick={() => setShowLoginModal(true)}
+                  variant="outline"
+                >
+                  Show more
+                </Button>
+              </div>
+            </div>
+          ) : (
+            <div dangerouslySetInnerHTML={{ __html: details?.content }} />
+          )}
+
+          <LoginModal
+            openRegisterModal={() => {}}
+            triggerOpen={showLoginModal}
+            setTriggerOpen={setShowLoginModal}
+          />
         </section>
 
         {/* comments */}
