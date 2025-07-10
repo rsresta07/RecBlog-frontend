@@ -64,7 +64,7 @@ const LoginModal = ({
         if (user?.role === "SUPER_ADMIN") {
           window.location.href = "/dashboard";
         } else if (user?.role === "USER") {
-          window.location.href = `/user/${user?.slug}`;
+          window.location.href = `/`;
         } else {
           console.log("Unknown role");
         }
@@ -121,15 +121,6 @@ const LoginModal = ({
           twoColumnLayout={false}
         />
       </Modal>
-
-      {/* <Button
-        variant="transparent"
-        color="black"
-        size="compact-xl"
-        onClick={() => setNoTransitionOpened(true)}
-      >
-        <label className="font-normal">Sign In</label>
-      </Button> */}
     </>
   );
 };

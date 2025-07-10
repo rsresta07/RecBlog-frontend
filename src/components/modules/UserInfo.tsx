@@ -29,11 +29,7 @@ const UserInfo = ({ userData, isOwner }: UserInfoProps) => {
             </div>
             <div className="flex items-center gap-1">
               <IconPhone size={16} />
-              <Text size="sm">{userData?.contact}</Text>
-            </div>
-            <div className="flex items-center gap-1">
-              <IconMapPin size={16} />
-              <Text size="sm">{userData?.location}</Text>
+              <Text size="sm">{userData?.position}</Text>
             </div>
           </div>
         </section>

@@ -45,16 +45,7 @@ const CommonForm = ({
       className="space-y-8 p-4"
       autoComplete="off"
     >
-      {twoColumnLayout && fields.length >= 2 ? (
-        <>
-          <div className="grid grid-cols-2 gap-4">
-            {fields.slice(0, 2).map(renderInput)}
-          </div>
-          <div className="space-y-4">{fields.slice(2).map(renderInput)}</div>
-        </>
-      ) : (
-        <div className="space-y-4">{fields.map(renderInput)}</div>
-      )}
+      <div className="space-y-4">{fields.map(renderInput)}</div>
 
       <Button type="submit" fullWidth color="grape">
         {buttonText}
