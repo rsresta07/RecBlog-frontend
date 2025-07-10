@@ -3,7 +3,10 @@ import Image from "next/image";
 
 const CommonBlogList = ({ post }: any) => {
   return (
-    <div className={`col-span-4 grid grid-row-2 gap-4`} key={post?.id}>
+    <div
+      className={`col-span-4 grid grid-row-2 gap-4 bg-[#ffffff] p-2 rounded-lg`}
+      key={post?.id}
+    >
       <Link href={`/blog/${post?.slug}`}>
         <Image
           src={post?.image}
@@ -14,7 +17,7 @@ const CommonBlogList = ({ post }: any) => {
         />
       </Link>
       <div>
-        <span className={`text-btn-text text-sm`}>
+        <span className={`text-btn-text text-sm text-primary`}>
           {post?.user && (
             <Link href={`/user/${post?.user?.slug}`}>
               {post?.user?.fullName}
@@ -24,7 +27,9 @@ const CommonBlogList = ({ post }: any) => {
           {/*<Link href={`#`}>{post?.date}</Link>*/}
         </span>
         <Link href={`/blog/${post?.slug}`}>
-          <h3 className={`text-xl line-clamp-1`}>{post?.title}</h3>
+          <h3 className={`text-xl line-clamp-1 text-primary font-bold`}>
+            {post?.title}
+          </h3>
           <p
             dangerouslySetInnerHTML={{ __html: post?.content }}
             className={`mb-4 line-clamp-2 text-sm`}
@@ -33,7 +38,7 @@ const CommonBlogList = ({ post }: any) => {
         {post?.tags?.map((tag: any) => (
           <span
             key={tag?.id}
-            className="text-sm px-2 bg-primary-btn rounded-lg text-btn-text m-1"
+            className="text-sm px-2 bg-secondary rounded-lg text-[#fdfdfd] m-1"
           >
             <Link href={`#`}>{tag?.title}</Link>
           </span>

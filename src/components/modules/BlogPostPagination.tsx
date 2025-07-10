@@ -47,7 +47,7 @@ const PostPagination = () => {
           {currentPosts?.map((post) => (
             <div
               key={post?.id}
-              className="col-span-12 sm:col-span-6 md:col-span-4 lg:col-span-4"
+              className="col-span-12 sm:col-span-6 md:col-span-4 lg:col-span-4 transform transition-transform duration-300 hover:scale-[1.05]"
             >
               <CommonBlogList post={post} />
             </div>
@@ -60,6 +60,7 @@ const PostPagination = () => {
             value={activePage}
             onChange={setPage}
             mt="sm"
+            color="secondary-color"
           />
         </div>
       </section>

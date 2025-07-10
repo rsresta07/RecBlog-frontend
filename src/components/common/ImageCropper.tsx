@@ -91,7 +91,7 @@ const ImageCropper = ({
       title="Crop Image"
       centered
     >
-      <div className="relative h-[400px] bg-gray-100 mb-4">
+      <div className="relative h-[400px] bg-light-bg mb-4">
         {imgSrc && (
           <Cropper
             image={imgSrc}

@@ -9,11 +9,11 @@ export default {
   theme: {
     extend: {
       colors: {
-        background: "var(--background)",
-        foreground: "var(--foreground)",
-        "dark-font": "#1A1A1A",
-        "btn-text": "#7e22ce",
-        "primary-btn": "#e9d5ff ",
+        "light-bg": "#F1F2F6", // for page and card backgrounds
+        primary: "#273FA1", // for branding, headings, buttons
+        secondary: "#6B85ED", // for hover, borders, tags
+        accent: "#F28F3B", // for CTA, delete buttons, highlights
+        "dark-text": "#1E1E1E", // for readable dark text
       },
     },
   },

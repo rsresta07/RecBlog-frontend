@@ -169,7 +169,7 @@ const PostDetail = () => {
   );
 
   return (
-    <main className="container mx-auto grid grid-cols-12 gap-16 mt-16">
+    <main className="container mx-auto grid grid-cols-12 gap-16 pt-16">
       <section className="col-span-8 flex flex-col gap-4">
         {/* Title + tags */}
         <header className="flex items-center gap-8">
@@ -178,7 +178,7 @@ const PostDetail = () => {
             {details?.tags?.map((t: any) => (
               <span
                 key={t.id}
-                className=" px-2 bg-purple-200 rounded-lg text-purple-700 m-1 w-fit"
+                className=" px-2 bg-primary rounded-lg text-[#fefe] m-1 w-fit"
               >
                 <Link href="#">{t.title}</Link>
               </span>
@@ -204,6 +204,7 @@ const PostDetail = () => {
               onClick={handleFollowToggle}
               radius="lg"
               size="xs"
+              color="#F28F3B"
             />
           </div>
         </div>

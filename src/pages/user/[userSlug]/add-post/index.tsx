@@ -101,7 +101,7 @@ const AddPost = () => {
 
   /* ───────────── UI ───────────── */
   return (
-    <main className="container mx-auto mt-5">
+    <main className="pt-5 p-[5rem] bg-light-bg">
       <form onSubmit={handleSubmit(onSubmit)}>
         {/* Top bar */}
         <section className="flex justify-between items-center mb-8">

@@ -47,7 +47,7 @@ const CommonForm = ({
     >
       <div className="space-y-4">{fields.map(renderInput)}</div>
 
-      <Button type="submit" fullWidth color="grape">
+      <Button type="submit" fullWidth color="primary-color">
         {buttonText}
       </Button>
 
@@ -59,7 +59,7 @@ const CommonForm = ({
             onClick={footerLinkAction}
             className="cursor-pointer"
           >
-            <span className="text-purple-900">{footerLinkLabel}</span>
+            <span className="text-secondary">{footerLinkLabel}</span>
           </Anchor>
         </Text>
       )}

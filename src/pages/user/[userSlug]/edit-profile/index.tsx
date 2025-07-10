@@ -94,51 +94,52 @@ const EditProfile = () => {
 
   // Render form -------------------------------------------------------------
   return (
-    <Container size="xs" mt="xl">
+    <section className="bg-light-bg pt-12 p-[12rem] pb-[15rem]">
       <Title order={3} mb="md">
         Edit Profile
       </Title>
 
-      <form onSubmit={form.handleSubmit(onSubmit)}>
-        <Stack>
-          <TextInput
-            label="Full Name"
-            placeholder="John Doe"
-            {...form.register("fullName")}
-            error={form.formState.errors.fullName?.message}
-          />
-          <TextInput
-            label="Contact"
-            placeholder="9812345678"
-            {...form.register("contact")}
-            error={form.formState.errors.contact?.message}
-          />
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="bg-light-bg flex flex-col gap-4"
+      >
+        <TextInput
+          label="Full Name"
+          placeholder="John Doe"
+          {...form.register("fullName")}
+          error={form.formState.errors.fullName?.message}
+        />
+        <TextInput
+          label="Contact"
+          placeholder="9812345678"
+          {...form.register("contact")}
+          error={form.formState.errors.contact?.message}
+        />
 
-          <TextInput
-            label="Email"
-            placeholder="Email"
-            {...form.register("email")}
-            error={form.formState.errors.email?.message}
-          />
+        <TextInput
+          label="Email"
+          placeholder="Email"
+          {...form.register("email")}
+          error={form.formState.errors.email?.message}
+        />
 
-          <TextInput
-            label="Location"
-            placeholder="Kathmandu"
-            {...form.register("location")}
-            error={form.formState.errors.location?.message}
-          />
+        <TextInput
+          label="Location"
+          placeholder="Kathmandu"
+          {...form.register("location")}
+          error={form.formState.errors.location?.message}
+        />
 
-          <div className="flex gap-4">
-            <CommonButton label="Save Changes" type="submit" variant="light" />
-            <CommonButton
-              label="Cancel"
-              onClick={() => router.back()}
-              variant="light"
-            />
-          </div>
-        </Stack>
+        <div className="flex gap-4">
+          <CommonButton
+            label="Cancel"
+            onClick={() => router.back()}
+            variant="light"
+          />
+          <CommonButton label="Save Changes" type="submit" variant="light" />
+        </div>
       </form>
-    </Container>
+    </section>
   );
 };
 

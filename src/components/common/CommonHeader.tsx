@@ -111,7 +111,7 @@ export default function CommonHeader() {
   }, [router]);
 
   return (
-    <main className="flex justify-between items-center container mx-auto pt-4">
+    <main className="flex justify-between items-center px-12 pt-4 bg-light-bg">
       <CommonLogo />
 
       <div className="md:hidden">
@@ -129,7 +129,7 @@ export default function CommonHeader() {
           readOnly
           onClick={() => spotlight.open()}
           leftSection={<IconSearch size={18} stroke={1.5} />}
-          className="w-[20rem]"
+          className="w-[20rem] bg-light-bg"
           radius="lg"
         />
       </div>
@@ -141,6 +141,7 @@ export default function CommonHeader() {
           placeholder: "Search anything…",
         }}
         nothingFound="Nothing found…"
+        className="bg-light-bg"
       >
         <GlobalHotkeys />
         <Shortcut symbol="K" description="Open Spotlight Search" />
@@ -151,14 +152,19 @@ export default function CommonHeader() {
       <section>
         <ul className="flex items-center gap-12 text-dark-font">
           {user && (
-            <CommonLink
-              link={`/user/${user?.slug}/add-post`}
-              linkLabel="Add Post"
-            />
+            <Link
+              href={`/user/${user?.slug}/add-post`}
+              className="px-4 py-2 bg-accent text-[#fefefe] rounded-lg shadow-lg shadow-[#A65418] hover:bg-[#A65418] transition-colors duration-300"
+            >
+              Add Post
+            </Link>
           )}
           {headerData?.options?.map((item: any) => (
             <li key={item.id}>
-              <Link href={item?.link} className="text-xl">
+              <Link
+                href={item?.link}
+                className="text-xl text-primary hover:underline decoration-secondary decoration-4 underline-offset-4 transition-all duration-300"
+              >
                 {item?.title}
               </Link>
             </li>
@@ -173,11 +179,15 @@ export default function CommonHeader() {
                         ? `/dashboard/${user?.slug}`
                         : `/user/${user?.slug}`
                     }
+                    className="text-xl text-primary hover:underline decoration-secondary decoration-4 underline-offset-4 transition-all duration-300"
                   >
-                    <span className="cursor-pointer text-xl">Profile</span>
+                    Profile
                   </Link>
                   <span className="mx-1">|</span>
-                  <button onClick={logout} className="text-xl text-red-600">
+                  <button
+                    onClick={logout}
+                    className="text-xl text-red-600 hover:underline decoration-red-800 decoration-4 underline-offset-4 transition-all duration-300"
+                  >
                     Logout
                   </button>
                 </div>
@@ -189,14 +199,18 @@ export default function CommonHeader() {
                     color="black"
                     size="compact-xl"
                   >
-                    <label className="font-normal">Sign In</label>
+                    <label className="font-normal text-primary hover:underline decoration-secondary decoration-4 underline-offset-4 transition-all duration-300">
+                      Sign In
+                    </label>
                   </Button>
                   <LoginModal
                     openRegisterModal={() => {}}
                     triggerOpen={showLoginModal}
                     setTriggerOpen={setShowLoginModal}
                   />
+
                   <span className="mx-1">|</span>
+
                   <RegisterModal openLoginModal={openLoginModal} />
                 </>
               )}

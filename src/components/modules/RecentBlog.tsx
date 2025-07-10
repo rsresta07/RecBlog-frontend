@@ -5,7 +5,7 @@ import { ApiGetPost } from "@/api/blog";
 
 const BlogPostVertical = ({ post }: any) => {
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-4 transform transition-transform duration-300 hover:scale-[1.05]">
       <Link href={`/blog/${post?.slug}`}>
         <Image
           src={post?.image || "/vercel.svg"}
@@ -16,7 +16,7 @@ const BlogPostVertical = ({ post }: any) => {
         />
       </Link>
       <div>
-        <span className="text-purple-700 text-sm">
+        <span className="text-primary text-sm">
           {post?.user && (
             <Link href={`/user/${post?.user?.slug}`}>
               {post?.user?.fullName}
@@ -25,7 +25,9 @@ const BlogPostVertical = ({ post }: any) => {
           {/*- {post.date}*/}
         </span>
         <Link href={`/blog/${post?.slug}`}>
-          <h3 className="text-2xl line-clamp-2">{post?.title}</h3>
+          <h3 className="text-2xl font-bold line-clamp-2 text-primary">
+            {post?.title}
+          </h3>
           <p
             dangerouslySetInnerHTML={{ __html: post?.content }}
             className={`mb-4 line-clamp-3`}
@@ -34,7 +36,7 @@ const BlogPostVertical = ({ post }: any) => {
         {post?.tags?.map((tag: any) => (
           <span
             key={tag?.id}
-            className="text-sm px-2 bg-purple-200 rounded-lg text-purple-700 m-1"
+            className="text-sm px-2 bg-secondary rounded-lg text-[#fdfdfd] m-1"
           >
             <Link href={`#`}>{tag?.title}</Link>
           </span>
@@ -46,7 +48,7 @@ const BlogPostVertical = ({ post }: any) => {
 
 const BlogPostHorizontal = ({ post, imageHeight }: any) => {
   return (
-    <div className="grid grid-cols-2 gap-8">
+    <div className="grid grid-cols-2 gap-8 transform transition-transform duration-300 hover:scale-[1.05]">
       <Link href={`/blog/${post?.slug}`}>
         <Image
           src={post?.image || "/vercel.svg"}
@@ -57,7 +59,7 @@ const BlogPostHorizontal = ({ post, imageHeight }: any) => {
         />
       </Link>
       <div>
-        <span className="text-purple-700 text-sm">
+        <span className="text-primary text-sm">
           {post?.user && (
             <Link href={`/user/${post?.user?.slug}`}>
               {post?.user?.fullName}
@@ -66,7 +68,9 @@ const BlogPostHorizontal = ({ post, imageHeight }: any) => {
           {/*- {post.date}*/}
         </span>
         <Link href={`/blog/${post?.slug}`}>
-          <h3 className="text-2xl line-clamp-1">{post?.title}</h3>
+          <h3 className="text-2xl font-bold line-clamp-1 text-primary">
+            {post?.title}
+          </h3>
           <p
             dangerouslySetInnerHTML={{ __html: post?.content }}
             className={`mb-4 line-clamp-3`}
@@ -75,7 +79,7 @@ const BlogPostHorizontal = ({ post, imageHeight }: any) => {
         {post?.tags?.map((tag: any) => (
           <span
             key={tag?.id}
-            className="text-sm px-2 bg-purple-200 rounded-lg text-purple-700 m-1"
+            className="text-sm px-2 bg-secondary rounded-lg text-[#fdfdfd] m-1"
           >
             <Link href="#">{tag?.title}</Link>
           </span>

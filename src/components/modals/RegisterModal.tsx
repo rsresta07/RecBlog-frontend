@@ -150,7 +150,9 @@ const RegisterModal = ({ openLoginModal }: { openLoginModal: () => void }) => {
         size="compact-xl"
         onClick={() => setNoTransitionOpened(true)}
       >
-        <label className="font-normal">Sign Up</label>
+        <label className="font-normal text-primary hover:underline decoration-secondary decoration-4 underline-offset-4 transition-all duration-300">
+          Sign Up
+        </label>
       </Button>
     </>
   );

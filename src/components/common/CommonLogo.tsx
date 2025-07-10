@@ -6,7 +6,7 @@ const CommonLogo = () => {
   const router = useRouter();
   return (
     <Link href="/">
-      <h1 className="text-center text-4xl font-bold text-dark-font">
+      <h1 className="text-center text-4xl font-bold text-primary">
         {commonData?.projectTitleSmall}
       </h1>
     </Link>
