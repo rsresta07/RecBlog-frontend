@@ -4,7 +4,7 @@ import Image from "next/image";
 const CommonBlogList = ({ post }: any) => {
   return (
     <div
-      className={`col-span-4 grid grid-row-2 gap-4 bg-[#ffffff] p-2 rounded-lg`}
+      className={`col-span-4 grid grid-row-2 gap-4 bg-light-bg p-2 rounded-lg`}
       key={post?.id}
     >
       <Link href={`/blog/${post?.slug}`}>

@@ -41,7 +41,7 @@ const PostPagination = () => {
 
   return (
     <main className="container mx-auto my-12">
-      <h2 className="text-2xl font-bold text-dark-font mb-4">All Blog Posts</h2>
+      <h2 className="text-2xl font-bold text-primary mb-4">All Blog Posts</h2>
       <section>
         <section className="grid grid-cols-12 gap-8">
           {currentPosts?.map((post) => (

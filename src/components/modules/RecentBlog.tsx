@@ -110,7 +110,7 @@ const RecentBlog = () => {
 
   return (
     <main className="container mx-auto">
-      <h2 className="text-2xl font-bold text-dark-font mb-4">
+      <h2 className="text-2xl font-bold text-primary mb-4">
         Recent blog posts
       </h2>
       <div className="grid grid-cols-1 md:grid-cols-10 gap-8">

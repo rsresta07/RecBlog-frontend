@@ -172,17 +172,22 @@ const PostDetail = () => {
     <main className="container mx-auto grid grid-cols-12 gap-16 pt-16">
       <section className="col-span-8 flex flex-col gap-4">
         {/* Title + tags */}
-        <header className="flex items-center gap-8">
+        <header className="flex items-start justify-between gap-8">
           <h1 className="text-4xl font-bold">{details?.title}</h1>
-          <div className="ml-auto flex flex-col items-end">
-            {details?.tags?.map((t: any) => (
-              <span
-                key={t.id}
-                className=" px-2 bg-primary rounded-lg text-[#fefe] m-1 w-fit"
-              >
-                <Link href="#">{t.title}</Link>
-              </span>
-            ))}
+
+          <div className="flex justify-end flex-1">
+            <div
+              className={`flex flex-wrap max-w-[200px] ${details?.tags?.length <= 2 ? "whitespace-nowrap" : ""}`}
+            >
+              {details?.tags?.slice(0, 3).map((t: any) => (
+                <span
+                  key={t.id}
+                  className="px-2 bg-primary rounded-lg text-[#fefe] m-1 w-fit"
+                >
+                  <Link href="#">{t.title}</Link>
+                </span>
+              ))}
+            </div>
           </div>
         </header>
 

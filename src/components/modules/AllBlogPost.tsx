@@ -37,7 +37,7 @@ const AllBlogPost = ({ limit }: any) => {
 
   return (
     <section className="container mx-auto py-12">
-      <h2 className="text-2xl font-bold text-dark-font mb-4">All Blog Posts</h2>
+      <h2 className="text-2xl font-bold text-primary mb-4">All Blog Posts</h2>
 
       <section className={`grid grid-cols-12 gap-8`}>
         {loading ? (
