@@ -50,6 +50,7 @@ const PostDetail = () => {
   const [comments, setComments] = useState<any[]>([]);
   const [newComment, setNewComment] = useState("");
   const [recommendedPosts, setRecommendedPosts] = useState<any[]>([]);
+  const [showFullContent, setShowFullContent] = useState(false);
 
   const [shareOpen, { open: openShare, close: closeShare }] =
     useDisclosure(false);
@@ -100,9 +101,14 @@ const PostDetail = () => {
         })
         .catch((e: any) => {
           console.error("Failed to fetch recommended posts", e);
+          // fallback to recent
+          setRecommendedPosts(postData.slice(0, 8));
         });
+    } else {
+      // if user is not logged in, fallback to recent blogs
+      setRecommendedPosts(postData.slice(0, 8));
     }
-  }, [user]);
+  }, [user, postData]);
 
   // follow / unfollow
   const handleFollowToggle = async () => {
@@ -248,20 +254,17 @@ const PostDetail = () => {
             />
           )}
 
-          {!user ? (
+          {!user && !showFullContent ? (
             <div className="relative overflow-hidden rounded-lg">
-              {/* Blurred content */}
               <div
                 className="blur-sm select-none pointer-events-none max-h-[300px] overflow-hidden"
                 dangerouslySetInnerHTML={{
                   __html: truncateHTML(details?.content || "", 1000),
                 }}
               />
-
-              {/* Gradient + button overlay */}
               <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-white via-white/80 to-transparent flex justify-center items-end pb-4">
                 <Button
-                  onClick={() => setShowLoginModal(true)}
+                  onClick={() => setShowFullContent(true)}
                   variant="outline"
                 >
                   Show more
@@ -328,10 +331,12 @@ const PostDetail = () => {
       {/* recommended posts */}
       <aside className="col-span-4">
         <h2 className="text-2xl font-bold text-dark-font mb-4">
-          Recommended for you
+          {user ? "Recommended for you" : "Recent blog posts"}
         </h2>
-        {recommendedPosts.length === 0 && <p>No recommendations available.</p>}
-        {recommendedPosts.map((p) => (
+
+        {recommendedPosts.length === 0 && <p>No posts available.</p>}
+
+        {recommendedPosts.slice(0, 8).map((p) => (
           <article key={p.id} className="mb-8">
             <Link href={`/blog/${p.slug}`}>
               <Image
