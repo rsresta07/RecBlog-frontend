@@ -1,7 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { ApiGetPost } from "@/api/blog";
+import { ApiGetPost, APIGetRecommendedPosts } from "@/api/blog";
+import { useAuth } from "@/utils/hooks/useAuth";
 
 const BlogPostVertical = ({ post }: any) => {
   return (
@@ -92,12 +93,18 @@ const BlogPostHorizontal = ({ post, imageHeight }: any) => {
 const RecentBlog = () => {
   const [loading, setLoading] = useState(false);
   const [postData, setPostData] = useState<any[]>([]);
+  const { user } = useAuth();
 
   const fetchData = async () => {
     setLoading(true);
     try {
-      const response = await ApiGetPost();
-      setPostData(response?.data);
+      if (user) {
+        const response = await APIGetRecommendedPosts();
+        setPostData(response?.data);
+      } else {
+        const response = await ApiGetPost();
+        setPostData(response?.data);
+      }
     } catch (error) {
       console.error("Failed to fetch:", error);
     }
@@ -110,8 +117,8 @@ const RecentBlog = () => {
 
   return (
     <main className="container mx-auto">
-      <h2 className="text-2xl font-bold text-primary mb-4">
-        Recent blog posts
+      <h2 className="text-4xl font-bold text-primary mb-[2rem]">
+        {user ? "Top Selects for You" : "Recent blog posts"}
       </h2>
       <div className="grid grid-cols-1 md:grid-cols-10 gap-8">
         <div className="col-span-5">

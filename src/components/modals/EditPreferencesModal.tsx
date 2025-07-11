@@ -93,13 +93,14 @@ const EditPreferencesModal = () => {
         ) : (
           <Stack>
             <MultiSelect
-              label="Your Tags"
-              data={options}
-              value={selected}
+              data={options} // ✅ full list with { value, label }
+              value={selected} // ✅ just array of selected IDs
               onChange={setSelected}
-              searchable
-              // nothingFound="No tags"
-              placeholder="Select tags"
+              searchable={false}
+              dropdownOpened={false} // disables dropdown
+              placeholder="You can only remove your existing preferences"
+              nothingFoundMessage="Only your selected tags are shown"
+              clearable
             />
 
             <Group>

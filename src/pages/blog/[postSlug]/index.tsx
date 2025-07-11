@@ -7,6 +7,7 @@ import { useAuth } from "@/utils/hooks/useAuth";
 import {
   ApiGetPost,
   APIGetPostDetails,
+  APIGetPostDetailsAuth,
   APIGetRecommendedPosts,
 } from "@/api/blog";
 import {
@@ -61,7 +62,9 @@ const PostDetail = () => {
   // initial fetch
   const loadDetails = useCallback(async () => {
     if (!postSlug) return;
-    const { data } = await APIGetPostDetails(postSlug);
+    const { data } = isLoggedIn
+      ? await APIGetPostDetailsAuth(postSlug)
+      : await APIGetPostDetails(postSlug);
     setDetails(data);
     setComments(data?.comments || []);
 
@@ -267,14 +270,11 @@ const PostDetail = () => {
 
           {!user && !showFullContent ? (
             <div className="relative rounded-lg overflow-hidden bg-light-bg">
-              {/* Full content with scroll clipping */}
               <div className="max-h-[50rem] overflow-hidden relative">
                 <div
-                  className="prose"
+                  className="prose max-w-none"
                   dangerouslySetInnerHTML={{ __html: details?.content }}
                 />
-
-                {/* Blurred gradient overlay */}
                 <div
                   className="absolute bottom-0 left-0 right-0 h-[12rem] backdrop-blur-sm pointer-events-none"
                   style={{
@@ -283,8 +283,6 @@ const PostDetail = () => {
                   }}
                 />
               </div>
-
-              {/* Show More Button */}
               <div className="flex justify-center pt-4">
                 <Button
                   onClick={() => setShowLoginModal(true)}
@@ -295,7 +293,10 @@ const PostDetail = () => {
               </div>
             </div>
           ) : (
-            <div dangerouslySetInnerHTML={{ __html: details?.content }} />
+            <div
+              className="prose max-w-none"
+              dangerouslySetInnerHTML={{ __html: details?.content }}
+            />
           )}
 
           <LoginModal
@@ -353,7 +354,7 @@ const PostDetail = () => {
 
       {/* recommended posts */}
       <aside className="col-span-4">
-        <h2 className="text-2xl font-bold text-dark-font mb-4">
+        <h2 className="text-2xl font-bold text-primary mb-4">
           {user ? "Recommended for you" : "Recent blog posts"}
         </h2>
 

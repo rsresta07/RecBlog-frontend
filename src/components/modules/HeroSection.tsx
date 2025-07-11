@@ -1,5 +1,6 @@
 import RecentBlog from "@/components/modules/RecentBlog";
 import PostPagination from "./BlogPostPagination";
+import RecommendedBlog from "./RecommendedBlog";
 
 export default function HeroSection() {
   return (
@@ -17,6 +18,7 @@ export default function HeroSection() {
           </h1>
         </div>
         <RecentBlog />
+        <RecommendedBlog />
         <PostPagination />
       </section>
     </main>

@@ -13,6 +13,9 @@ export const ApiGetAllPost = () => GetRequest(`/post/all`);
 export const APIGetPostDetails = (slug: string) =>
   GetRequest(`/post/details/${slug}`);
 
+export const APIGetPostDetailsAuth = (slug: string) =>
+  GetRequest(`/post/details-auth/${slug}`);
+
 export const APIUpdateProduct = (id: string, data: any) =>
   PutRequest(`menu-item/update/${id}`, data);
 
