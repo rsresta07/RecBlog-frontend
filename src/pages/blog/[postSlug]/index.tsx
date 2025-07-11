@@ -110,9 +110,17 @@ const PostDetail = () => {
     }
   }, [user, postData]);
 
-  // follow / unfollow
+  // Updated follow toggle function
   const handleFollowToggle = async () => {
     if (!details?.user?.id) return;
+
+    if (!isLoggedIn) {
+      // User not logged in, show login modal
+      setShowLoginModal(true);
+      return;
+    }
+
+    // User is logged in, proceed with follow/unfollow API calls
     try {
       if (isFollowing) {
         await APIUnfollowUser(details.user.id);
@@ -227,13 +235,16 @@ const PostDetail = () => {
             <p className="text-secondary">{details?.user?.position}</p>
           </div>
           <div>
-            <CommonButton
-              label={isFollowing ? "Following" : "Follow"}
-              onClick={handleFollowToggle}
-              radius="lg"
-              size="xs"
-              color="#F28F3B"
-            />
+            {/* Follow button - hide if current user is author */}
+            {user?.id !== details?.user?.id && (
+              <CommonButton
+                label={isFollowing ? "Following" : "Follow"}
+                onClick={handleFollowToggle}
+                radius="lg"
+                size="xs"
+                color="#F28F3B"
+              />
+            )}
           </div>
         </div>
 
@@ -255,16 +266,28 @@ const PostDetail = () => {
           )}
 
           {!user && !showFullContent ? (
-            <div className="relative overflow-hidden rounded-lg">
-              <div
-                className="blur-sm select-none pointer-events-none max-h-[300px] overflow-hidden"
-                dangerouslySetInnerHTML={{
-                  __html: truncateHTML(details?.content || "", 1000),
-                }}
-              />
-              <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-white via-white/80 to-transparent flex justify-center items-end pb-4">
+            <div className="relative rounded-lg overflow-hidden bg-light-bg">
+              {/* Full content with scroll clipping */}
+              <div className="max-h-[50rem] overflow-hidden relative">
+                <div
+                  className="prose"
+                  dangerouslySetInnerHTML={{ __html: details?.content }}
+                />
+
+                {/* Blurred gradient overlay */}
+                <div
+                  className="absolute bottom-0 left-0 right-0 h-[12rem] backdrop-blur-sm pointer-events-none"
+                  style={{
+                    background:
+                      "linear-gradient(to top, rgba(241, 242, 246, 1), rgba(241, 242, 246, 0.6), transparent)",
+                  }}
+                />
+              </div>
+
+              {/* Show More Button */}
+              <div className="flex justify-center pt-4">
                 <Button
-                  onClick={() => setShowFullContent(true)}
+                  onClick={() => setShowLoginModal(true)}
                   variant="outline"
                 >
                   Show more
