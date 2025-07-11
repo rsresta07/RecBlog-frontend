@@ -38,9 +38,10 @@ export function AdminDashboardLayout({
         collapsed: { mobile: !opened },
       }}
       padding="md"
+      style={{ backgroundColor: "#f1f2f6" }}
     >
-      <AppShell.Header>
-        <div className="flex justify-between items-center mt-4 container mx-auto">
+      <AppShell.Header style={{ backgroundColor: "#f1f2f6" }}>
+        <div className="flex justify-between items-center pt-4 container mx-auto bg-light-bg">
           <h1 className="text-2xl text-darkText font-bold">
             {websiteData?.projectTitleSmall}
           </h1>
@@ -58,7 +59,7 @@ export function AdminDashboardLayout({
           </div>
         </div>
       </AppShell.Header>
-      <AppShell.Navbar>
+      <AppShell.Navbar style={{ backgroundColor: "#f1f2f6" }}>
         {/* Removed redundant fixed Box, AppShell.Navbar handles positioning */}
         <Box
           className="flex flex-col gap-4 container mx-auto" // Apply flex and gap to the container Box
@@ -68,6 +69,7 @@ export function AdminDashboardLayout({
             borderRight: "1px solid #eaeaea",
             height: "calc(100vh - 60px)", // Fill remaining height below header
             overflowY: "auto", // Enable scrolling for long lists
+            color: "#F1F2F6",
           }}
         >
           {/* Takes user to the project-specific dashboard */}
@@ -77,7 +79,7 @@ export function AdminDashboardLayout({
               onClick={() => router.push(`/dashboard/${list?.slug}`)}
               radius="md"
               size="sm"
-              color="black"
+              color="#F28F3B"
               fullWidth
               variant={
                 router.pathname === `/dashboard/${list?.slug}`
@@ -90,8 +92,8 @@ export function AdminDashboardLayout({
           ))}
         </Box>
       </AppShell.Navbar>
-      <AppShell.Main>
-        <Box style={{ padding: "20px" }}>{children}</Box>
+      <AppShell.Main color="#F1F2F6">
+        <Box style={{ padding: "20px", color: "#F1F2F6" }}>{children}</Box>
       </AppShell.Main>
     </AppShell>
   );

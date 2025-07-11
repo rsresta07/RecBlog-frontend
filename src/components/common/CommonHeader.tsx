@@ -155,7 +155,7 @@ export default function CommonHeader() {
             {user && (
               <Link
                 href={`/user/${user?.slug}/add-post`}
-                className="px-4 py-2 bg-accent text-[#fefefe] rounded-lg shadow-lg shadow-[#A65418] hover:bg-[#A65418] transition-colors duration-300"
+                className="px-4 py-2 bg-accent text-light-text rounded-lg shadow-lg shadow-[#A65418] hover:bg-[#A65418] transition-colors duration-300"
               >
                 Add Post
               </Link>

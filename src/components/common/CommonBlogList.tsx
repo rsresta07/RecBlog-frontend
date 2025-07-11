@@ -32,7 +32,7 @@ const CommonBlogList = ({ post }: any) => {
           </h3>
           <p
             dangerouslySetInnerHTML={{ __html: post?.content }}
-            className={`mb-4 line-clamp-2 text-sm`}
+            className={`mb-4 line-clamp-2 text-sm text-[#1e1e1e]`}
           />
         </Link>
         {post?.tags?.map((tag: any) => (

@@ -14,6 +14,7 @@ export default {
         secondary: "#6B85ED", // for hover, borders, tags
         accent: "#F28F3B", // for CTA, delete buttons, highlights
         "dark-text": "#1E1E1E", // for readable dark text
+        "light-text": "#F1F2F6", // for readable light text
       },
     },
   },

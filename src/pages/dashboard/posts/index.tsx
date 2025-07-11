@@ -3,7 +3,7 @@ import CommonLoader from "@/components/common/CommonLoader";
 import { AdminDashboardLayout } from "@/layouts/AdminDashboardLayout";
 import { useState, useEffect } from "react";
 import { ApiDeletePost, ApiGetAllPost, ApiGetPost } from "@/api/blog";
-import { Pagination } from "@mantine/core";
+import { Button, Pagination } from "@mantine/core";
 
 function chunk<T>(array: T[], size: number): T[][] {
   return array.length
@@ -52,7 +52,7 @@ const AdminPost = ({ limit }: any) => {
   }, []);
 
   return (
-    <main>
+    <main className="bg-light-bg">
       <section className={`grid grid-cols-12 gap-8`}>
         {loading ? (
           <CommonLoader />
@@ -62,14 +62,18 @@ const AdminPost = ({ limit }: any) => {
           </div>
         ) : (
           currentPosts?.slice(0, limit)?.map((post) => (
-            <div key={post.id} className="relative col-span-4">
+            // will fit 4 post cards in the column
+            <div
+              key={post.id}
+              className="col-span-4 transform transition-transform duration-300 hover:scale-[1.05]"
+            >
               {/* Render Blog Post */}
               <CommonBlogList post={post} />
 
               {/* Delete Button */}
               <button
                 onClick={() => handleDeletePost(post.id)}
-                className="absolute top-2 right-2 bg-red-600 text-white text-sm px-2 py-1 rounded shadow"
+                className="px-4 py-2 bg-accent text-[#fefefe] rounded-lg shadow-lg shadow-[#A65418] hover:bg-[#A65418] transition-colors duration-300"
               >
                 Delete
               </button>
