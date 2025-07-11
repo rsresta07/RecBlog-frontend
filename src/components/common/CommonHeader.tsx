@@ -111,112 +111,114 @@ export default function CommonHeader() {
   }, [router]);
 
   return (
-    <main className="flex justify-between items-center px-12 pt-4 bg-light-bg">
-      <CommonLogo />
+    <main className="bg-light-bg">
+      <section className="container mx-auto flex justify-between items-center pt-4 bg-light-bg">
+        <CommonLogo />
 
-      <div className="md:hidden">
-        <button
-          aria-label="Search"
-          onClick={() => spotlight.open()}
-          className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700"
+        <div className="md:hidden">
+          <button
+            aria-label="Search"
+            onClick={() => spotlight.open()}
+            className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700"
+          >
+            <IconSearch size={22} stroke={1.5} />
+          </button>
+        </div>
+        <div className="hidden md:flex w-[20rem]">
+          <TextInput
+            placeholder="Search…"
+            readOnly
+            onClick={() => spotlight.open()}
+            leftSection={<IconSearch size={18} stroke={1.5} />}
+            className="w-[20rem] bg-light-bg"
+            radius="lg"
+          />
+        </div>
+
+        <Spotlight
+          actions={actions}
+          searchProps={{
+            leftSection: <IconSearch size={20} stroke={1.5} />,
+            placeholder: "Search anything…",
+          }}
+          nothingFound="Nothing found…"
+          className="bg-light-bg"
         >
-          <IconSearch size={22} stroke={1.5} />
-        </button>
-      </div>
-      <div className="hidden md:flex w-[20rem]">
-        <TextInput
-          placeholder="Search…"
-          readOnly
-          onClick={() => spotlight.open()}
-          leftSection={<IconSearch size={18} stroke={1.5} />}
-          className="w-[20rem] bg-light-bg"
-          radius="lg"
-        />
-      </div>
+          <GlobalHotkeys />
+          <Shortcut symbol="K" description="Open Spotlight Search" />
+          <Shortcut symbol="X" description="Rickroll" />
+        </Spotlight>
 
-      <Spotlight
-        actions={actions}
-        searchProps={{
-          leftSection: <IconSearch size={20} stroke={1.5} />,
-          placeholder: "Search anything…",
-        }}
-        nothingFound="Nothing found…"
-        className="bg-light-bg"
-      >
-        <GlobalHotkeys />
-        <Shortcut symbol="K" description="Open Spotlight Search" />
-        <Shortcut symbol="X" description="Rickroll" />
-      </Spotlight>
-
-      {/* nav & auth */}
-      <section>
-        <ul className="flex items-center gap-12 text-dark-font">
-          {user && (
-            <Link
-              href={`/user/${user?.slug}/add-post`}
-              className="px-4 py-2 bg-accent text-[#fefefe] rounded-lg shadow-lg shadow-[#A65418] hover:bg-[#A65418] transition-colors duration-300"
-            >
-              Add Post
-            </Link>
-          )}
-          {headerData?.options?.map((item: any) => (
-            <li key={item.id}>
+        {/* nav & auth */}
+        <section>
+          <ul className="flex items-center gap-12 text-dark-font">
+            {user && (
               <Link
-                href={item?.link}
-                className="text-xl text-primary hover:underline decoration-secondary decoration-4 underline-offset-4 transition-all duration-300"
+                href={`/user/${user?.slug}/add-post`}
+                className="px-4 py-2 bg-accent text-[#fefefe] rounded-lg shadow-lg shadow-[#A65418] hover:bg-[#A65418] transition-colors duration-300"
               >
-                {item?.title}
+                Add Post
               </Link>
+            )}
+            {headerData?.options?.map((item: any) => (
+              <li key={item.id}>
+                <Link
+                  href={item?.link}
+                  className="text-xl text-primary hover:underline decoration-secondary decoration-4 underline-offset-4 transition-all duration-300"
+                >
+                  {item?.title}
+                </Link>
+              </li>
+            ))}
+            <li>
+              <div className="flex items-center gap-2">
+                {user ? (
+                  <div className="flex items-center gap-6">
+                    <Link
+                      href={
+                        user.role === "SUPER_ADMIN" // Assuming dashboard also uses slug for consistency
+                          ? `/dashboard/${user?.slug}`
+                          : `/user/${user?.slug}`
+                      }
+                      className="text-xl text-primary hover:underline decoration-secondary decoration-4 underline-offset-4 transition-all duration-300"
+                    >
+                      Profile
+                    </Link>
+                    <span className="mx-1">|</span>
+                    <button
+                      onClick={logout}
+                      className="text-xl text-red-600 hover:underline decoration-red-800 decoration-4 underline-offset-4 transition-all duration-300"
+                    >
+                      Logout
+                    </button>
+                  </div>
+                ) : (
+                  <>
+                    <Button
+                      onClick={() => setShowLoginModal(true)}
+                      variant="transparent"
+                      color="black"
+                      size="compact-xl"
+                    >
+                      <label className="font-normal text-primary hover:underline decoration-secondary decoration-4 underline-offset-4 transition-all duration-300">
+                        Sign In
+                      </label>
+                    </Button>
+                    <LoginModal
+                      openRegisterModal={() => {}}
+                      triggerOpen={showLoginModal}
+                      setTriggerOpen={setShowLoginModal}
+                    />
+
+                    <span className="mx-1">|</span>
+
+                    <RegisterModal openLoginModal={openLoginModal} />
+                  </>
+                )}
+              </div>
             </li>
-          ))}
-          <li>
-            <div className="flex items-center gap-2">
-              {user ? (
-                <div className="flex items-center gap-6">
-                  <Link
-                    href={
-                      user.role === "SUPER_ADMIN" // Assuming dashboard also uses slug for consistency
-                        ? `/dashboard/${user?.slug}`
-                        : `/user/${user?.slug}`
-                    }
-                    className="text-xl text-primary hover:underline decoration-secondary decoration-4 underline-offset-4 transition-all duration-300"
-                  >
-                    Profile
-                  </Link>
-                  <span className="mx-1">|</span>
-                  <button
-                    onClick={logout}
-                    className="text-xl text-red-600 hover:underline decoration-red-800 decoration-4 underline-offset-4 transition-all duration-300"
-                  >
-                    Logout
-                  </button>
-                </div>
-              ) : (
-                <>
-                  <Button
-                    onClick={() => setShowLoginModal(true)}
-                    variant="transparent"
-                    color="black"
-                    size="compact-xl"
-                  >
-                    <label className="font-normal text-primary hover:underline decoration-secondary decoration-4 underline-offset-4 transition-all duration-300">
-                      Sign In
-                    </label>
-                  </Button>
-                  <LoginModal
-                    openRegisterModal={() => {}}
-                    triggerOpen={showLoginModal}
-                    setTriggerOpen={setShowLoginModal}
-                  />
-
-                  <span className="mx-1">|</span>
-
-                  <RegisterModal openLoginModal={openLoginModal} />
-                </>
-              )}
-            </div>
-          </li>
-        </ul>
+          </ul>
+        </section>
       </section>
     </main>
   );

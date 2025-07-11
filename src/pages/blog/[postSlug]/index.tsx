@@ -173,7 +173,7 @@ const PostDetail = () => {
       <section className="col-span-8 flex flex-col gap-4">
         {/* Title + tags */}
         <header className="flex items-start justify-between gap-8">
-          <h1 className="text-4xl font-bold">{details?.title}</h1>
+          <h1 className="text-4xl font-bold text-primary">{details?.title}</h1>
 
           <div className="flex justify-end flex-1">
             <div
@@ -182,7 +182,7 @@ const PostDetail = () => {
               {details?.tags?.slice(0, 3).map((t: any) => (
                 <span
                   key={t.id}
-                  className="px-2 bg-primary rounded-lg text-[#fefe] m-1 w-fit"
+                  className="px-2 bg-secondary rounded-lg text-[#fefe] m-1 w-fit"
                 >
                   <Link href="#">{t.title}</Link>
                 </span>
@@ -194,14 +194,14 @@ const PostDetail = () => {
         {/* author + follow */}
         <div className="flex gap-8">
           <div className="flex items-end gap-2 text-slate-700">
-            <p className="text-purple-700 text-xl">
+            <p className="text-primary text-xl">
               {details?.user && (
                 <Link href={`/user/${details.user.username}`}>
                   {details?.user?.fullName}
                 </Link>
               )}
             </p>
-            <p>{details?.user?.position}</p>
+            <p className="text-secondary">{details?.user?.position}</p>
           </div>
           <div>
             <CommonButton
@@ -268,7 +268,7 @@ const PostDetail = () => {
 
           {(isLoggedIn || comments.length > 0) && ( // show nothing if guest & 0 comments
             <>
-              <h3 className="text-xl font-semibold">Comments</h3>
+              <h3 className="text-xl font-semibold text-secondary">Comments</h3>
 
               {isLoggedIn && (
                 <>
@@ -325,13 +325,15 @@ const PostDetail = () => {
               />
             </Link>
             <div>
-              <span className="text-btn-text text-sm">
+              <span className="text-primary text-sm">
                 {p.user && (
                   <Link href={`/user/${p.user.slug}`}>{p.user.fullName}</Link>
                 )}
               </span>
               <Link href={`/blog/${p.slug}`}>
-                <h3 className="text-xl line-clamp-1">{p.title}</h3>
+                <h3 className="text-xl text-primary font-bold line-clamp-1">
+                  {p.title}
+                </h3>
                 <p
                   dangerouslySetInnerHTML={{ __html: p.content }}
                   className="mb-4 line-clamp-2 text-sm"
@@ -340,7 +342,7 @@ const PostDetail = () => {
               {p.tags?.map((t: any) => (
                 <span
                   key={t.id}
-                  className="text-sm px-2 bg-primary-btn rounded-lg text-btn-text m-1"
+                  className="text-sm px-2 bg-secondary rounded-lg text-[#fefe] m-1"
                 >
                   <Link href="#">{t.title}</Link>
                 </span>
