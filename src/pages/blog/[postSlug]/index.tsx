@@ -4,7 +4,11 @@ import Image from "next/image";
 import Link from "next/link";
 import { useAuth } from "@/utils/hooks/useAuth";
 
-import { ApiGetPost, APIGetPostDetails } from "@/api/blog";
+import {
+  ApiGetPost,
+  APIGetPostDetails,
+  APIGetRecommendedPosts,
+} from "@/api/blog";
 import {
   APIFollowUser,
   APIUnfollowUser,
@@ -45,6 +49,7 @@ const PostDetail = () => {
   const [liked, setLiked] = useState(false);
   const [comments, setComments] = useState<any[]>([]);
   const [newComment, setNewComment] = useState("");
+  const [recommendedPosts, setRecommendedPosts] = useState<any[]>([]);
 
   const [shareOpen, { open: openShare, close: closeShare }] =
     useDisclosure(false);
@@ -86,6 +91,18 @@ const PostDetail = () => {
   useEffect(() => {
     loadRecent();
   }, [loadRecent]);
+
+  useEffect(() => {
+    if (user) {
+      APIGetRecommendedPosts()
+        .then((res: any) => {
+          setRecommendedPosts(res.data || []);
+        })
+        .catch((e: any) => {
+          console.error("Failed to fetch recommended posts", e);
+        });
+    }
+  }, [user]);
 
   // follow / unfollow
   const handleFollowToggle = async () => {
@@ -308,12 +325,13 @@ const PostDetail = () => {
         </section>
       </section>
 
-      {/* recent posts */}
+      {/* recommended posts */}
       <aside className="col-span-4">
         <h2 className="text-2xl font-bold text-dark-font mb-4">
-          Recent blog posts
+          Recommended for you
         </h2>
-        {postData.slice(0, 6).map((p) => (
+        {recommendedPosts.length === 0 && <p>No recommendations available.</p>}
+        {recommendedPosts.map((p) => (
           <article key={p.id} className="mb-8">
             <Link href={`/blog/${p.slug}`}>
               <Image
