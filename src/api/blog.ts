@@ -28,3 +28,6 @@ export const ApiUpdatePost = (id: string, payload: any) =>
   PatchRequest(`/post/update/${id}`, payload);
 
 export const APIGetRecommendedPosts = () => GetRequest("/post/recommendations");
+
+export const APIGetRawRecommendedPosts = () =>
+  GetRequest("/post/raw-recommendations");

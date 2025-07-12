@@ -4,6 +4,7 @@ import { ApiGetPost, APIGetRecommendedPosts } from "@/api/blog";
 import CommonBlogList from "@/components/common/CommonBlogList";
 import { useRouter } from "next/router";
 import { useAuth } from "@/utils/hooks/useAuth"; // <-- import useAuth
+import { APIGetRawRecommendedPosts } from "@/api/blog";
 
 function chunk<T>(array: T[], size: number): T[][] {
   return array.length
@@ -27,10 +28,9 @@ const RecommendedBlog = () => {
   const fetchData = async () => {
     setLoading(true);
     try {
-      const response = await APIGetRecommendedPosts();
+      const response = await APIGetRawRecommendedPosts();
       const allPosts = response?.data || [];
 
-      // Filter out current user's posts
       const filteredPosts = userId
         ? allPosts.filter((post: any) => post.user?.id !== userId)
         : allPosts;

@@ -81,7 +81,7 @@ const PostDetail = () => {
     }
 
     await refreshComments(data.id);
-  }, [postSlug]);
+  }, [postSlug, isLoggedIn]);
 
   const loadRecent = useCallback(async () => {
     const r = await ApiGetPost();
