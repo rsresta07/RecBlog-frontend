@@ -1,8 +1,9 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { ApiGetPost, APIGetRecommendedPosts } from "@/api/blog";
+import { ApiGetPost } from "@/api/blog";
 import { useAuth } from "@/utils/hooks/useAuth";
+import { APIGetRecommendedPosts } from "@/api/recommendation";
 
 const BlogPostVertical = ({ post }: any) => {
   return (

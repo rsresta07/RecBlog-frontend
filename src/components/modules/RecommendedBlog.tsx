@@ -1,10 +1,9 @@
 import { useState, useEffect } from "react";
 import { Pagination } from "@mantine/core";
-import { ApiGetPost, APIGetRecommendedPosts } from "@/api/blog";
 import CommonBlogList from "@/components/common/CommonBlogList";
 import { useRouter } from "next/router";
 import { useAuth } from "@/utils/hooks/useAuth"; // <-- import useAuth
-import { APIGetRawRecommendedPosts } from "@/api/blog";
+import { APIGetRawRecommendedPosts } from "@/api/recommendation";
 
 function chunk<T>(array: T[], size: number): T[][] {
   return array.length
