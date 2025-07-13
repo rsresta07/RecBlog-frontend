@@ -1,6 +1,6 @@
 # RecBlog
 
-I started this project as well as a way to make myself more familiar with the frontend side of Full Stack using NextJS, Mantine and TailwindCSS. Later on (currently) this has become my Final Year Project for BCA.
+I started RecBlog as well as a way to make myself more familiar with the frontend side of Full Stack using NextJS, Mantine and TailwindCSS.
 
 The backend part of this project can be found in [this repository](https://github.com/rsresta07/kathanika-blog-backend).
 
@@ -12,9 +12,9 @@ There may be a lot of things I have made mistake and a lot of things that I may 
 
 ## Documentation
 
-The project uses NextJS a framework of react.js. Mantine has been used as pre-built react components and Tailwind for the styles.
+RecBlog uses NextJS a framework of react.js. Mantine has been used as pre-built react components and Tailwind for the styles.
 
-The main parts of this project are: Admin dashboard, user profile, List of Posts, Post Page, CRUD operations, filter based on Tags _(will be added in future)_ and Content Based and Collabrative Algorithm.
+The main parts of this project are: Admin dashboard, user profile, List of Posts, Post Page, CRUD operations, filter based on Tags (will be added in future) and Content Based and Collaborative Algorithm.
 
 ## Environment Variables
 
@@ -27,7 +27,8 @@ NEXT_PUBLIC_API_BASE_URL=http://localhost:8080/api/v1
 ## Project Setup
 
 ```bash
-  yarn install
+# install dependencies
+$ yarn install
 ```
 
 ## Run Locally
