@@ -8,8 +8,7 @@ type User = {
   email: string;
   username: string;
   fullName: string;
-  location: string;
-  contact: string;
+  position: string;
   role: string;
   status: string;
   last_login_at: string;
@@ -53,32 +52,30 @@ const AdminUsers = () => {
     );
 
   const rows = users.map((user) => (
-    <Table.Tr key={user.id}>
+    <Table.Tr key={user.id} className="text-secondary">
       <Table.Td>{user.fullName}</Table.Td>
       <Table.Td>{user.email}</Table.Td>
       <Table.Td>{user.username}</Table.Td>
+      <Table.Td>{user.position}</Table.Td>
       <Table.Td>{user.role}</Table.Td>
       <Table.Td>{user.status}</Table.Td>
-      <Table.Td>{user.location}</Table.Td>
-      <Table.Td>{user.contact}</Table.Td>
       <Table.Td>{new Date(user.last_login_at).toLocaleString()}</Table.Td>
     </Table.Tr>
   ));
 
   return (
     <div className="p-4">
-      <h1 className="text-2xl font-bold mb-4">All Users</h1>
+      <h1 className="text-2xl font-bold mb-4 text-primary">All Users</h1>
 
       <Table striped highlightOnHover>
         <Table.Thead>
-          <Table.Tr>
+          <Table.Tr className="text-primary">
             <Table.Th>Full Name</Table.Th>
             <Table.Th>Email</Table.Th>
             <Table.Th>Username</Table.Th>
+            <Table.Th>Expertise</Table.Th>
             <Table.Th>Role</Table.Th>
             <Table.Th>Status</Table.Th>
-            <Table.Th>Location</Table.Th>
-            <Table.Th>Contact</Table.Th>
             <Table.Th>Last Login</Table.Th>
           </Table.Tr>
         </Table.Thead>

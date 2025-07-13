@@ -13,6 +13,9 @@ export const ApiGetAllPost = () => GetRequest(`/post/all`);
 export const APIGetPostDetails = (slug: string) =>
   GetRequest(`/post/details/${slug}`);
 
+export const APIGetPostDetailsAuth = (slug: string) =>
+  GetRequest(`/post/details-auth/${slug}`);
+
 export const APIUpdateProduct = (id: string, data: any) =>
   PutRequest(`menu-item/update/${id}`, data);
 
@@ -23,3 +26,5 @@ export const ApiDeletePost = (id: string) => DeleteRequest(`/post/${id}`);
 
 export const ApiUpdatePost = (id: string, payload: any) =>
   PatchRequest(`/post/update/${id}`, payload);
+
+

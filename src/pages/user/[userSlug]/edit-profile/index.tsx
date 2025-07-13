@@ -19,18 +19,18 @@ import CommonButton from "@/components/common/CommonButton";
 // --- Validation schema -----------------------------------------------------
 const schema = z.object({
   fullName: z.string().min(2, "Name too short"),
-  location: z.string().min(2, "Location too short"),
-  contact: z.string().min(5, "Contact too short"),
+  username: z.string().min(2, "Username too short"),
   email: z.string().email("Invalid email"),
+  position: z.string().min(2, "Position too short"),
 });
 
 export type FormValues = z.infer<typeof schema>;
 
 const defaultValues: FormValues = {
   fullName: "",
-  location: "",
-  contact: "",
+  username: "",
   email: "",
+  position: "",
 };
 
 // ---------------------------------------------------------------------------
@@ -50,9 +50,9 @@ const EditProfile = () => {
         const { data } = await ApiGetMe();
         form.reset({
           fullName: data.fullName ?? "",
-          location: data.location ?? "",
-          contact: data.contact ?? "",
+          username: data.username ?? "",
           email: data.email ?? "",
+          position: data.position ?? "",
         });
       } catch (error: any) {
         showNotify(
@@ -94,51 +94,53 @@ const EditProfile = () => {
 
   // Render form -------------------------------------------------------------
   return (
-    <Container size="xs" mt="xl">
+    <section className="bg-light-bg pt-12 p-[12rem] pb-[15rem]">
       <Title order={3} mb="md">
         Edit Profile
       </Title>
 
-      <form onSubmit={form.handleSubmit(onSubmit)}>
-        <Stack>
-          <TextInput
-            label="Full Name"
-            placeholder="John Doe"
-            {...form.register("fullName")}
-            error={form.formState.errors.fullName?.message}
-          />
-          <TextInput
-            label="Contact"
-            placeholder="9812345678"
-            {...form.register("contact")}
-            error={form.formState.errors.contact?.message}
-          />
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="bg-light-bg flex flex-col gap-4"
+      >
+        <TextInput
+          label="Full Name"
+          placeholder="John Doe"
+          {...form.register("fullName")}
+          error={form.formState.errors.fullName?.message}
+        />
 
-          <TextInput
-            label="Email"
-            placeholder="Email"
-            {...form.register("email")}
-            error={form.formState.errors.email?.message}
-          />
+        <TextInput
+          label="Username"
+          placeholder="Edit your username"
+          {...form.register("username")}
+          error={form.formState.errors.username?.message}
+        />
 
-          <TextInput
-            label="Location"
-            placeholder="Kathmandu"
-            {...form.register("location")}
-            error={form.formState.errors.location?.message}
-          />
+        <TextInput
+          label="Expertise"
+          placeholder="9812345678"
+          {...form.register("position")}
+          error={form.formState.errors.position?.message}
+        />
 
-          <div className="flex gap-4">
-            <CommonButton label="Save Changes" type="submit" variant="light" />
-            <CommonButton
-              label="Cancel"
-              onClick={() => router.back()}
-              variant="light"
-            />
-          </div>
-        </Stack>
+        <TextInput
+          label="Email"
+          placeholder="Email"
+          {...form.register("email")}
+          error={form.formState.errors.email?.message}
+        />
+
+        <div className="flex gap-4">
+          <CommonButton
+            label="Cancel"
+            onClick={() => router.back()}
+            variant="light"
+          />
+          <CommonButton label="Save Changes" type="submit" variant="light" />
+        </div>
       </form>
-    </Container>
+    </section>
   );
 };
 

@@ -61,16 +61,6 @@ const UserPage = () => {
       {/* ────── header ────── */}
       <UserInfo userData={userData} isOwner={isOwner} />
 
-      {/* ────── add‑preferences button ────── */}
-      {isOwner && !hasPreferences && (
-        <div className="my-8 flex justify-center">
-          <CommonLink
-            linkLabel="Add Preferences"
-            link={`/user/${userSlug}/preferences`}
-          />
-        </div>
-      )}
-
       {/* ────── posts ────── */}
       <UserPostList userData={userData} isOwner={isOwner} />
     </div>

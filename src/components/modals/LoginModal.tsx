@@ -25,8 +25,12 @@ interface LoginForm {
 
 const LoginModal = ({
   openRegisterModal,
+  triggerOpen,
+  setTriggerOpen,
 }: {
   openRegisterModal: () => void;
+  triggerOpen?: boolean;
+  setTriggerOpen?: (val: boolean) => void;
 }) => {
   const [noTransitionOpened, setNoTransitionOpened] = useState(false);
   const router = useRouter();
@@ -60,7 +64,7 @@ const LoginModal = ({
         if (user?.role === "SUPER_ADMIN") {
           window.location.href = "/dashboard";
         } else if (user?.role === "USER") {
-          window.location.href = `/user/${user?.slug}`;
+          window.location.href = `/`;
         } else {
           console.log("Unknown role");
         }
@@ -77,6 +81,17 @@ const LoginModal = ({
     router.events.on("routeChangeStart", handleRouteStart);
     return () => router.events.off("routeChangeStart", handleRouteStart);
   }, [router.events]);
+
+  useEffect(() => {
+    if (triggerOpen !== undefined) {
+      setNoTransitionOpened(triggerOpen);
+    }
+  }, [triggerOpen]);
+
+  const closeModal = () => {
+    setNoTransitionOpened(false);
+    if (setTriggerOpen) setTriggerOpen(false);
+  };
 
   return (
     <>
@@ -106,15 +121,6 @@ const LoginModal = ({
           twoColumnLayout={false}
         />
       </Modal>
-
-      <Button
-        variant="transparent"
-        color="black"
-        size="compact-xl"
-        onClick={() => setNoTransitionOpened(true)}
-      >
-        <label className="font-normal">Sign In</label>
-      </Button>
     </>
   );
 };

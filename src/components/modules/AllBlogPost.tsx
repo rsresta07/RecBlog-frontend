@@ -36,8 +36,8 @@ const AllBlogPost = ({ limit }: any) => {
   }, []);
 
   return (
-    <section className="container mx-auto my-12">
-      <h2 className="text-2xl font-bold text-dark-font mb-4">All Blog Posts</h2>
+    <section className="container mx-auto py-12">
+      <h2 className="text-2xl font-bold text-primary mb-4">All Blog Posts</h2>
 
       <section className={`grid grid-cols-12 gap-8`}>
         {loading ? (
@@ -48,7 +48,10 @@ const AllBlogPost = ({ limit }: any) => {
           </div>
         ) : (
           currentPosts?.slice(0, limit)?.map((post) => (
-            <div key={post?.id} className="col-span-12 sm:col-span-6 md:col-span-4 lg:col-span-4">
+            <div
+              key={post?.id}
+              className="col-span-12 sm:col-span-6 md:col-span-4 lg:col-span-4 transform transition-transform duration-300 hover:scale-[1.05]"
+            >
               <CommonBlogList post={post} />
             </div>
           ))

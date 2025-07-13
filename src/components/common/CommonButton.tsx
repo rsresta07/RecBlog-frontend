@@ -28,15 +28,15 @@ const CommonButton = ({
   size = "md",
   type = "button",
   fullWidth = true,
-  color = "grape",
+  color = "primary-color",
   ...props
 }: ButtonProps) => {
   return (
     <Button
       onClick={onClick}
       fullWidth={fullWidth}
-      className="shadow-lg"
-      color="primary-btn"
+      className="shadow-lg hover:bg-secondary transition-colors duration-300"
+      color={color}
       variant={variant}
       radius={radius}
       size={size}

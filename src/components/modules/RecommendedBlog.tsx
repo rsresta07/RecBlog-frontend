@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
 import { Pagination } from "@mantine/core";
-import { ApiGetPost } from "@/api/blog";
 import CommonBlogList from "@/components/common/CommonBlogList";
 import { useRouter } from "next/router";
+import { useAuth } from "@/utils/hooks/useAuth"; // <-- import useAuth
+import { APIGetRawRecommendedPosts } from "@/api/recommendation";
 
 function chunk<T>(array: T[], size: number): T[][] {
   return array.length
@@ -10,7 +11,7 @@ function chunk<T>(array: T[], size: number): T[][] {
     : [];
 }
 
-const PostPagination = () => {
+const RecommendedBlog = () => {
   const itemsPerPage = 6;
   const [loading, setLoading] = useState(false);
   const [activePage, setPage] = useState(1);
@@ -18,13 +19,22 @@ const PostPagination = () => {
   const [postData, setPostData] = useState<any[]>([]);
   const paginatedPosts = chunk(postData, itemsPerPage);
   const currentPosts = paginatedPosts[activePage - 1] || [];
+
   const router = useRouter();
+  const { user } = useAuth(); // <-- get logged-in user
+  const userId = user?.id;
 
   const fetchData = async () => {
     setLoading(true);
     try {
-      const response = await ApiGetPost();
-      setPostData(response?.data);
+      const response = await APIGetRawRecommendedPosts();
+      const allPosts = response?.data || [];
+
+      const filteredPosts = userId
+        ? allPosts.filter((post: any) => post.user?.id !== userId)
+        : allPosts;
+
+      setPostData(filteredPosts);
     } catch (error) {
       console.error("Failed to fetch:", error);
     }
@@ -39,10 +49,12 @@ const PostPagination = () => {
     return () => clearTimeout(timeout);
   }, [router.isReady, activePage]);
 
+  if (!postData.length && !loading) return null;
+
   return (
     <main className="container mx-auto my-[6rem]">
       <h2 className="text-4xl font-bold text-primary mb-[2rem]">
-        All Blog Posts
+        Recommended For You
       </h2>
       <section>
         <section className="grid grid-cols-12 gap-8">
@@ -70,4 +82,4 @@ const PostPagination = () => {
   );
 };
 
-export default PostPagination;
+export default RecommendedBlog;

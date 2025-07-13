@@ -8,119 +8,106 @@ import { SubmitHandler } from "react-hook-form";
 import { setCookie } from "cookies-next";
 import { ApiRegister } from "@/api/auth";
 import showNotify from "@/utils/notify";
+import { useAuth } from "@/utils/hooks/useAuth";
 
+// Validation Schema
 const schema = z
   .object({
-    username: z.string().min(1, "Username is required"),
     fullName: z.string().min(1, "Full name is required"),
-    email: z.string().email("Email not valid"),
+    email: z.string().email("Invalid email address"),
     password: z
       .string()
-      .min(6, "Password must be at least 6 characters long")
-      .regex(/[A-Za-z]/, "Password should contain at least one letter")
-      .regex(/[0-9]/, "Password should contain at least one number"),
+      .min(6, "Password must be at least 6 characters")
+      .regex(/[A-Za-z]/, "Password must contain at least one letter")
+      .regex(/[0-9]/, "Password must contain at least one number"),
     confirmPassword: z.string(),
-    contact: z.string().min(10, "Contact must be at least 10 digits"),
-    location: z.string().min(1, "Location is required"),
+    position: z.string().min(1, "Expertise is required"),
   })
   .refine((data) => data.password === data.confirmPassword, {
     message: "Passwords do not match",
     path: ["confirmPassword"],
   });
 
-interface RegisterForm {
-  username: string;
-  fullName: string;
-  email: string;
-  password: string;
-  confirmPassword: string;
-  contact: string;
-  location: string;
-}
+// Form Type
+interface RegisterForm extends z.infer<typeof schema> {}
 
 const RegisterModal = ({ openLoginModal }: { openLoginModal: () => void }) => {
   const [noTransitionOpened, setNoTransitionOpened] = useState(false);
   const router = useRouter();
+  const { refreshUser } = useAuth();
 
+  // Input Fields
   const fields = [
-    {
-      name: "username",
-      label: "Username",
-      placeholder: "Enter username",
-      autoComplete: "off",
-    },
     {
       name: "fullName",
       label: "Full Name",
-      placeholder: "Enter full name",
+      placeholder: "Enter your full name",
       autoComplete: "off",
     },
     {
       name: "email",
       label: "Email",
-      placeholder: "Your email (e.g. myemail@gmail.com)",
+      placeholder: "your@email.com",
     },
     {
-      name: "contact",
-      label: "Contact",
-      placeholder: "Mobile number (e.g. +977-9812345678)",
-    },
-    {
-      name: "location",
-      label: "Location",
-      placeholder: "Your location (e.g. London)",
+      name: "position",
+      label: "Expertise",
+      placeholder: "e.g., Web Developer",
     },
     {
       name: "password",
       label: "Password",
-      placeholder: "Password",
+      placeholder: "Create password",
       type: "password",
       autoComplete: "new-password",
     },
     {
       name: "confirmPassword",
       label: "Confirm Password",
-      placeholder: "Confirm password",
+      placeholder: "Re-enter password",
       type: "password",
       autoComplete: "new-password",
     },
   ];
 
-  const handleSubmit: SubmitHandler<RegisterForm> = async (data) => {
+  // Submit handler
+  const handleSubmit: SubmitHandler<RegisterForm> = async (formData) => {
     try {
       const payload = {
-        ...data,
+        fullName: formData.fullName.trim(),
+        email: formData.email.trim(),
+        password: formData.password.trim(),
+        position: formData.position.trim(),
         role: "USER",
         status: "APPROVED",
       };
 
       const res = await ApiRegister(payload);
-      console.log(res);
 
       if (res?.data?.id) {
         const user = {
-          id: res?.data?.id,
-          email: res?.data?.email,
-          slug: res?.data?.slug,
-          role: res?.data?.role,
+          id: res?.data.id,
+          email: res?.data.email,
+          slug: res?.data.slug,
+          role: res?.data.role,
         };
 
-        setCookie("token", res?.data?.token);
+        setCookie("token", res?.data.token);
         setCookie("user", JSON.stringify(user));
 
+        refreshUser?.();
         setNoTransitionOpened(false);
-        // openLoginModal();
-        window.location.href = `/user/${user?.slug}`;
+        router.push(`/user/${user.slug}`);
       } else {
-        showNotify("fail", "Unknown error, try again later.");
+        showNotify("fail", "Something went wrong. Please try again.");
       }
     } catch (error: any) {
       const code = error?.response?.data?.statusCode ?? error?.response?.status;
-      const message = error?.response?.data?.message || "Something went wrong";
+      const message = error?.response?.data?.message || "Unexpected error";
 
       if (code === 409) {
-        showNotify("fail", "Account already exists — please log in.");
-        openLoginModal(); // jump to login modal
+        showNotify("fail", "Account already exists. Please log in.");
+        openLoginModal();
       } else {
         showNotify("fail", message);
       }
@@ -134,7 +121,7 @@ const RegisterModal = ({ openLoginModal }: { openLoginModal: () => void }) => {
         onClose={() => setNoTransitionOpened(false)}
         title="Sign Up Now"
         centered
-        size={"lg"}
+        size="lg"
         transitionProps={{
           transition: "fade",
           duration: 600,
@@ -147,7 +134,7 @@ const RegisterModal = ({ openLoginModal }: { openLoginModal: () => void }) => {
           validationSchema={zodResolver(schema)}
           buttonText="Register"
           showCheckbox={true}
-          footerLinkText="Have an account?"
+          footerLinkText="Already have an account?"
           footerLinkLabel="Login"
           footerLinkAction={() => {
             setNoTransitionOpened(false);
@@ -163,7 +150,9 @@ const RegisterModal = ({ openLoginModal }: { openLoginModal: () => void }) => {
         size="compact-xl"
         onClick={() => setNoTransitionOpened(true)}
       >
-        <label className="font-normal">Sign Up</label>
+        <label className="font-normal text-primary hover:underline decoration-secondary decoration-4 underline-offset-4 transition-all duration-300">
+          Sign Up
+        </label>
       </Button>
     </>
   );

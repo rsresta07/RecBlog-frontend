@@ -19,7 +19,7 @@ const HeroLayout: React.FC<LayoutProps> = ({ children }) => {
     // <Provider store={store}>
     <main className={poppins.className}>
       <Header />
-      <section>{children}</section>
+      <section className="bg-light-bg">{children}</section>
       <Footer />
     </main>
     // </Provider>
