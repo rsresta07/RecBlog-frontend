@@ -9,12 +9,23 @@ import { setCookie } from "cookies-next";
 import { ApiRegister } from "@/api/auth";
 import showNotify from "@/utils/notify";
 import { useAuth } from "@/utils/hooks/useAuth";
+import LoginModal from "./LoginModal";
+import PasswordInputWithStrength from "../common/PasswordInputWithStrength";
 
 // Validation Schema
 const schema = z
   .object({
-    fullName: z.string().min(1, "Full name is required"),
-    email: z.string().email("Invalid email address"),
+    fullName: z
+      .string()
+      .min(1, "Full name is required")
+      .regex(/^[^\d]*$/, "Full name should not contain numbers"),
+    email: z
+      .string()
+      .email("Invalid email address")
+      .refine((val) => !/^\d/.test(val), {
+        message: "Email should not start with a number",
+      }),
+
     password: z
       .string()
       .min(6, "Password must be at least 6 characters")
@@ -35,40 +46,44 @@ const RegisterModal = ({ openLoginModal }: { openLoginModal: () => void }) => {
   const [noTransitionOpened, setNoTransitionOpened] = useState(false);
   const router = useRouter();
   const { refreshUser } = useAuth();
+  const [showLogin, setShowLogin] = useState(false);
 
   // Input Fields
   const fields = [
-    {
-      name: "fullName",
-      label: "Full Name",
-      placeholder: "Enter your full name",
-      autoComplete: "off",
-    },
-    {
-      name: "email",
-      label: "Email",
-      placeholder: "your@email.com",
-    },
-    {
-      name: "position",
-      label: "Expertise",
-      placeholder: "e.g., Web Developer",
-    },
-    {
-      name: "password",
-      label: "Password",
-      placeholder: "Create password",
-      type: "password",
-      autoComplete: "new-password",
-    },
-    {
-      name: "confirmPassword",
-      label: "Confirm Password",
-      placeholder: "Re-enter password",
-      type: "password",
-      autoComplete: "new-password",
-    },
-  ];
+  {
+    name: "fullName",
+    label: "Full Name",
+    placeholder: "Enter your full name",
+    autoComplete: "off",
+  },
+  {
+    name: "email",
+    label: "Email",
+    placeholder: "your@email.com",
+  },
+  {
+    name: "position",
+    label: "Expertise",
+    placeholder: "e.g., Web Developer",
+  },
+  {
+    name: "password",
+    render: () => (
+      <PasswordInputWithStrength
+        name="password"
+        label="Password"
+        placeholder="Create a password"
+      />
+    ),
+  },
+  {
+    name: "confirmPassword",
+    label: "Confirm Password",
+    type: "password",
+    placeholder: "Re-enter password",
+    autoComplete: "new-password",
+  },
+];
 
   // Submit handler
   const handleSubmit: SubmitHandler<RegisterForm> = async (formData) => {
@@ -85,19 +100,9 @@ const RegisterModal = ({ openLoginModal }: { openLoginModal: () => void }) => {
       const res = await ApiRegister(payload);
 
       if (res?.data?.id) {
-        const user = {
-          id: res?.data.id,
-          email: res?.data.email,
-          slug: res?.data.slug,
-          role: res?.data.role,
-        };
-
-        setCookie("token", res?.data.token);
-        setCookie("user", JSON.stringify(user));
-
-        refreshUser?.();
-        setNoTransitionOpened(false);
-        router.push(`/user/${user.slug}`);
+        showNotify("success", "Registration successful. Please log in.");
+        setNoTransitionOpened(false); // close register
+        setShowLogin(true); // open login modal
       } else {
         showNotify("fail", "Something went wrong. Please try again.");
       }
@@ -138,7 +143,7 @@ const RegisterModal = ({ openLoginModal }: { openLoginModal: () => void }) => {
           footerLinkLabel="Login"
           footerLinkAction={() => {
             setNoTransitionOpened(false);
-            openLoginModal();
+            setShowLogin(true);
           }}
           twoColumnLayout={true}
         />
@@ -154,6 +159,12 @@ const RegisterModal = ({ openLoginModal }: { openLoginModal: () => void }) => {
           Sign Up
         </label>
       </Button>
+
+      <LoginModal
+        triggerOpen={showLogin}
+        setTriggerOpen={setShowLogin}
+        openRegisterModal={() => setNoTransitionOpened(true)}
+      />
     </>
   );
 };

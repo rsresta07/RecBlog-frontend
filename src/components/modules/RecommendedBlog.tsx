@@ -3,7 +3,10 @@ import { Pagination } from "@mantine/core";
 import CommonBlogList from "@/components/common/CommonBlogList";
 import { useRouter } from "next/router";
 import { useAuth } from "@/utils/hooks/useAuth"; // <-- import useAuth
-import { APIGetRawRecommendedPosts } from "@/api/recommendation";
+import {
+  APIFinalRecommendedPosts,
+  APIGetRawRecommendedPosts,
+} from "@/api/recommendation";
 
 function chunk<T>(array: T[], size: number): T[][] {
   return array.length
@@ -27,7 +30,7 @@ const RecommendedBlog = () => {
   const fetchData = async () => {
     setLoading(true);
     try {
-      const response = await APIGetRawRecommendedPosts();
+      const response = await APIFinalRecommendedPosts();
       const allPosts = response?.data || [];
 
       const filteredPosts = userId
