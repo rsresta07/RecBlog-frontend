@@ -1,22 +1,14 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
-import {
-  TextInput,
-  Button,
-  Group,
-  Loader,
-  Container,
-  Stack,
-  Title,
-} from "@mantine/core";
+import { TextInput, Group, Loader, Title } from "@mantine/core";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { ApiGetMe, ApiUpdateMe } from "@/api/user";
 import showNotify from "@/utils/notify";
 import CommonButton from "@/components/common/CommonButton";
 
-// --- Validation schema -----------------------------------------------------
+// Validation schema
 const schema = z.object({
   fullName: z.string().min(2, "Name too short"),
   username: z.string().min(2, "Username too short"),
@@ -33,7 +25,6 @@ const defaultValues: FormValues = {
   position: "",
 };
 
-// ---------------------------------------------------------------------------
 const EditProfile = () => {
   const router = useRouter();
   const [loading, setLoading] = useState(true);
@@ -43,7 +34,7 @@ const EditProfile = () => {
     defaultValues,
   });
 
-  // Fetch current user data on mount ---------------------------------------
+  // Fetch current user data on mount
   useEffect(() => {
     (async () => {
       try {
@@ -63,10 +54,9 @@ const EditProfile = () => {
         setLoading(false);
       }
     })();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // Handle submit -----------------------------------------------------------
+  // Handle submit
   const onSubmit = async (values: FormValues) => {
     setLoading(true);
     try {
@@ -83,7 +73,7 @@ const EditProfile = () => {
     }
   };
 
-  // Loading indicator while fetching ---------------------------------------
+  // Loading indicator while fetching
   if (loading) {
     return (
       <Group mt="xl">
@@ -92,7 +82,7 @@ const EditProfile = () => {
     );
   }
 
-  // Render form -------------------------------------------------------------
+  // Render form
   return (
     <section className="bg-light-bg pt-12 p-[12rem] pb-[15rem]">
       <Title order={3} mb="md">
@@ -119,7 +109,7 @@ const EditProfile = () => {
 
         <TextInput
           label="Expertise"
-          placeholder="9812345678"
+          placeholder="Web Developer"
           {...form.register("position")}
           error={form.formState.errors.position?.message}
         />
