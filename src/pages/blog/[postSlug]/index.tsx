@@ -8,7 +8,6 @@ import {
   ApiGetPost,
   APIGetPostDetails,
   APIGetPostDetailsAuth,
-  APIGetRecommendedPosts,
 } from "@/api/blog";
 import {
   APIFollowUser,
@@ -34,6 +33,7 @@ import { ActionIcon, Button } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { truncateHTML } from "@/utils/helpers/helpers";
 import LoginModal from "@/components/modals/LoginModal";
+import { APIGetRecommendedPosts } from "@/api/recommendation";
 
 const PostDetail = () => {
   const router = useRouter();
