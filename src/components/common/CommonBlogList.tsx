@@ -1,10 +1,13 @@
 import Link from "next/link";
 import Image from "next/image";
+import SidebarSkeleton from "./CommonListSkeleton";
 
-const CommonBlogList = ({ post }: any) => {
+const CommonBlogList = ({ post, loading }: any) => {
+  if (loading || !post) return <SidebarSkeleton />;
+
   return (
     <div
-      className={`col-span-4 grid grid-row-2 gap-4 bg-light-bg p-2 rounded-lg`}
+      className={`col-span-4 grid grid-row-2 gap-4 bg-light-bg p-2 rounded-lg `}
       key={post?.id}
     >
       <Link href={`/blog/${post?.slug}`}>
@@ -27,7 +30,7 @@ const CommonBlogList = ({ post }: any) => {
           {/*<Link href={`#`}>{post?.date}</Link>*/}
         </span>
         <Link href={`/blog/${post?.slug}`}>
-          <h3 className={`text-xl line-clamp-1 text-primary font-bold`}>
+          <h3 className={`text-lg line-clamp-1 text-primary font-bold`}>
             {post?.title}
           </h3>
           <p

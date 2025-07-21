@@ -23,6 +23,7 @@ import {
 import { useEffect, useState, useCallback } from "react";
 import CommonButton from "@/components/common/CommonButton";
 import {
+  IconChevronDown,
   IconHeart,
   IconHeartFilled,
   IconMessage,
@@ -31,9 +32,34 @@ import {
 import ShareModal from "@/components/modals/ShareModal";
 import { ActionIcon, Button } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
-import { truncateHTML } from "@/utils/helpers/helpers";
 import LoginModal from "@/components/modals/LoginModal";
 import { APIGetRecommendedPosts } from "@/api/recommendation";
+
+const PostSkeleton = () => (
+  <section className="col-span-8 flex flex-col gap-4 animate-pulse">
+    <div className="h-8 bg-gray-300 rounded w-3/4" />
+    <div className="h-4 bg-gray-200 rounded w-1/2" />
+    <div className="h-64 bg-gray-300 rounded" />
+    <div className="h-4 bg-gray-200 rounded w-full" />
+    <div className="h-4 bg-gray-200 rounded w-5/6" />
+    <div className="h-4 bg-gray-200 rounded w-3/4" />
+    <div className="h-4 bg-gray-200 rounded w-2/4" />
+  </section>
+);
+
+const SidebarSkeleton = () => (
+  <aside className="col-span-4 space-y-4 animate-pulse">
+    <div className="h-6 bg-gray-300 w-1/2 rounded" />
+    {[...Array(4)].map((_, i) => (
+      <div key={i} className="mb-8 flex flex-col">
+        <div className="h-[14rem] bg-gray-200 rounded mb-2" />
+        <div className="h-4 bg-gray-200 rounded mb-1" />
+        <div className="h-10 bg-gray-200 rounded mb-4" />
+        <div className="h-6 bg-gray-200 rounded mb-2" />
+      </div>
+    ))}
+  </aside>
+);
 
 const PostDetail = () => {
   const router = useRouter();
@@ -204,200 +230,216 @@ const PostDetail = () => {
 
   return (
     <main className="container mx-auto grid grid-cols-12 gap-16 pt-16">
-      <section className="col-span-8 flex flex-col gap-4">
-        {/* Title + tags */}
-        <header className="flex items-start justify-between gap-8">
-          <h1 className="text-4xl font-bold text-primary">{details?.title}</h1>
+      {!details ? (
+        <PostSkeleton />
+      ) : (
+        <section className="col-span-8 flex flex-col gap-4">
+          {/* Title + tags */}
+          <header className="flex items-start justify-between gap-8">
+            <h1 className="text-2xl font-bold text-primary">
+              {details?.title}
+            </h1>
 
-          <div className="flex justify-end flex-1">
-            <div
-              className={`flex flex-wrap max-w-[200px] ${details?.tags?.length <= 2 ? "whitespace-nowrap" : ""}`}
-            >
-              {details?.tags?.slice(0, 3).map((t: any) => (
-                <span
-                  key={t.id}
-                  className="px-2 bg-secondary rounded-lg text-[#fefe] m-1 w-fit"
-                >
-                  <Link href="#">{t.title}</Link>
-                </span>
-              ))}
-            </div>
-          </div>
-        </header>
-
-        {/* author + follow */}
-        <div className="flex gap-8">
-          <div className="flex items-end gap-2 text-slate-700">
-            <p className="text-primary text-xl">
-              {details?.user && (
-                <Link href={`/user/${details.user.username}`}>
-                  {details?.user?.fullName}
-                </Link>
-              )}
-            </p>
-            <p className="text-secondary">{details?.user?.position}</p>
-          </div>
-          <div>
-            {/* Follow button - hide if current user is author */}
-            {user?.id !== details?.user?.id && (
-              <CommonButton
-                label={isFollowing ? "Following" : "Follow"}
-                onClick={handleFollowToggle}
-                radius="lg"
-                size="xs"
-                color="#F28F3B"
-              />
-            )}
-          </div>
-        </div>
-
-        <hr />
-
-        {/* {likeCommentSection()} */}
-
-        {/* image + content */}
-        <section className="flex flex-col gap-8">
-          {details?.image && (
-            <Image
-              src={details.image}
-              alt={details.title || "Blog Post Image"}
-              width={1024}
-              height={1024}
-              className="w-full object-contain rounded-lg"
-              priority
-            />
-          )}
-
-          {!user && !showFullContent ? (
-            <div className="relative rounded-lg overflow-hidden bg-light-bg">
-              <div className="max-h-[50rem] overflow-hidden relative">
-                <div
-                  className="prose max-w-none"
-                  dangerouslySetInnerHTML={{ __html: details?.content }}
-                />
-                <div
-                  className="absolute bottom-0 left-0 right-0 h-[12rem] backdrop-blur-sm pointer-events-none"
-                  style={{
-                    background:
-                      "linear-gradient(to top, rgba(241, 242, 246, 1), rgba(241, 242, 246, 0.6), transparent)",
-                  }}
-                />
-              </div>
-              <div className="flex justify-center pt-4">
-                <Button
-                  onClick={() => setShowLoginModal(true)}
-                  variant="outline"
-                >
-                  Show more
-                </Button>
-              </div>
-            </div>
-          ) : (
-            <div
-              className="prose max-w-none"
-              dangerouslySetInnerHTML={{ __html: details?.content }}
-            />
-          )}
-
-          <LoginModal
-            openRegisterModal={() => {}}
-            triggerOpen={showLoginModal}
-            setTriggerOpen={setShowLoginModal}
-          />
-        </section>
-
-        {/* comments */}
-        <section className="flex flex-col gap-4 mt-12" id="comment-section">
-          {isLoggedIn && likeCommentSection()}
-
-          {(isLoggedIn || comments.length > 0) && ( // show nothing if guest & 0 comments
-            <>
-              <h3 className="text-xl font-semibold text-secondary">Comments</h3>
-
-              {isLoggedIn && (
-                <>
-                  <textarea
-                    className="w-full border rounded p-2"
-                    rows={4}
-                    placeholder="Write your comment..."
-                    value={newComment}
-                    onChange={(e) => setNewComment(e.target.value)}
-                  />
-                  <Button
-                    onClick={handleCommentSubmit}
-                    disabled={!newComment.trim()}
+            <div className="flex justify-end flex-1">
+              <div
+                className={`flex flex-wrap max-w-[200px] ${details?.tags?.length <= 2 ? "whitespace-nowrap" : ""}`}
+              >
+                {details?.tags?.slice(0, 3).map((t: any) => (
+                  <span
+                    key={t.id}
+                    className="px-2 text-sm bg-secondary rounded-lg text-[#fefe] m-1 w-fit"
                   >
-                    Submit Comment
-                  </Button>
-                </>
+                    <Link href="#">{t.title}</Link>
+                  </span>
+                ))}
+              </div>
+            </div>
+          </header>
+
+          {/* author + follow */}
+          <div className="flex gap-8">
+            <div className="flex items-end gap-2 text-slate-700">
+              <p className="text-primary">
+                {details?.user && (
+                  <Link href={`/user/${details.user.username}`}>
+                    <span className="text-lg">{details?.user?.fullName}</span>
+                    <span className="text-sm">{details?.user?.position}</span>
+                  </Link>
+                )}
+              </p>
+              <p className="text-secondary">{details?.user?.position}</p>
+            </div>
+            <div>
+              {/* Follow button - hide if current user is author */}
+              {user?.id !== details?.user?.id && (
+                <CommonButton
+                  label={isFollowing ? "Following" : "Follow"}
+                  onClick={handleFollowToggle}
+                  radius="lg"
+                  size="xs"
+                  color="#F28F3B"
+                />
               )}
+            </div>
+          </div>
 
-              {comments.length > 0 && (
-                <div className="space-y-4 max-h-64 overflow-y-auto border p-4 rounded-lg bg-white shadow-sm">
-                  {comments.map((c) => (
-                    <div key={c.id} className="border-b pb-2 last:border-b-0">
-                      <p className="font-semibold">
-                        {c.user?.fullName || "Anonymous"}
-                      </p>
-                      <p>{c.content}</p>
-                      <small className="text-gray-500">
-                        {new Date(c.createdAt).toLocaleString()}
-                      </small>
-                    </div>
-                  ))}
-                </div>
-              )}
-            </>
-          )}
-        </section>
-      </section>
+          <hr />
 
-      {/* recommended posts */}
-      <aside className="col-span-4">
-        <h2 className="text-2xl font-bold text-primary mb-4">
-          {user ? "Recommended for you" : "Recent blog posts"}
-        </h2>
+          {/* {likeCommentSection()} */}
 
-        {recommendedPosts.length === 0 && <p>No posts available.</p>}
-
-        {recommendedPosts.slice(0, 8).map((p) => (
-          <article key={p.id} className="mb-8">
-            <Link href={`/blog/${p.slug}`}>
+          {/* image + content */}
+          <section className="flex flex-col gap-8">
+            {details?.image && (
               <Image
-                src={p.image}
-                alt={p.title || "Blog Post Image"}
+                src={details.image}
+                alt={details.title || "Blog Post Image"}
                 width={1024}
                 height={1024}
-                className="h-56 object-cover rounded-lg"
+                className="w-full object-contain rounded-lg"
+                priority
               />
-            </Link>
-            <div>
-              <span className="text-primary text-sm">
-                {p.user && (
-                  <Link href={`/user/${p.user.slug}`}>{p.user.fullName}</Link>
-                )}
-              </span>
-              <Link href={`/blog/${p.slug}`}>
-                <h3 className="text-xl text-primary font-bold line-clamp-1">
-                  {p.title}
+            )}
+
+            {!user && !showFullContent ? (
+              <div className="relative rounded-lg overflow-hidden bg-light-bg">
+                <div className="max-h-[50rem] overflow-hidden relative">
+                  <div
+                    className="prose max-w-none"
+                    dangerouslySetInnerHTML={{ __html: details?.content }}
+                  />
+                  <div
+                    className="absolute bottom-0 left-0 right-0 h-[12rem] backdrop-blur-sm pointer-events-none"
+                    style={{
+                      background:
+                        "linear-gradient(to top, rgba(241, 242, 246, 1), rgba(241, 242, 246, 0.6), transparent)",
+                    }}
+                  />
+                </div>
+                <div className="flex justify-center pt-4">
+                  <Button
+                    onClick={() => setShowLoginModal(true)}
+                    variant="transparent"
+                  >
+                    Show more <IconChevronDown stroke={2} />
+                  </Button>
+                </div>
+              </div>
+            ) : (
+              <div
+                className="prose max-w-none"
+                dangerouslySetInnerHTML={{ __html: details?.content }}
+              />
+            )}
+
+            <LoginModal
+              openRegisterModal={() => {}}
+              triggerOpen={showLoginModal}
+              setTriggerOpen={setShowLoginModal}
+            />
+          </section>
+
+          {/* comments */}
+          <section className="flex flex-col gap-4 mt-12" id="comment-section">
+            {isLoggedIn && likeCommentSection()}
+
+            {(isLoggedIn || comments.length > 0) && ( // show nothing if guest & 0 comments
+              <>
+                <h3 className="text-xl font-semibold text-secondary">
+                  Comments
                 </h3>
-                <p
-                  dangerouslySetInnerHTML={{ __html: p.content }}
-                  className="mb-4 line-clamp-2 text-sm"
+
+                {isLoggedIn && (
+                  <>
+                    <textarea
+                      className="w-full border rounded p-2"
+                      rows={4}
+                      placeholder="Write your comment..."
+                      value={newComment}
+                      onChange={(e) => setNewComment(e.target.value)}
+                    />
+                    <Button
+                      onClick={handleCommentSubmit}
+                      disabled={!newComment.trim()}
+                    >
+                      Submit Comment
+                    </Button>
+                  </>
+                )}
+
+                {comments.length > 0 && (
+                  <div className="space-y-4 max-h-64 overflow-y-auto border p-4 rounded-lg bg-white shadow-sm">
+                    {comments.map((c) => (
+                      <div key={c.id} className="border-b pb-2 last:border-b-0">
+                        <p className="font-semibold">
+                          {c.user?.fullName || "Anonymous"}
+                        </p>
+                        <p>{c.content}</p>
+                        <small className="text-gray-500">
+                          {new Date(c.createdAt).toLocaleString()}
+                        </small>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </>
+            )}
+          </section>
+        </section>
+      )}
+
+      {/* recommended posts */}
+      {recommendedPosts.length === 0 ? (
+        <SidebarSkeleton />
+      ) : (
+        <aside className="col-span-4">
+          <h2 className="text-xl font-bold text-primary mb-4">
+            {user ? "Recommended for you" : "Recent blog posts"}
+          </h2>
+
+          {recommendedPosts.length === 0 && <p>No posts available.</p>}
+
+          {recommendedPosts.slice(0, 8).map((p) => (
+            <article
+              key={p.id}
+              className="mb-8 transform transition-transform duration-300 hover:scale-[1.05]"
+            >
+              <Link href={`/blog/${p.slug}`}>
+                <Image
+                  src={p.image}
+                  alt={p.title || "Blog Post Image"}
+                  width={1024}
+                  height={1024}
+                  className="h-56 object-cover rounded-lg"
                 />
               </Link>
-              {p.tags?.map((t: any) => (
-                <span
-                  key={t.id}
-                  className="text-sm px-2 bg-secondary rounded-lg text-[#fefe] m-1"
-                >
-                  <Link href="#">{t.title}</Link>
+              <div>
+                <span className="text-primary text-sm">
+                  {p.user && (
+                    <Link href={`/user/${p.user.slug}`}>{p.user.fullName}</Link>
+                  )}
                 </span>
-              ))}
-            </div>
-          </article>
-        ))}
-      </aside>
+                <Link href={`/blog/${p.slug}`}>
+                  <h3 className="text-lg text-primary font-bold line-clamp-1">
+                    {p.title}
+                  </h3>
+                  <p
+                    dangerouslySetInnerHTML={{ __html: p.content }}
+                    className="mb-4 line-clamp-2 text-sm"
+                  />
+                </Link>
+                {p.tags?.map((t: any) => (
+                  <span
+                    key={t.id}
+                    className="text-sm px-2 bg-secondary rounded-lg text-[#fefe] m-1"
+                  >
+                    <Link href="#">{t.title}</Link>
+                  </span>
+                ))}
+              </div>
+            </article>
+          ))}
+        </aside>
+      )}
     </main>
   );
 };

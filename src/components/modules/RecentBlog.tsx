@@ -27,7 +27,7 @@ const BlogPostVertical = ({ post }: any) => {
           {/*- {post.date}*/}
         </span>
         <Link href={`/blog/${post?.slug}`}>
-          <h3 className="text-2xl font-bold line-clamp-2 text-primary">
+          <h3 className="text-lg font-bold line-clamp-2 text-primary">
             {post?.title}
           </h3>
           <p
@@ -70,7 +70,7 @@ const BlogPostHorizontal = ({ post, imageHeight }: any) => {
           {/*- {post.date}*/}
         </span>
         <Link href={`/blog/${post?.slug}`}>
-          <h3 className="text-2xl font-bold line-clamp-1 text-primary">
+          <h3 className="text-lg font-bold line-clamp-1 text-primary">
             {post?.title}
           </h3>
           <p
