@@ -85,7 +85,7 @@ NEXT_PUBLIC_CLOUDINARY_PRESET = YOUR_CLOUDINARY_PRESET
 
 ## Project Structure
 
-Inside the src/ there is multiple folder so below is the brief explaination of it.
+Inside the src/ there is multiple folder so below is the brief explanation of it.
 
 ```bash
 src/
@@ -140,7 +140,7 @@ One of the main reason why I wanted to create a complete simple production ready
 
 So enough chitchat and lets go deeper into this project in which I know i have messed up a lot of things.
 
-For detailed developer notes, see [docs/developer-notes.md](./docs/developer-notes.md)
+<!-- For detailed developer notes, see [docs/developer-notes.md](./docs/developer-notes.md) -->
 
 ## Developer Notes
 
