@@ -16,23 +16,18 @@ import {
 } from "@mantine/spotlight";
 import { IconSearch } from "@tabler/icons-react";
 import { ApiGetPost } from "@/api/blog";
-import CommonLink from "./CommonLink";
 import { Button, TextInput } from "@mantine/core";
 
 export default function CommonHeader() {
-  // State
   const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const [actions, setActions] = useState<SpotlightActionData[]>([]);
-
-  // auth
-  const { user, logout } = useAuth();
-
-  // router
-  const router = useRouter();
   const [showLoginModal, setShowLoginModal] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
 
-  // modals ctl
+  const { user, logout } = useAuth();
+  const router = useRouter();
+
   const openRegisterModal = () => {
     setIsRegisterModalOpen(true);
     setIsLoginModalOpen(false);
@@ -43,8 +38,6 @@ export default function CommonHeader() {
     setIsRegisterModalOpen(false);
   };
 
-  // TODO: remove this
-  // fun Easter-egg rickroll
   const rickroll = () =>
     window.open(
       "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
@@ -52,7 +45,6 @@ export default function CommonHeader() {
       "noopener,noreferrer"
     );
 
-  // global hotkeys
   function GlobalHotkeys() {
     useHotkeys([
       ["mod+K", () => spotlight.open()],
@@ -61,52 +53,40 @@ export default function CommonHeader() {
     return null;
   }
 
-  // build spotlight actions
+  async function loadData() {
+    const { data: blogPosts } = await ApiGetPost();
+
+    const actions: SpotlightActionData[] = blogPosts?.map((post: any) => ({
+      id: post.id,
+      label: post.title,
+      onClick: () => router.push(`/blog/${post.slug}`), // actually navigate
+      component: () => (
+        <div
+          onClick={() => router.push(`/blog/${post.slug}`)}
+          className="flex items-center gap-4 p-3 hover:bg-gray-100 rounded cursor-pointer"
+        >
+          <img
+            src={post.image}
+            alt={post.title}
+            className="w-12 h-12 object-cover rounded"
+          />
+          <div className="flex flex-col">
+            <span className="font-medium text-sm">{post.title}</span>
+            <span className="text-xs text-gray-500 line-clamp-2">
+              {post.content
+                ?.replace(/<[^>]+>/g, "")
+                .slice(0, 100)
+                .trim() + "…"}
+            </span>
+          </div>
+        </div>
+      ),
+    }));
+
+    setActions(actions); // ← ✅ this was missing!
+  }
+
   useEffect(() => {
-    async function loadData() {
-      // Blog posts (no slice)
-      let postActions: SpotlightActionData[] = [];
-      try {
-        const { data: posts } = await ApiGetPost(); // grab “all”
-        if (Array.isArray(posts)) {
-          postActions = posts.map((blog: any) => ({
-            id: blog?.id ?? blog?.slug,
-            label: blog?.title,
-            description:
-              (blog?.content?.replace(/<[^>]+>/g, "") ?? "").slice(0, 100) +
-              "…",
-            keywords: blog?.tags?.map((t: any) => t?.title) ?? [],
-            onClick: () => router.push(`/blog/${blog?.slug}`),
-            leftSection: (
-              <img
-                src={blog?.image}
-                alt={blog?.title}
-                width={75}
-                height={75}
-                style={{ borderRadius: 4, objectFit: "cover" }}
-              />
-            ),
-          }));
-        }
-      } catch (e) {
-        /* silent fail, keep UX smooth */
-        console.error("Couldn’t load blogs for Spotlight", e);
-      }
-
-      /* 2. NAV LINKS */
-      const navActions: SpotlightActionData[] =
-        headerData?.options?.map((item: any) => ({
-          id: `nav-${item.id}`,
-          label: item.title,
-          // description: "Navigate",
-          onClick: () => router.push(item.link),
-          leftSection: null,
-        })) ?? [];
-
-      /* 3. MERGE & SET */
-      setActions([...navActions, ...postActions]);
-    }
-
     loadData();
   }, [router]);
 
@@ -124,9 +104,10 @@ export default function CommonHeader() {
             <IconSearch size={22} stroke={1.5} />
           </button>
         </div>
+
         <div className="hidden md:flex w-[20rem]">
           <TextInput
-            placeholder="Search…"
+            placeholder="Search (Ctrl + K)"
             readOnly
             onClick={() => spotlight.open()}
             leftSection={<IconSearch size={18} stroke={1.5} />}
@@ -136,12 +117,23 @@ export default function CommonHeader() {
         </div>
 
         <Spotlight
-          actions={actions}
+          actions={
+            searchQuery.trim()
+              ? actions.filter((action) =>
+                  action?.label
+                    ?.toLowerCase()
+                    .includes(searchQuery.toLowerCase())
+                )
+              : []
+          }
           searchProps={{
+            value: searchQuery,
+            onChange: (e) => setSearchQuery(e.currentTarget.value),
             leftSection: <IconSearch size={20} stroke={1.5} />,
             placeholder: "Search anything…",
           }}
-          nothingFound="Nothing found…"
+          nothingFound="Nothing found..."
+          highlightQuery
           className="bg-light-bg"
         >
           <GlobalHotkeys />
@@ -149,7 +141,6 @@ export default function CommonHeader() {
           <Shortcut symbol="X" description="Rickroll" />
         </Spotlight>
 
-        {/* nav & auth */}
         <section>
           <ul className="flex items-center gap-12 text-dark-font">
             {user && (
@@ -176,7 +167,7 @@ export default function CommonHeader() {
                   <div className="flex items-center gap-6">
                     <Link
                       href={
-                        user.role === "SUPER_ADMIN" // Assuming dashboard also uses slug for consistency
+                        user.role === "SUPER_ADMIN"
                           ? `/dashboard/${user?.slug}`
                           : `/user/${user?.slug}`
                       }
@@ -205,13 +196,11 @@ export default function CommonHeader() {
                       </label>
                     </Button>
                     <LoginModal
-                      openRegisterModal={() => {}}
+                      openRegisterModal={openRegisterModal}
                       triggerOpen={showLoginModal}
                       setTriggerOpen={setShowLoginModal}
                     />
-
                     <span className="mx-1">|</span>
-
                     <RegisterModal openLoginModal={openLoginModal} />
                   </>
                 )}

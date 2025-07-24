@@ -19,7 +19,7 @@ const BlogPostGrid = ({
   fetchFunction,
   title,
   limit,
-  itemsPerPage = 30,
+  itemsPerPage = 60,
 }: BlogPostGridProps) => {
   const [loading, setLoading] = useState(false);
   const [activePage, setPage] = useState(1);
@@ -44,7 +44,7 @@ const BlogPostGrid = ({
 
   return (
     <section className="container mx-auto py-12">
-      <h2 className="text-2xl font-bold text-primary mb-4">{title}</h2>
+      <h2 className="text-3xl font-bold text-primary mb-4">{title}</h2>
 
       <section className="grid grid-cols-12 gap-8">
         {loading

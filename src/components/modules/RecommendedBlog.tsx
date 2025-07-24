@@ -10,8 +10,8 @@ const RecommendedBlog = () => {
   if (!currentPosts.length && !loading) return null;
 
   return (
-    <main className="container mx-auto my-[6rem]">
-      <h2 className="text-4xl font-bold text-primary mb-[2rem]">
+    <main className="container mx-auto mb-[10rem]">
+      <h2 className="text-3xl font-bold text-primary mb-[1rem]">
         Recommended For You
       </h2>
       <section>

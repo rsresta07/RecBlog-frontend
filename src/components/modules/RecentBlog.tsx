@@ -117,8 +117,8 @@ const RecentBlog = () => {
   }, []);
 
   return (
-    <main className="container mx-auto">
-      <h2 className="text-4xl font-bold text-primary mb-[2rem]">
+    <main className="container mx-auto mb-[10rem]">
+      <h2 className="text-3xl font-bold text-primary mb-[1rem]">
         {user ? "Top Selects for You" : "Recent blog posts"}
       </h2>
       <div className="grid grid-cols-1 md:grid-cols-10 gap-8">

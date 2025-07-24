@@ -26,11 +26,11 @@ const UserPostList = ({ userData, isOwner }: UserPostProps) => {
   };
 
   return (
-    <section className="my-[4rem] flex flex-col gap-4">
-      <div className="flex justify-between items-center mb-6">
-        <Title order={3} className="mb-4">
+    <section className="mb-[10rem] flex flex-col gap-4">
+      <div className="flex justify-between items-center">
+        <h2 className="text-primary text-2xl font-bold">
           Posts ({posts.length})
-        </Title>
+        </h2>
 
         {isOwner && (
           <CommonLink
@@ -39,25 +39,21 @@ const UserPostList = ({ userData, isOwner }: UserPostProps) => {
           />
         )}
       </div>
-
-      <Grid gutter="md">
+      <section className="grid grid-cols-3">
         {posts.map((post: any) => (
-          <Grid.Col span={{ base: 12, sm: 6, md: 4, lg: 3 }} key={post.id}>
-            <div className="flex flex-col gap-4 bg-[#ffffff] p-4 rounded-lg transform transition-transform duration-300 hover:scale-[1.05]">
+          <div key={post.id}>
+            <div className="flex flex-col gap-4 p-4 rounded-lg transform transition-transform duration-300 hover:scale-[1.05]">
               {/* thumbnail + tags */}
-              <div className="relative">
-                <Link href={`/blog/${post.slug}`}>
-                  <Image
-                    src={post.image}
-                    alt={post.title || "Blog Post Image"}
-                    width={1024}
-                    height={1024}
-                    radius={"md"}
-                    className="h-[13rem] w-full object-cover rounded-md"
-                  />
-                </Link>
-                <div className="absolute top-2 right-[-2] flex flex-wrap gap-1"></div>
-              </div>
+              <Link href={`/blog/${post.slug}`}>
+                <Image
+                  src={post.image}
+                  alt={post.title || "Blog Post Image"}
+                  width={1024}
+                  height={1024}
+                  radius={"md"}
+                  className="h-[13rem] w-full object-cover rounded-md"
+                />
+              </Link>
 
               {/* title */}
               <Link href={`/blog/${post.slug}`}>
@@ -101,9 +97,9 @@ const UserPostList = ({ userData, isOwner }: UserPostProps) => {
                 </div>
               )}
             </div>
-          </Grid.Col>
+          </div>
         ))}
-      </Grid>
+      </section>
     </section>
   );
 };

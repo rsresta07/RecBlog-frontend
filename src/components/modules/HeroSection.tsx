@@ -9,7 +9,7 @@ export default function HeroSection() {
         {/* <h1 className="text-center text-[200px] font-bold text-dark-font">
           {commonData?.projectTitleEng}
         </h1> */}
-        <div className="mt-12 mb-24 flex flex-col gap-4">
+        <div className="mt-12 flex flex-col gap-4 mb-[10rem]">
           <h1 className="text-center text-[50px] font-bold text-primary">
             Welcome to RecBlog
           </h1>

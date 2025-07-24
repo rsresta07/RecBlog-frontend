@@ -1,7 +1,7 @@
 import { ApiGetPost } from "@/api/blog";
 import BlogPostGrid from "../common/CommonBlogPostGrid";
 
-const AllBlogPost = ({ limit }: any) => {
+const ExplorePage = ({ limit }: any) => {
   return (
     <BlogPostGrid
       fetchFunction={ApiGetPost}
@@ -11,4 +11,4 @@ const AllBlogPost = ({ limit }: any) => {
   );
 };
 
-export default AllBlogPost;
+export default ExplorePage;

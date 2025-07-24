@@ -1,8 +1,8 @@
-import AllBlogPost from "@/components/modules/AllBlogPost";
+import ExplorePage from "@/components/modules/ExplorePage";
 import HeroLayout from "@/layouts/HeroLayout";
 
 const Blog = () => {
-  return <AllBlogPost />;
+  return <ExplorePage />;
 };
 
 export default Blog;

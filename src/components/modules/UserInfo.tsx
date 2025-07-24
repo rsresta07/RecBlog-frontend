@@ -13,7 +13,13 @@ const UserInfo = ({ userData, isOwner }: UserInfoProps) => {
   if (!userData) return null; // Render nothing if userData is not available
 
   return (
-    <Card shadow="sm" padding="lg" radius="md" withBorder className="mb-8">
+    <Card
+      shadow="sm"
+      padding="lg"
+      radius="md"
+      withBorder
+      className="mb-[10rem]"
+    >
       <section className="flex justify-between items-start w-full">
         <section>
           <div className="flex gap-4 items-center">
