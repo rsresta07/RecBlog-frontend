@@ -4,11 +4,30 @@ import { ApiGetAllUsers } from "@/api/user";
 import { ApiGetAllTags } from "@/api/tag";
 import { ApiGetPost } from "@/api/blog";
 
+/**
+ * AdminDashboard component.
+ *
+ * This component is the main dashboard for the admin interface. It displays
+ * the total number of users, tags, and posts in the database.
+ *
+ * The component fetches the data from the server on mount using the
+ * `fetchStats` function, and displays the data in a series of cards.
+ *
+ * @returns {JSX.Element} The AdminDashboard component.
+ */
 const AdminDashboard = () => {
   const [userCount, setUserCount] = useState(0);
   const [tagCount, setTagCount] = useState(0);
   const [postCount, setPostCount] = useState(0);
 
+  /**
+   * Fetches the total number of users, tags, and posts from the server using
+   * the `ApiGetAllUsers`, `ApiGetAllTags`, and `ApiGetPost` functions.
+   *
+   * @async
+   * @function
+   * @returns {Promise<void>}
+   */
   const fetchStats = async () => {
     try {
       const [usersRes, tagsRes, postsRes] = await Promise.all([
@@ -55,6 +74,16 @@ const AdminDashboard = () => {
 
 export default AdminDashboard;
 
+/**
+ * getLayout function for AdminDashboard component.
+ *
+ * This function takes in a page element and wraps it in the
+ * AdminDashboardLayout component. This is used to provide a
+ * consistent layout for the admin dashboard pages.
+ *
+ * @param page - The page element to wrap in the layout.
+ * @returns - The wrapped page element.
+ */
 AdminDashboard.getLayout = (page: any) => (
   <AdminDashboardLayout>{page}</AdminDashboardLayout>
 );

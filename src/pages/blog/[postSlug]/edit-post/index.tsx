@@ -17,6 +17,7 @@ import CustomSunEditor from "@/components/common/CommonSunEditor";
 import CommonImageUpload from "@/components/common/CommonImageUpload";
 
 type TagOption = { value: string; label: string };
+
 type FormValues = {
   title: string;
   description: string;
@@ -24,6 +25,19 @@ type FormValues = {
   tagIds: string[];
 };
 
+/**
+ * A Next.js page component that allows a user to edit a blog post.
+ *
+ * The component fetches the post data from the API when the page loads and
+ * pre-populates the form with the existing data. It also fetches all tags and
+ * populates a multi-select input with them. When the form is submitted, it
+ * sends a request to the API to update the post.
+ *
+ * If the update is successful, it navigates to the user's profile page. If the
+ * update fails, it shows a notification with an error message.
+ *
+ * @returns A JSX component that renders a form to edit a blog post.
+ */
 const EditPost = () => {
   const router = useRouter();
   const slug = router?.query?.postSlug as string | undefined;
@@ -76,7 +90,16 @@ const EditPost = () => {
     })();
   }, [slug, reset]);
 
-  /* ─ submit ─ */
+  /**
+   * Handles the submission of the edit post form.
+   *
+   * This function constructs a payload with the updated post details and sends
+   * a request to update the post via the API. If the update is successful, it
+   * shows a success notification and navigates to the user's profile page. If
+   * the update fails, it shows an error notification.
+   *
+   * @param {FormValues} data - The form data containing the post details.
+   */
   const onSubmit = async (data: FormValues) => {
     if (!postId) return;
 
@@ -109,6 +132,11 @@ const EditPost = () => {
     }
   };
 
+  /**
+   * Updates the current image URL state and the form value for image.
+   *
+   * @param {string | null} imageUrl - The URL of the new image or null if the image is removed.
+   */
   const handleImageChange = (imageUrl: string | null) => {
     setCurrentImageUrl(imageUrl);
     // Update the form value

@@ -140,8 +140,6 @@ One of the main reason why I wanted to create a complete simple production ready
 
 So enough chitchat and lets go deeper into this project in which I know i have messed up a lot of things.
 
-<!-- For detailed developer notes, see [docs/developer-notes.md](./docs/developer-notes.md) -->
-
 ## Developer Notes
 
 ### 2025-07-24

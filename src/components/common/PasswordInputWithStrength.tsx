@@ -3,6 +3,13 @@ import { IconX, IconCheck } from "@tabler/icons-react";
 import { PasswordInput, Progress, Text, Popover, Box } from "@mantine/core";
 import { useFormContext } from "react-hook-form";
 
+/**
+ * Component to show a password requirement.
+ * @param {{meets: boolean; label: string}} props
+ * @prop {boolean} meets Whether the password meets the requirement.
+ * @prop {string} label The label to display for the requirement.
+ * @returns {JSX.Element} A styled Text component with an icon and the requirement.
+ */
 function PasswordRequirement({
   meets,
   label,
@@ -30,6 +37,15 @@ const requirements = [
   { re: /[$&+,:;=?@#|'<>.^*()%!-]/, label: "Includes special symbol" },
 ];
 
+/**
+ * Calculates the strength of a password.
+ * @param {string} password The password to check.
+ * @returns {number} A number between 10 and 100 representing the strength of the password.
+ * The strength is calculated by counting the number of requirements that aren't met.
+ * If the password is longer than 5 characters, this isn't counted as a requirement.
+ * The strength is then calculated as 100 - (100 / (requirements.length + 1)) * multiplier.
+ * The minimum strength is 10.
+ */
 function getStrength(password: string) {
   let multiplier = password.length > 5 ? 0 : 1;
   requirements.forEach((req) => {
@@ -38,6 +54,14 @@ function getStrength(password: string) {
   return Math.max(100 - (100 / (requirements.length + 1)) * multiplier, 10);
 }
 
+/**
+ * A PasswordInput component that displays a popover with password strength requirements.
+ * @prop {string} name The name of the field.
+ * @prop {string} label The label for the field.
+ * @prop {string} placeholder The placeholder text for the field.
+ * @returns {JSX.Element} A Popover component with a PasswordInput target and a dropdown with
+ * a progress bar and password requirements.
+ */
 export default function PasswordInputWithStrength({
   name,
   label,

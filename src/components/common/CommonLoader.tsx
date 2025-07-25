@@ -1,7 +1,19 @@
 import { Loader } from "@mantine/core";
 import commonData from "@/utils/mock/commonData.json";
 
-// The logo loader when the data is being fetched from API
+/**
+ * CommonLoader component displays a loading indicator or a project title
+ * based on the provided type prop.
+ *
+ * @param {Object} props
+ * @param {string} [props.type] - Optional. Determines the display mode.
+ *                                If type is "pageLoader", a loading spinner
+ *                                is shown. Otherwise, the project title in
+ *                                Nepali is displayed.
+ *
+ * @returns {JSX.Element} A JSX element containing either a loading spinner
+ *                        or the project title.
+ */
 function CommonLoader({ type }: { type?: string }) {
   return (
     <section className="flex items-center justify-center fixed inset-0 bg-white z-50">

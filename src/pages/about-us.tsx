@@ -1,5 +1,13 @@
 import HeroLayout from "@/layouts/HeroLayout";
 
+/**
+ * AboutUs component renders the "About Us" section of the webpage.
+ *
+ * It displays a main container with a heading styled with specific
+ * CSS classes for layout, font size, weight, and color.
+ *
+ * @returns The AboutUs component.
+ */
 const AboutUs = () => {
   return (
     <main className="container mx-auto">

@@ -35,6 +35,14 @@ import { useDisclosure } from "@mantine/hooks";
 import LoginModal from "@/components/modals/LoginModal";
 import { APIGetRecommendedPosts } from "@/api/recommendation";
 
+/**
+ * A skeleton for a single post.
+ *
+ * A grayish-blue background with a skeleton layout to mimic a blog post.
+ * This is used to indicate that the post is loading.
+ *
+ * @returns {ReactElement} A skeleton element.
+ */
 const PostSkeleton = () => (
   <section className="col-span-8 flex flex-col gap-4 animate-pulse">
     <div className="h-8 bg-gray-300 rounded w-3/4" />
@@ -47,6 +55,14 @@ const PostSkeleton = () => (
   </section>
 );
 
+/**
+ * A skeleton for the sidebar.
+ *
+ * A grayish-blue background with a skeleton layout to mimic the sidebar.
+ * This is used to indicate that the sidebar is loading.
+ *
+ * @returns {ReactElement} A skeleton element.
+ */
 const SidebarSkeleton = () => (
   <aside className="col-span-4 space-y-4 animate-pulse">
     <div className="h-6 bg-gray-300 w-1/2 rounded" />
@@ -61,6 +77,18 @@ const SidebarSkeleton = () => (
   </aside>
 );
 
+/**
+ * A component that displays detailed information about a blog post.
+ *
+ * The component fetches and displays post details, including title, tags, author information,
+ * and content. It allows users to like, comment, and share the post. Users can also follow
+ * the post's author. If the user is not logged in, certain interactions prompt a login modal.
+ *
+ * Recommended posts are displayed in the sidebar, and the component handles both logged-in
+ * and guest user states. It also manages UI state for loading, likes, comments, and modal visibility.
+ *
+ * @returns {JSX.Element} A detailed blog post view with interaction capabilities.
+ */
 const PostDetail = () => {
   const router = useRouter();
   const { isReady, query } = router;
@@ -139,7 +167,17 @@ const PostDetail = () => {
     }
   }, [user, postData]);
 
-  // Updated follow toggle function
+  /**
+   * Toggles the follow status of the post's author.
+   *
+   * If the user is not logged in, a login modal is displayed. If logged in, it sends
+   * a follow or unfollow request based on the current following status. Updates the
+   * `isFollowing` state accordingly.
+   *
+   * @async
+   * @function
+   * @returns {Promise<void>}
+   */
   const handleFollowToggle = async () => {
     if (!details?.user?.id) return;
 
@@ -162,7 +200,17 @@ const PostDetail = () => {
     }
   };
 
-  // like / unlike
+  /**
+   * Toggles the like status of the post.
+   *
+   * If the user is not logged in, a login modal is displayed. If logged in, it sends
+   * a like or unlike request based on the current like status. Updates the
+   * `liked` state accordingly.
+   *
+   * @async
+   * @function
+   * @returns {Promise<void>}
+   */
   const handleLikeToggle = async () => {
     if (!details?.id) return;
     try {
@@ -177,13 +225,33 @@ const PostDetail = () => {
     }
   };
 
-  // refresh comments
+  /**
+   * Fetches the list of comments for a given post ID and updates the component
+   * state accordingly.
+   *
+   * @async
+   * @function
+   * @param {string} postId
+   *   The ID of the post for which to retrieve comments.
+   * @returns {Promise<void>}
+   */
   const refreshComments = async (postId: string) => {
     if (!postId) return;
     const r = await APIListComments(postId);
     setComments(r.data || []);
   };
 
+  /**
+   * Handles the submission of a comment.
+   *
+   * Checks if the comment is not empty and if the post ID is available. If so,
+   * it sends a request to add the comment and then refreshes the list of
+   * comments.
+   *
+   * @async
+   * @function
+   * @returns {Promise<void>}
+   */
   const handleCommentSubmit = async () => {
     if (!newComment.trim() || !details?.id) return;
     try {
@@ -195,12 +263,28 @@ const PostDetail = () => {
     }
   };
 
-  // scroll to comment section
+  /**
+   * Smoothly scrolls to the section containing the comments.
+   *
+   * Retrieves the element with the id of "comment-section" and if it exists,
+   * scrolls to it using the "smooth" behavior.
+   *
+   * @async
+   * @function
+   * @returns {Promise<void>}
+   */
   const scrollToComments = () => {
     const el = document.getElementById("comment-section");
     if (el) el.scrollIntoView({ behavior: "smooth" });
   };
 
+  /**
+   * Generates a section containing buttons for liking/unliking a post, commenting
+   * on a post, and sharing a post.
+   *
+   * @function
+   * @returns {JSX.Element}
+   */
   const likeCommentSection = () => (
     <section className="flex items-center justify-between bg-slate-100 p-2 px-4 rounded-lg">
       <div className="flex items-center">

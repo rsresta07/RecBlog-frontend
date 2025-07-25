@@ -17,6 +17,20 @@ interface CommonImageUploadProps {
   onImageChange?: (url: string | null) => void;
 }
 
+/**
+ * A component for uploading and managing images with optional cropping and preview functionality.
+ *
+ * @param {object} control - React Hook Form's control object for managing form state.
+ * @param {string} name - The name of the input field.
+ * @param {string} label - The label text for the image upload field.
+ * @param {object} rules - Validation rules for the input field.
+ * @param {object} errors - Object containing validation errors for the input field.
+ * @param {boolean} [required=false] - Indicates if the image upload is required.
+ * @param {string|null} [existingImageUrl=null] - The URL of an existing image to be displayed initially.
+ * @param {function} [onImageChange] - Callback function to notify parent component of image changes.
+ *
+ * @returns {JSX.Element} The CommonImageUpload component.
+ */
 const CommonImageUpload = ({
   control,
   name,
@@ -37,6 +51,14 @@ const CommonImageUpload = ({
   const [showModal, setShowModal] = useState(false);
   const [invalid, setInvalid] = useState(false);
 
+  /**
+   * Uploads a cropped image blob to Cloudinary, updates the component state,
+   * and notifies the parent component of the image URL.
+   *
+   * @param {Blob} croppedBlob - The cropped image blob to be uploaded.
+   * @returns {Promise<string>} The URL of the uploaded image.
+   * @throws Will throw an error if the upload fails.
+   */
   const uploadImage = async (croppedBlob: Blob) => {
     try {
       setIsLoading(true);
@@ -72,6 +94,10 @@ const CommonImageUpload = ({
     }
   }, [croppedImage]);
 
+  /**
+   * Handles the removal of the uploaded image by resetting the uploaded image URL and preview URL.
+   * Notifies the parent component of the image change by passing null.
+   */
   const handleRemoveImage = () => {
     setUploadedImageUrl(null);
     setPreviewUrl(null);

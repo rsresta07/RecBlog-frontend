@@ -5,6 +5,13 @@ import CommonBlogList from "@/components/common/CommonBlogList";
 import { Pagination } from "@mantine/core";
 import { APIUserRecommendedPosts } from "@/api/recommendation";
 
+/**
+ * Splits an array into chunks of a specified size.
+ *
+ * @param array - The array to be split into chunks.
+ * @param size - The size of each chunk.
+ * @returns A two-dimensional array where each sub-array is a chunk of the specified size.
+ */
 function chunk<T>(array: T[], size: number): T[][] {
   return array.length
     ? [array.slice(0, size), ...chunk(array.slice(size), size)]
@@ -13,6 +20,16 @@ function chunk<T>(array: T[], size: number): T[][] {
 
 // Display Cards of the Blog
 // TODO: Make the links work
+
+/**
+ * A component that displays a grid of user-based recommended blog posts.
+ *
+ * Uses the APIUserRecommendedPosts function to fetch a list of recommended posts
+ * based on user-based collaborative filtering algorithm.
+ *
+ * @param limit - The number of posts to display in the grid.
+ * @returns A JSX element that renders the grid of recommended blog posts.
+ */
 const UserBasedRecommendation = ({ limit }: any) => {
   const itemsPerPage = 30;
   const [loading, setLoading] = useState(false);
@@ -21,6 +38,14 @@ const UserBasedRecommendation = ({ limit }: any) => {
   const paginatedPosts = chunk(postData, itemsPerPage);
   const currentPosts = paginatedPosts[activePage - 1] || [];
 
+  /**
+   * Fetches the list of blog posts from the server using the APIUserRecommendedPosts
+   * function and updates the state of the component.
+   *
+   * @async
+   * @function
+   * @returns {Promise<void>}
+   */
   const fetchData = async () => {
     setLoading(true);
     try {

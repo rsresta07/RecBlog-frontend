@@ -24,6 +24,17 @@ type FormValues = {
   image: File | null;
 };
 
+/**
+ * A Next.js page component that renders a form to add a new blog post.
+ *
+ * The form consists of the following fields: title, content, tags, and featured
+ * image. When the form is submitted, it sends a request to the API to create a
+ * new blog post. If the request is successful, it navigates to the user's
+ * profile page. If the request fails, it shows a notification with an error
+ * message.
+ *
+ * @returns A JSX component that renders a form to add a new blog post.
+ */
 const AddPost = () => {
   const {
     register,
@@ -62,7 +73,16 @@ const AddPost = () => {
 
   const tagOptions = tagData.map((t) => ({ value: t.id, label: t.title }));
 
-  /* ───────────── submit ───────────── */
+  /**
+   * Handles the submission of the add post form.
+   *
+   * This function constructs a payload with the new post details and sends
+   * a request to add the post via the API. If the post is added successfully,
+   * it shows a success notification and navigates to the user profile page.
+   * If the post addition fails, it shows an error notification.
+   *
+   * @param {FormValues} data - The form data containing the post details.
+   */
   const onSubmit = async (data: FormValues) => {
     if (!uploadedImageUrl) {
       return showNotify("error", "Please select and upload an image.");
@@ -93,6 +113,12 @@ const AddPost = () => {
     }
   };
 
+  /**
+   * Handles the change of the image upload input by updating the component state
+   * and notifying the parent component of the image change.
+   *
+   * @param {string | null} imageUrl - The URL of the uploaded image or null if the image is removed.
+   */
   const handleImageChange = (imageUrl: string | null) => {
     setUploadedImageUrl(imageUrl);
     // Update the form value for validation

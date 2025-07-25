@@ -2,6 +2,14 @@ import Link from "next/link";
 import Image from "next/image";
 import SidebarSkeleton from "./CommonListSkeleton";
 
+/**
+ * A single blog post item.
+ *
+ * @param {object} post - Post data. See {@link ApiGetPost} for the shape of the data.
+ * @param {boolean} loading - Whether to display a loading skeleton or not.
+ *
+ * @returns {ReactElement} A single blog post item.
+ */
 const CommonBlogList = ({ post, loading }: any) => {
   if (loading || !post) return <SidebarSkeleton />;
 

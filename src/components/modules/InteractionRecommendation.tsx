@@ -3,6 +3,16 @@ import BlogPostGrid from "../common/CommonBlogPostGrid";
 
 // Display Cards of the Blog
 // TODO: Make the links work
+
+/**
+ * A component that displays a grid of blog posts recommended based on user interactions.
+ *
+ * Utilizes the APIInteractionRecommendedPosts function to fetch a list of recommended posts
+ * derived from the user's interactions with other users.
+ *
+ * @param limit - The number of posts to display in the grid.
+ * @returns A JSX element that renders a grid of interaction-based recommended blog posts.
+ */
 const InteractionRecommendation = ({ limit }: any) => {
   return (
     <BlogPostGrid

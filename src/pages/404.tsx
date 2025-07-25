@@ -6,7 +6,7 @@ import {
   Text,
   Title,
 } from "@mantine/core";
-import classes from "@/styles/NotFoundImage.module.css";
+import classes from "../styles/NotFoundImage.module.css";
 import HeroLayout from "@/layouts/HeroLayout";
 
 const Custom404 = () => {

@@ -5,6 +5,13 @@ import { ApiGetPost } from "@/api/blog";
 import { useAuth } from "@/utils/hooks/useAuth";
 import { APIGetRecommendedPosts } from "@/api/recommendation";
 
+/**
+ * A single blog post item rendered vertically.
+ *
+ * @param {object} post - Post data. See {@link ApiGetPost} for the shape of the data.
+ *
+ * @returns {ReactElement} A single blog post item rendered vertically.
+ */
 const BlogPostVertical = ({ post }: any) => {
   return (
     <div className="flex flex-col gap-4 transform transition-transform duration-300 hover:scale-[1.05]">
@@ -48,6 +55,14 @@ const BlogPostVertical = ({ post }: any) => {
   );
 };
 
+/**
+ * A single blog post item rendered horizontally.
+ *
+ * @param {object} post - Post data. See {@link ApiGetPost} for the shape of the data.
+ * @param {string} imageHeight - The height of the image in the component.
+ *
+ * @returns {ReactElement} A single blog post item rendered horizontally.
+ */
 const BlogPostHorizontal = ({ post, imageHeight }: any) => {
   return (
     <div className="grid grid-cols-2 gap-8 transform transition-transform duration-300 hover:scale-[1.05]">
@@ -91,11 +106,28 @@ const BlogPostHorizontal = ({ post, imageHeight }: any) => {
   );
 };
 
+/**
+ * A component that displays a list of recent blog posts or recommended posts based on user authentication.
+ *
+ * If the user is authenticated, it fetches and displays recommended posts. Otherwise, it displays recent posts.
+ * The component renders a main vertical blog post and two horizontal blog posts, with an additional highlighted post at the bottom.
+ *
+ * @returns {JSX.Element} A container with blog posts displayed in a grid layout.
+ */
 const RecentBlog = () => {
   const [loading, setLoading] = useState(false);
   const [postData, setPostData] = useState<any[]>([]);
   const { user } = useAuth();
 
+  /**
+   * Fetches the list of blog posts from the server based on user authentication.
+   * If the user is authenticated, it fetches and displays recommended posts.
+   * Otherwise, it displays recent posts.
+   *
+   * @async
+   * @function
+   * @returns {Promise<void>}
+   */
   const fetchData = async () => {
     setLoading(true);
     try {

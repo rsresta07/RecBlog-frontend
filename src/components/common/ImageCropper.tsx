@@ -11,6 +11,13 @@ interface ImageCropperProps {
   onClose?: () => void;
 }
 
+/**
+ * A modal component for cropping images.
+ *
+ * @param {string | null} imgSrc - The source URL of the image to be cropped.
+ * @param {function} setCroppedImage - A function to set the cropped image.
+ * @param {function} [onClose] - An optional callback function to be called when the modal is closed.
+ */
 const ImageCropper = ({
   imgSrc,
   setCroppedImage,
@@ -33,6 +40,13 @@ const ImageCropper = ({
     []
   );
 
+  /**
+   * Handles the cropping of an image when the "Apply" button is clicked.
+   * It will call the `getCroppedImg` utility function to crop the image based on the
+   * `croppedAreaPixels` and `rotation` state variables. If the cropping is successful,
+   * it will set the `croppedImage` state variable to the cropped image and call the
+   * `handleClose` function to close the modal.
+   */
   const showCroppedImage = async () => {
     try {
       if (!croppedAreaPixels || !imgSrc) return;
@@ -53,6 +67,10 @@ const ImageCropper = ({
     }
   };
 
+  /**
+   * Closes the image cropper modal and resets all the state variables. If `onClose` callback
+   * is provided, it will be called after the modal is closed.
+   */
   const handleClose = () => {
     setOpened(false);
     setZoom(1);
@@ -63,6 +81,10 @@ const ImageCropper = ({
     }
   };
 
+  /**
+   * Set aspect ratio based on image orientation.
+   * @param {Object} image - The loaded image object.
+   */
   const onImageLoad = (image: any) => {
     const naturalRatio = image?.naturalWidth / image?.naturalHeight;
     setOriginalImageRatio(naturalRatio);

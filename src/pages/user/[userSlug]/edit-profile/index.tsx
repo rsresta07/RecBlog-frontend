@@ -25,6 +25,16 @@ const defaultValues: FormValues = {
   position: "",
 };
 
+/**
+ * A Next.js page component that renders a form to edit a user's profile.
+ *
+ * Fetches the current user data on mount and populates the form with the
+ * existing data. Handles form validation and submission. On successful
+ * submission, it navigates to the user's profile page. If the submission fails,
+ * it shows an error notification.
+ *
+ * @returns A JSX element with a form to edit the user's profile.
+ */
 const EditProfile = () => {
   const router = useRouter();
   const [loading, setLoading] = useState(true);
@@ -56,7 +66,16 @@ const EditProfile = () => {
     })();
   }, []);
 
-  // Handle submit
+  /**
+   * Handles the submission of the edit profile form.
+   *
+   * Sends a request to update the user's profile with the provided form data.
+   * If the update is successful, it shows a success notification and navigates
+   * to the user's profile page. If the update fails, it shows an error
+   * notification.
+   *
+   * @param {FormValues} values - The form data to update the user's profile with.
+   */
   const onSubmit = async (values: FormValues) => {
     setLoading(true);
     try {

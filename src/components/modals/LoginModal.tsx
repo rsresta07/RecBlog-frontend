@@ -1,4 +1,4 @@
-import { Button, Modal } from "@mantine/core";
+import { Modal } from "@mantine/core";
 import { useEffect, useState } from "react";
 import CommonForm from "../common/CommonForm";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -23,6 +23,22 @@ interface LoginForm {
   password: string;
 }
 
+/**
+ * LoginModal component renders a modal for user login.
+ *
+ * Props:
+ * - openRegisterModal: Function to open the registration modal.
+ * - triggerOpen: Optional boolean to control the initial open state of the modal.
+ * - setTriggerOpen: Optional function to update the open state externally.
+ *
+ * Features:
+ * - Provides email and password input fields.
+ * - Validates user input using zod schema.
+ * - Submits the login form and handles authentication.
+ * - Redirects users based on their roles after successful login.
+ * - Displays error notifications on authentication failure.
+ * - Integrates with router events to manage modal transitions.
+ */
 const LoginModal = ({
   openRegisterModal,
   triggerOpen,
@@ -45,6 +61,16 @@ const LoginModal = ({
     },
   ];
 
+  /**
+   * Handles the login form submission.
+   * @param data - The form data containing the user's email and password.
+   * @returns A promise that resolves if the login is successful and rejects otherwise.
+   *
+   * On success, this function:
+   * - Sets the token and user cookies.
+   * - Redirects the user to their respective dashboard based on their role.
+   * On failure, this function displays an error notification with the message "Wrong credentials".
+   */
   const handleSubmit: SubmitHandler<LoginForm> = async (data) => {
     try {
       const res = await ApiLogin(data);
@@ -88,6 +114,10 @@ const LoginModal = ({
     }
   }, [triggerOpen]);
 
+  /**
+   * Closes the login modal.
+   * If the component is controlled (i.e. setTriggerOpen is a function), it also sets the triggerOpen state to false.
+   */
   const closeModal = () => {
     setNoTransitionOpened(false);
     if (setTriggerOpen) setTriggerOpen(false);

@@ -3,6 +3,20 @@ import ListSkeleton from "../common/CommonListSkeleton";
 import { useRecommendedPosts } from "@/utils/hooks/useRecommendedPosts";
 import CommonBlogList from "../common/CommonBlogList";
 
+/**
+ * A component that displays a list of recommended blog posts to the user.
+ *
+ * If there are no recommended posts and the component is not loading, the
+ * component will not render anything.
+ *
+ * Otherwise, the component will render a list of recommended blog posts,
+ * with a pagination component below it.
+ *
+ * The component uses the `useRecommendedPosts` hook to fetch the recommended
+ * posts and to keep track of the current page and total number of pages.
+ *
+ * @returns A JSX element representing the recommended blog posts component.
+ */
 const RecommendedBlog = () => {
   const { currentPosts, totalPages, activePage, setPage, loading } =
     useRecommendedPosts();

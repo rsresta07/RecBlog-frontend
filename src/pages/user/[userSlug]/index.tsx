@@ -4,9 +4,15 @@ import { ApiGetMe, ApiGetPreferences, ApiGetUser } from "@/api/user";
 import HeroLayout from "@/layouts/HeroLayout";
 import UserInfo from "@/components/modules/UserInfo";
 import UserPostList from "@/components/modules/UserPostList";
-import CommonButton from "@/components/common/CommonButton";
-import CommonLink from "@/components/common/CommonLink";
 
+/**
+ * Displays a user's profile page.
+ *
+ * @param {object} props
+ * @prop {string} userSlug - The slug of the user to display.
+ *
+ * @returns {ReactElement} A container with the user's information and their posts.
+ */
 const UserPage = () => {
   const router = useRouter();
   const { userSlug } = router.query as { userSlug?: string };
@@ -68,4 +74,5 @@ const UserPage = () => {
 };
 
 export default UserPage;
+
 UserPage.getLayout = (p: any) => <HeroLayout>{p}</HeroLayout>;

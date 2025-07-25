@@ -6,6 +6,28 @@ import { deleteCookie, getCookie } from "cookies-next";
 import websiteData from "@/utils/mock/commonData.json"; // Assuming this contains the project title and other nav data
 import list from "@/utils/mock/sideBar.json"; // Removed as it's not used in this layout's sidebar logic
 
+/**
+ * A layout component for the admin dashboard.
+ *
+ * This component wraps the page content in an AppShell and provides a navigation
+ * sidebar with links to the project-specific dashboard pages.
+ *
+ * The component expects a children prop, which should be the JSX to render
+ * within the main content area of the page.
+ *
+ * The layout will automatically redirect to the login page if no token is present
+ * in the cookies.
+ *
+ * The component also includes a logout button in the header that will delete the
+ * token and user cookies and redirect to the login page.
+ *
+ * The component will automatically apply a height of 100vh to the main content
+ * area if the content is shorter than the viewport height.
+ *
+ * @param {Object} props - The component props
+ * @param {React.ReactNode} props.children - The content to render in the main area
+ * @returns {React.ReactElement} The AppShell component
+ */
 export function AdminDashboardLayout({
   children,
 }: {
@@ -23,6 +45,17 @@ export function AdminDashboardLayout({
     }
   }, [router.isReady, router.pathname, router.query, router]); // Added router to dependency array for completeness
 
+  /**
+   * Logs out the user by deleting the user and token cookies.
+   *
+   * This function deletes the "user" and "token" cookies and redirects
+   * the user to the homepage. It is intended to be used as a logout
+   * mechanism in the admin dashboard.
+   *
+   * @async
+   * @function
+   * @returns {Promise<void>} A promise that resolves when the cookies are deleted and redirection occurs.
+   */
   const handleLogout = async () => {
     await deleteCookie("user");
     await deleteCookie("token");

@@ -18,6 +18,30 @@ import { IconSearch } from "@tabler/icons-react";
 import { ApiGetPost } from "@/api/blog";
 import { Button, TextInput } from "@mantine/core";
 
+/**
+ * CommonHeader component renders the main header of the application.
+ * It includes logo, navigation links, search functionality, and user authentication modals.
+ *
+ * Features:
+ * - Displays the application logo.
+ * - Provides search functionality with Spotlight integration.
+ * - Includes navigation links fetched from headerData.
+ * - Allows users to sign in, register, or logout.
+ * - Handles global hotkeys for spotlight and a hidden rickroll feature.
+ * - Dynamically loads blog post data to populate Spotlight actions.
+ *
+ * State:
+ * - isRegisterModalOpen: Controls the visibility of the registration modal.
+ * - isLoginModalOpen: Controls the visibility of the login modal.
+ * - actions: Stores Spotlight action data for navigation.
+ * - showLoginModal: Controls the visibility of the login modal.
+ * - searchQuery: Stores the current search input for filtering actions.
+ *
+ * Hooks:
+ * - Uses useAuth to manage user authentication state.
+ * - Uses useRouter for navigation.
+ * - Uses useEffect to load blog post data on component mount.
+ */
 export default function CommonHeader() {
   const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
@@ -28,16 +52,28 @@ export default function CommonHeader() {
   const { user, logout } = useAuth();
   const router = useRouter();
 
+  /**
+   * Toggles the visibility of the registration modal to true,
+   * and the login modal to false.
+   */
   const openRegisterModal = () => {
     setIsRegisterModalOpen(true);
     setIsLoginModalOpen(false);
   };
 
+  /**
+   * Toggles the visibility of the login modal to true,
+   * and the registration modal to false.
+   */
   const openLoginModal = () => {
     setIsLoginModalOpen(true);
     setIsRegisterModalOpen(false);
   };
 
+  /**
+   * Opens a new window to Rick Astley's "Never Gonna Give You Up".
+   * Used as a hidden feature with the hotkey "mod+shift+alt+X".
+   */
   const rickroll = () =>
     window.open(
       "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
@@ -45,6 +81,14 @@ export default function CommonHeader() {
       "noopener,noreferrer"
     );
 
+  /**
+   * Defines global hotkeys for the application.
+   *
+   * - "mod+K" to open the Spotlight search.
+   * - "mod+shift+alt+X" to open a Rick Astley video in a new window as a hidden feature.
+   *
+   * @returns {null}
+   */
   function GlobalHotkeys() {
     useHotkeys([
       ["mod+K", () => spotlight.open()],
@@ -53,6 +97,12 @@ export default function CommonHeader() {
     return null;
   }
 
+  /**
+   * Fetches the list of blog posts from the server and populates the
+   * Spotlight search with the post titles.
+   *
+   * @returns {Promise<void>}
+   */
   async function loadData() {
     const { data: blogPosts } = await ApiGetPost();
 
@@ -60,6 +110,15 @@ export default function CommonHeader() {
       id: post.id,
       label: post.title,
       onClick: () => router.push(`/blog/${post.slug}`), // actually navigate
+
+      /**
+       * Renders a single search result item as a clickable card.
+       * The card contains a thumbnail image, the post title, and a truncated
+       * version of the post content.
+       *
+       * @param {object} post - Blog post data.
+       * @returns {ReactElement} A clickable card element.
+       */
       component: () => (
         <div
           onClick={() => router.push(`/blog/${post.slug}`)}

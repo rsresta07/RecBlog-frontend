@@ -8,13 +8,20 @@ import {
   Stack,
 } from "@mantine/core";
 import { showNotification } from "@mantine/notifications";
-import { IconAdjustments } from "@tabler/icons-react";
 
 // API helpers (assumes these exist in your codebase)
 import { ApiGetPreferences, ApiUpdatePreferences } from "@/api/user";
 import { ApiGetTag } from "@/api/tag";
 import CommonButton from "../common/CommonButton";
 
+/**
+ * Modal that allows users to select which tags they are interested in
+ *
+ * Handles fetching all tags and current user preferences on open
+ * Handles saving the updated preferences to the API
+ *
+ * @returns JSX.Element
+ */
 const EditPreferencesModal = () => {
   const [opened, setOpened] = useState(false);
   const [options, setOptions] = useState<{ value: string; label: string }[]>(
@@ -48,6 +55,13 @@ const EditPreferencesModal = () => {
     })();
   }, [opened]);
 
+  /**
+   * Handle saving the updated preferences to the API
+   *
+   * Handles calling ApiUpdatePreferences and showing a success/failure notification
+   * Handles setting the modal to be closed on success
+   * Handles setting the saving state to indicate loading during the request
+   */
   const handleSave = async () => {
     setSaving(true);
     try {

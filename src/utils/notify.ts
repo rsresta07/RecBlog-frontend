@@ -1,28 +1,26 @@
 import { showNotification } from "@mantine/notifications";
 
+/**
+ * Displays a notification with a specified message and style based on the condition.
+ *
+ * @param {string} condition - The condition that determines the color of the notification.
+ *                             Possible values are "success", "error", "warning", and "notify".
+ * @param {string} message - The message to be displayed in the notification.
+ */
 const showNotify = (condition: string, message: string) => {
-  // @ts-ignore
-  // @ts-ignore
-  // @ts-ignore
-  // @ts-ignore
   showNotification({
-    // id: 'hello-there',
-    // disallowClose: true,
-    // onClose: () => console.log('unmounted'),
-    // onOpen: () => console.log('mounted'),
     autoClose: 5000,
-    // title: "You've been compromised",
     message,
     color: `${
       condition === "success"
         ? "green"
         : condition === "error"
-        ? "red"
-        : condition === "warning"
-        ? "yellow"
-        : condition === "notify"
-        ? "blue"
-        : ""
+          ? "red"
+          : condition === "warning"
+            ? "yellow"
+            : condition === "notify"
+              ? "blue"
+              : ""
     }`,
     style: {
       backgroundColor: "whitesmoke",
@@ -34,4 +32,3 @@ const showNotify = (condition: string, message: string) => {
 };
 
 export default showNotify;
-// Most used notification props

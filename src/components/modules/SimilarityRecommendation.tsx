@@ -3,6 +3,18 @@ import BlogPostGrid from "../common/CommonBlogPostGrid";
 
 // Display Cards of the Blog
 // TODO: Make the links work
+
+/**
+ * A component that displays a grid of blog posts recommended based on similarity.
+ *
+ * Utilizes the APIGetRawRecommendedPosts function to fetch a list of recommended posts
+ * derived from the user's preferences and interactions.
+ *
+ * @param {object} props - The component props.
+ * @param {number} props.limit - The number of posts to display in the grid.
+ *
+ * @returns {ReactElement} The component.
+ */
 const SimilarityRecommendation = ({ limit }: any) => {
   return (
     <BlogPostGrid

@@ -11,9 +11,23 @@ interface UserPostProps {
   isOwner: boolean;
 }
 
+/**
+ * A component that displays a list of blog posts from a user.
+ *
+ * @param {{ userData: any, isOwner: boolean }} props
+ * @param {any} props.userData - The data of the user.
+ * @param {boolean} props.isOwner - Whether the user is the owner of the posts.
+ *
+ * @returns {ReactElement} A container with blog posts displayed in a grid layout.
+ */
 const UserPostList = ({ userData, isOwner }: UserPostProps) => {
   const [posts, setPosts] = useState(userData?.posts ?? []);
 
+  /**
+   * Deletes a post by ID.
+   * @param {string} id - The ID of the post to be deleted.
+   * @returns {Promise<void>}
+   */
   const handleDelete = async (id: string) => {
     try {
       await ApiDeletePost(id);

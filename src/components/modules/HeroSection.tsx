@@ -2,13 +2,15 @@ import RecentBlog from "@/components/modules/RecentBlog";
 import PostPagination from "./BlogPostPagination";
 import RecommendedBlog from "./RecommendedBlog";
 
+/**
+ * The hero section of the homepage, which includes a greeting, a recent blog posts list, a recommended blog posts list, and a pagination component.
+ *
+ * @returns The JSX element for the hero section.
+ */
 export default function HeroSection() {
   return (
     <main className="pt-4 flex w-full container mx-auto bg-light-bg">
       <section className="flex-grow">
-        {/* <h1 className="text-center text-[200px] font-bold text-dark-font">
-          {commonData?.projectTitleEng}
-        </h1> */}
         <div className="mt-12 flex flex-col gap-4 mb-[10rem]">
           <h1 className="text-center text-[50px] font-bold text-primary">
             Welcome to RecBlog

@@ -9,6 +9,16 @@ interface UserInfoProps {
   isOwner: boolean;
 }
 
+/**
+ * A component that displays user information.
+ *
+ * The component will render a card with the user's full name, username, email, and position.
+ * If the user is the owner of the profile, it will also display two links: one to edit the profile and one to edit the preferences.
+ *
+ * @param {object} userData - The user data object containing the user's information
+ * @param {boolean} isOwner - A boolean indicating whether the user is the owner of the profile
+ * @returns {JSX.Element} A card component with the user information
+ */
 const UserInfo = ({ userData, isOwner }: UserInfoProps) => {
   if (!userData) return null; // Render nothing if userData is not available
 

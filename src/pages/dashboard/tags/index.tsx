@@ -2,6 +2,28 @@ import { useState, useEffect } from "react";
 import { AdminDashboardLayout } from "@/layouts/AdminDashboardLayout";
 import { ApiGetAllTags, ApiAddTag, ApiDeleteTag } from "@/api/tag";
 import { Button } from "@mantine/core";
+
+/**
+ * AdminTags component for managing tags in the admin dashboard.
+ *
+ * This component allows admins to view, add, and delete tags.
+ * It fetches the list of tags from the server on mount and provides
+ * options to add new tags or delete existing ones.
+ *
+ * State:
+ * - `tags`: List of tags fetched from the server.
+ * - `newTag`: Input value for the new tag to be added.
+ * - `loading`: Indicates if the tags are currently being fetched.
+ * - `error`: Error message to display if an operation fails.
+ *
+ * Functions:
+ * - `fetchTags`: Fetches all tags from the server and updates the state.
+ * - `handleAddTag`: Adds a new tag to the server and refreshes the list.
+ * - `handleDeleteTag`: Deletes a tag from the server and refreshes the list.
+ *
+ * Returns:
+ * JSX.Element to render the tag management UI.
+ */
 const AdminTags = () => {
   type Tag = {
     id: string;
@@ -13,6 +35,18 @@ const AdminTags = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
+  /**
+   * Fetches all tags from the server and updates the state.
+   *
+   * - Sets loading state to true while fetching.
+   * - Sets tags state to the response data from the server or an empty array if the response is null.
+   * - Sets an error message to display if an error occurs.
+   * - Sets loading state to false after the fetch is complete.
+   *
+   * @async
+   * @function
+   * @returns {Promise<void>}
+   */
   const fetchTags = async () => {
     setLoading(true);
     try {
@@ -26,6 +60,21 @@ const AdminTags = () => {
     }
   };
 
+  /**
+   * Handles adding a new tag to the server.
+   *
+   * - Trims the new tag input value.
+   * - Adds the new tag to the server using the `ApiAddTag` function.
+   * - Resets the new tag input value.
+   * - Refreshes the list of tags by calling `fetchTags`.
+   *
+   * If an error occurs, it logs the error and sets the error state to be
+   * displayed.
+   *
+   * @async
+   * @function
+   * @returns {Promise<void>}
+   */
   const handleAddTag = async () => {
     if (!newTag.trim()) return;
     try {
@@ -38,6 +87,18 @@ const AdminTags = () => {
     }
   };
 
+  /**
+   * Deletes a tag by its ID from the server.
+   *
+   * Calls the `ApiDeleteTag` function to perform the delete operation.
+   * Refreshes the list of tags by invoking `fetchTags` upon successful deletion.
+   * If an error occurs, logs the error and sets the error state to display a message.
+   *
+   * @async
+   * @function
+   * @param {string} tagId - The ID of the tag to be deleted.
+   * @returns {Promise<void>}
+   */
   const handleDeleteTag = async (tagId: string) => {
     try {
       await ApiDeleteTag(tagId); // Call DELETE API
@@ -47,16 +108,6 @@ const AdminTags = () => {
       setError("Could not delete tag.");
     }
   };
-
-  // const handleEditTag = async (tagId: string, newTitle: string) => {
-  //   try {
-  //     await ApiUpdateTag(tagId, newTitle); // Call PUT API
-  //     fetchTags(); // Refresh list
-  //   } catch (err) {
-  //     console.error("Failed to update tag", err);
-  //     setError("Could not update tag.");
-  //   }
-  // };
 
   useEffect(() => {
     fetchTags();
@@ -124,6 +175,14 @@ const AdminTags = () => {
 
 export default AdminTags;
 
+/**
+ * A function that returns a layout that wraps the AdminTags component with the
+ * AdminDashboardLayout component.
+ *
+ * @param {any} page - The page component to be wrapped.
+ *
+ * @returns {JSX.Element} A JSX element that wraps the AdminTags component.
+ */
 AdminTags.getLayout = (page: any) => (
   <AdminDashboardLayout>{page}</AdminDashboardLayout>
 );

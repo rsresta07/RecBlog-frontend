@@ -1,0 +1,9 @@
+{
+  "entryPoints": ["src"],
+  "entryPointStrategy": "expand",
+  "out": "docs",
+  "readme": "README.md",
+  "exclude": ["src/pages/**/*", "**/*.test.*", "**/*.stories.tsx"],
+  "name": "RecBlog",
+  "tsconfig": "tsconfig.json"
+}

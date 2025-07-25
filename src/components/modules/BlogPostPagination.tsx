@@ -4,12 +4,24 @@ import { ApiGetPost } from "@/api/blog";
 import CommonBlogList from "@/components/common/CommonBlogList";
 import { useRouter } from "next/router";
 
+/**
+ * Splits an array into chunks of a specified size.
+ *
+ * @param array - The array to be split into chunks.
+ * @param size - The size of each chunk.
+ * @returns A two-dimensional array where each sub-array is a chunk of the specified size.
+ */
 function chunk<T>(array: T[], size: number): T[][] {
   return array.length
     ? [array.slice(0, size), ...chunk(array.slice(size), size)]
     : [];
 }
 
+/**
+ * A component that fetches a list of blog posts from the server, paginates them, and renders them in a grid.
+ *
+ * @returns A JSX element that renders the paginated grid of blog posts.
+ */
 const PostPagination = () => {
   const itemsPerPage = 6;
   const [loading, setLoading] = useState(false);
@@ -20,6 +32,13 @@ const PostPagination = () => {
   const currentPosts = paginatedPosts[activePage - 1] || [];
   const router = useRouter();
 
+  /**
+   * Fetches the list of blog posts from the server and updates the state of the component.
+   *
+   * @async
+   * @function
+   * @returns {Promise<void>}
+   */
   const fetchData = async () => {
     setLoading(true);
     try {

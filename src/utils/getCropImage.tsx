@@ -1,5 +1,10 @@
-// utils/getCropImage.ts
-
+/**
+ * Creates an `HTMLImageElement` from a given URL.
+ *
+ * @param {string} url - The URL of the image to be loaded.
+ * @returns {Promise<HTMLImageElement>} A promise that resolves with the `HTMLImageElement` when the image is fully loaded.
+ *                                      The promise will reject with an error if the image fails to load.
+ */
 export const createImage = (url: string): Promise<HTMLImageElement> =>
   new Promise((resolve, reject) => {
     const image = new Image();
@@ -9,12 +14,23 @@ export const createImage = (url: string): Promise<HTMLImageElement> =>
     image.src = url;
   });
 
+/**
+ * Converts a given angle in degrees to radians.
+ *
+ * @param {number} degreeValue - The angle in degrees to be converted.
+ * @returns {number} The angle in radians.
+ */
 export function getRadianAngle(degreeValue: number): number {
   return (degreeValue * Math.PI) / 180;
 }
 
 /**
- * Returns the new bounding area of a rotated rectangle.
+ * Calculates the size of an image element after rotation.
+ *
+ * @param {number} width - The width of the image element in its original orientation.
+ * @param {number} height - The height of the image element in its original orientation.
+ * @param {number} rotation - The rotation of the image element in degrees.
+ * @returns {{width: number, height: number}} An object containing the width and height of the rotated image element.
  */
 export function rotateSize(width: number, height: number, rotation: number) {
   const rotRad = getRadianAngle(rotation);
@@ -40,8 +56,15 @@ interface Flip {
 }
 
 /**
- * This function creates a cropped image from the source image
- * Returns a Blob that can be uploaded to Cloudinary
+ * Takes an image URL, a pixel crop object, rotation, and flip object as parameters,
+ * and returns a Promise that resolves with a Blob of the cropped image.
+ *
+ * @param {string} imageSrc - The URL of the image to be cropped.
+ * @param {PixelCrop} pixelCrop - An object containing the x, y, width, and height coordinates of the desired crop.
+ * @param {number} [rotation=0] - The rotation of the image in degrees.
+ * @param {Flip} [flip={ horizontal: false, vertical: false }] - An object containing the horizontal and vertical flip flags.
+ *
+ * @returns {Promise<Blob | null>} A promise that resolves with a Blob of the cropped image, or null if there is an error.
  */
 export default async function getCroppedImg(
   imageSrc: string,

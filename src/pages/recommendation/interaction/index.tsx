@@ -1,9 +1,12 @@
-import FinalRecommendation from "@/components/modules/FinalRecommendation";
 import InteractionRecommendation from "@/components/modules/InteractionRecommendation";
-import SimilarityRecommendation from "@/components/modules/SimilarityRecommendation";
-import UserBasedRecommendation from "@/components/modules/UserBasedRecommendation";
 import HeroLayout from "@/layouts/HeroLayout";
 
+/**
+ * A page that displays a list of recommended posts based on the user's
+ * interactions with other users.
+ *
+ * @returns {ReactElement} The component.
+ */
 const Interaction = () => {
   return <InteractionRecommendation />;
 };

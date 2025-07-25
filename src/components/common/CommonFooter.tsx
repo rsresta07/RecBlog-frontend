@@ -1,15 +1,16 @@
-import {
-  IconBrandInstagram,
-  IconBrandTwitter,
-  IconBrandYoutube,
-} from "@tabler/icons-react";
-import { ActionIcon, Anchor, Group } from "@mantine/core";
-import classes from "@/styles/FooterCentered.module.css";
+import { Anchor, Group } from "@mantine/core";
 import CommonLogo from "./CommonLogo";
 import Link from "next/link";
 
 const links = [{ link: "/blog", label: "Blog" }];
 
+/**
+ * CommonFooter component renders a footer with a centered layout,
+ * containing a CommonLogo and a list of links.
+ *
+ * @example
+ * <CommonFooter />
+ */
 export default function CommonFooter() {
   const items = links.map((link) => (
     <Anchor
@@ -28,9 +29,6 @@ export default function CommonFooter() {
     <main className="container mx-auto flex justify-between items-center py-4">
       <section>
         <CommonLogo />
-      </section>
-      <section>
-        <Group className={classes.links}>{items}</Group>
       </section>
     </main>
   );

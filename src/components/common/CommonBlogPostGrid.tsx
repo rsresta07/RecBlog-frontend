@@ -2,6 +2,13 @@ import { useEffect, useState } from "react";
 import CommonBlogList from "@/components/common/CommonBlogList";
 import { Pagination } from "@mantine/core";
 
+/**
+ * Splits an array into chunks of a specified size.
+ *
+ * @param array - The array to be split into chunks.
+ * @param size - The size of each chunk.
+ * @returns A two-dimensional array where each sub-array is a chunk of the specified size.
+ */
 function chunk<T>(array: T[], size: number): T[][] {
   return array.length
     ? [array.slice(0, size), ...chunk(array.slice(size), size)]
@@ -15,6 +22,15 @@ interface BlogPostGridProps {
   itemsPerPage?: number;
 }
 
+/**
+ * A component that fetches a list of blog posts and renders them in a grid.
+ *
+ * @param fetchFunction - A function that fetches the list of blog posts.
+ * @param title - The title of the component.
+ * @param limit - The number of posts to show per page. Defaults to 60.
+ * @param itemsPerPage - The number of posts to show per page. Defaults to 60.
+ * @returns A JSX element that renders the grid of blog posts.
+ */
 const BlogPostGrid = ({
   fetchFunction,
   title,
@@ -27,6 +43,13 @@ const BlogPostGrid = ({
   const paginatedPosts = chunk(postData, itemsPerPage);
   const currentPosts = paginatedPosts[activePage - 1] || [];
 
+  /**
+   * Fetches the list of blog posts from the server using the provided fetch function.
+   *
+   * @async
+   * @function
+   * @returns {Promise<void>}
+   */
   const fetchData = async () => {
     setLoading(true);
     try {

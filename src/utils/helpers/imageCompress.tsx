@@ -1,5 +1,12 @@
 import imageCompression from "browser-image-compression";
 
+/**
+ * Compresses an image file using specified options.
+ *
+ * @param {any} imageFile - The image file to be compressed.
+ * @returns {Promise<File>} A promise that resolves to the compressed image file.
+ * @throws Will log an error if compression fails.
+ */
 export async function handleImageCompression(imageFile: any) {
   const options = {
     maxSizeMB: 0.5,

@@ -5,12 +5,29 @@ import { useState, useEffect } from "react";
 import { ApiDeletePost, ApiGetAllPost, ApiGetPost } from "@/api/blog";
 import { Button, Pagination } from "@mantine/core";
 
+/**
+ * Splits an array into chunks of a specified size.
+ *
+ * @template T - The type of elements in the array.
+ * @param array - The array to be split into chunks.
+ * @param size - The size of each chunk.
+ * @returns A two-dimensional array where each sub-array is a chunk of the specified size.
+ */
+
 function chunk<T>(array: T[], size: number): T[][] {
   return array.length
     ? [array.slice(0, size), ...chunk(array.slice(size), size)]
     : [];
 }
 
+/**
+ * AdminPost component renders a list of blog posts with pagination
+ * and a delete button for each post.
+ *
+ * @param {{ limit: number }} props - The number of posts to display per page.
+ *
+ * @returns {JSX.Element} A main container with blog posts displayed in a grid layout.
+ */
 const AdminPost = ({ limit }: any) => {
   const itemsPerPage = 30;
   const [loading, setLoading] = useState(false);
@@ -19,7 +36,13 @@ const AdminPost = ({ limit }: any) => {
   const paginatedPosts = chunk(postData, itemsPerPage);
   const currentPosts = paginatedPosts[activePage - 1] || [];
 
-  // Function to fetch post data
+  /**
+   * Fetches all blog posts from the server and updates the state of the component.
+   *
+   * @async
+   * @function
+   * @returns {Promise<void>}
+   */
   const fetchData = async () => {
     setLoading(true);
     try {
@@ -32,6 +55,14 @@ const AdminPost = ({ limit }: any) => {
     }
   };
 
+  /**
+   * Handles deleting a post by ID.
+   * @param {string} id - The ID of the post to be deleted.
+   *
+   * @async
+   * @function
+   * @returns {Promise<void>}
+   */
   const handleDeletePost = async (id: string) => {
     const confirmDelete = window.confirm(
       "Are you sure you want to delete this post?"
@@ -96,6 +127,15 @@ const AdminPost = ({ limit }: any) => {
 
 export default AdminPost;
 
+/**
+ * AdminPost.getLayout()
+ *
+ * A function that returns a layout that wraps the AdminPost component with the AdminDashboardLayout component.
+ *
+ * @param {any} page - The page component to be wrapped.
+ *
+ * @returns {JSX.Element} A JSX element that wraps the AdminPost component.
+ */
 AdminPost.getLayout = (page: any) => (
   <AdminDashboardLayout>{page}</AdminDashboardLayout>
 );

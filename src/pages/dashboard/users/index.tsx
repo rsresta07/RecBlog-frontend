@@ -14,11 +14,33 @@ type User = {
   last_login_at: string;
 };
 
+/**
+ * AdminUsers component.
+ *
+ * This component is responsible for fetching and displaying a list of users in a table format
+ * within the admin dashboard. It utilizes the `ApiGetAllUsers` function to retrieve user data
+ * from the server. The component handles loading and error states, providing feedback to the user.
+ * If no users are found, it displays a message indicating so. Each user is displayed in a table
+ * row, showing details such as full name, email, username, position, role, status, and last login.
+ *
+ * @returns {JSX.Element} The AdminUsers component.
+ */
 const AdminUsers = () => {
   const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
+  /**
+   * Fetches the list of users from the server using the `ApiGetAllUsers` function.
+   * Sets the `loading` state to true while the request is in progress and
+   * `error` state if an error occurs. If the request is successful, it sets the
+   * `users` state with the received list of users. Finally, it sets the `loading`
+   * state to false.
+   *
+   * @async
+   * @function
+   * @returns {Promise<void>}
+   */
   const fetchUsers = async () => {
     setLoading(true);
     try {
@@ -87,6 +109,13 @@ const AdminUsers = () => {
 
 export default AdminUsers;
 
+/**
+ * getLayout is a method that returns a JSX.Element which will be used
+ * as the layout for the AdminUsers component. It is used by Next.js to
+ * wrap the component with the specified layout.
+ * @param {any} page The page component to be rendered inside the layout.
+ * @returns {JSX.Element} The layout component.
+ */
 AdminUsers.getLayout = (page: any) => (
   <AdminDashboardLayout>{page}</AdminDashboardLayout>
 );

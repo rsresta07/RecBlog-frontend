@@ -42,6 +42,22 @@ const schema = z
 // Form Type
 interface RegisterForm extends z.infer<typeof schema> {}
 
+/**
+ * A modal component for user registration.
+ *
+ * Props:
+ * - openLoginModal: A function to open the login modal.
+ *
+ * Features:
+ * - Provides a form for user registration with full name, email, password, and expertise fields.
+ * - Validates user input using zod schema.
+ * - Submits the registration form and handles authentication.
+ * - Redirects users to their respective dashboard based on their role after successful login.
+ * - Displays error notifications on authentication failure.
+ * - Integrates with router events to manage modal transitions.
+ *
+ * @returns A JSX element with a modal and a button to open the modal.
+ */
 const RegisterModal = ({ openLoginModal }: { openLoginModal: () => void }) => {
   const [noTransitionOpened, setNoTransitionOpened] = useState(false);
   const router = useRouter();
@@ -50,42 +66,65 @@ const RegisterModal = ({ openLoginModal }: { openLoginModal: () => void }) => {
 
   // Input Fields
   const fields = [
-  {
-    name: "fullName",
-    label: "Full Name",
-    placeholder: "Enter your full name",
-    autoComplete: "off",
-  },
-  {
-    name: "email",
-    label: "Email",
-    placeholder: "your@email.com",
-  },
-  {
-    name: "position",
-    label: "Expertise",
-    placeholder: "e.g., Web Developer",
-  },
-  {
-    name: "password",
-    render: () => (
-      <PasswordInputWithStrength
-        name="password"
-        label="Password"
-        placeholder="Create a password"
-      />
-    ),
-  },
-  {
-    name: "confirmPassword",
-    label: "Confirm Password",
-    type: "password",
-    placeholder: "Re-enter password",
-    autoComplete: "new-password",
-  },
-];
+    {
+      name: "fullName",
+      label: "Full Name",
+      placeholder: "Enter your full name",
+      autoComplete: "off",
+    },
+    {
+      name: "email",
+      label: "Email",
+      placeholder: "your@email.com",
+    },
+    {
+      name: "position",
+      label: "Expertise",
+      placeholder: "e.g., Web Developer",
+    },
+    {
+      name: "password",
+      /**
+       * Renders a PasswordInputWithStrength component for the password field.
+       *
+       * This component displays a popover with password strength requirements.
+       * The strength of the password is shown as a progress bar.
+       * The requirements are displayed below the progress bar.
+       *
+       * @returns {JSX.Element} A JSX element representing the password input field.
+       */
+      render: () => (
+        <PasswordInputWithStrength
+          name="password"
+          label="Password"
+          placeholder="Create a password"
+        />
+      ),
+    },
+    {
+      name: "confirmPassword",
+      label: "Confirm Password",
+      type: "password",
+      placeholder: "Re-enter password",
+      autoComplete: "new-password",
+    },
+  ];
 
-  // Submit handler
+  /**
+   * Handles the submission of the registration form.
+   *
+   * Constructs a payload from the form data and sends a registration request
+   * to the API. On success, notifies the user and transitions to the login
+   * modal. On error, displays an appropriate notification message based on
+   * the error code. If the account already exists, it prompts the user to
+   * log in.
+   *
+   * @param {RegisterForm} formData - The data submitted from the registration form.
+   *
+   * @async
+   * @function handleSubmit
+   */
+
   const handleSubmit: SubmitHandler<RegisterForm> = async (formData) => {
     try {
       const payload = {
