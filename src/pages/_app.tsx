@@ -7,6 +7,7 @@ import type { AppProps } from "next/app";
 import { MantineProvider } from "@mantine/core";
 import { Notifications } from "@mantine/notifications";
 import { theme } from "@/utils/theme";
+import Head from "next/head";
 
 type CustomAppProps = AppProps & {
   Component: {
@@ -31,9 +32,14 @@ export default function App({ Component, pageProps }: CustomAppProps) {
   const getLayout = Component.getLayout ?? ((page: React.ReactElement) => page);
 
   return (
-    <MantineProvider theme={theme} defaultColorScheme="light">
-      <Notifications />
-      {getLayout(<Component {...pageProps} />)}
-    </MantineProvider>
+    <>
+      <Head>
+        <link rel="icon" href="/globe.svg" />
+      </Head>
+      <MantineProvider theme={theme} defaultColorScheme="light">
+        <Notifications />
+        {getLayout(<Component {...pageProps} />)}
+      </MantineProvider>
+    </>
   );
 }

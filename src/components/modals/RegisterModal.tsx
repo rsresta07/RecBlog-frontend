@@ -91,7 +91,7 @@ const RegisterModal = ({ openLoginModal }: { openLoginModal: () => void }) => {
        * The strength of the password is shown as a progress bar.
        * The requirements are displayed below the progress bar.
        *
-       * @returns {JSX.Element} A JSX element representing the password input field.
+       * @returns A JSX element representing the password input field.
        */
       render: () => (
         <PasswordInputWithStrength
@@ -119,7 +119,7 @@ const RegisterModal = ({ openLoginModal }: { openLoginModal: () => void }) => {
    * the error code. If the account already exists, it prompts the user to
    * log in.
    *
-   * @param {RegisterForm} formData - The data submitted from the registration form.
+   * @param formData - The data submitted from the registration form.
    *
    * @async
    * @function handleSubmit
@@ -194,7 +194,7 @@ const RegisterModal = ({ openLoginModal }: { openLoginModal: () => void }) => {
         size="compact-xl"
         onClick={() => setNoTransitionOpened(true)}
       >
-        <label className="font-normal text-primary hover:underline decoration-secondary decoration-4 underline-offset-4 transition-all duration-300">
+        <label className="text-lg font-normal text-primary hover:underline decoration-secondary decoration-4 underline-offset-4 transition-all duration-300">
           Sign Up
         </label>
       </Button>

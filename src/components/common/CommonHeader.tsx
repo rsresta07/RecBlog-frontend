@@ -78,7 +78,7 @@ export default function CommonHeader() {
     window.open(
       "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
       "_blank",
-      "noopener,noreferrer"
+      "noopener,noreferrer",
     );
 
   /**
@@ -117,7 +117,7 @@ export default function CommonHeader() {
        * version of the post content.
        *
        * @param {object} post - Blog post data.
-       * @returns {ReactElement} A clickable card element.
+       * @returns A clickable card element.
        */
       component: () => (
         <div
@@ -154,6 +154,7 @@ export default function CommonHeader() {
       <section className="container mx-auto flex justify-between items-center pt-4 bg-light-bg">
         <CommonLogo />
 
+        {/* Search functionality for small screens */}
         <div className="md:hidden">
           <button
             aria-label="Search"
@@ -164,6 +165,7 @@ export default function CommonHeader() {
           </button>
         </div>
 
+        {/* Search functionality for large screens */}
         <div className="hidden md:flex w-[20rem]">
           <TextInput
             placeholder="Search (Ctrl + K)"
@@ -175,13 +177,14 @@ export default function CommonHeader() {
           />
         </div>
 
+        {/* Spotlight search popup*/}
         <Spotlight
           actions={
             searchQuery.trim()
               ? actions.filter((action) =>
                   action?.label
                     ?.toLowerCase()
-                    .includes(searchQuery.toLowerCase())
+                    .includes(searchQuery.toLowerCase()),
                 )
               : []
           }
@@ -200,72 +203,66 @@ export default function CommonHeader() {
           <Shortcut symbol="X" description="Rickroll" />
         </Spotlight>
 
-        <section>
-          <ul className="flex items-center gap-12 text-dark-font">
-            {user && (
-              <Link
-                href={`/user/${user?.slug}/add-post`}
-                className="px-4 py-2 bg-accent text-light-text rounded-lg shadow-lg shadow-[#A65418] hover:bg-[#A65418] transition-colors duration-300"
-              >
-                Add Post
-              </Link>
-            )}
-            {headerData?.options?.map((item: any) => (
-              <li key={item.id}>
+        {/* Navigation links */}
+        <section className="flex items-center gap-[1rem] text-dark-font">
+          {user && (
+            <Link
+              href={`/user/${user?.slug}/add-post`}
+              className="text-lg text-primary hover:underline decoration-secondary decoration-4 underline-offset-4 transition-all duration-300"
+            >
+              Add Post
+            </Link>
+          )}
+          {headerData?.options?.map((item: any) => (
+            <Link
+              key={item.id}
+              href={item?.link}
+              className="text-lg text-primary hover:underline decoration-secondary decoration-4 underline-offset-4 transition-all duration-300"
+            >
+              {item?.title}
+            </Link>
+          ))}
+          <div className="flex items-center gap-[1rem]">
+            {user ? (
+              <>
                 <Link
-                  href={item?.link}
-                  className="text-xl text-primary hover:underline decoration-secondary decoration-4 underline-offset-4 transition-all duration-300"
+                  href={
+                    user.role === "SUPER_ADMIN"
+                      ? `/dashboard/${user?.slug}`
+                      : `/user/${user?.slug}`
+                  }
+                  className="text-lg text-primary hover:underline decoration-secondary decoration-4 underline-offset-4 transition-all duration-300"
                 >
-                  {item?.title}
+                  Profile
                 </Link>
-              </li>
-            ))}
-            <li>
-              <div className="flex items-center gap-2">
-                {user ? (
-                  <div className="flex items-center gap-6">
-                    <Link
-                      href={
-                        user.role === "SUPER_ADMIN"
-                          ? `/dashboard/${user?.slug}`
-                          : `/user/${user?.slug}`
-                      }
-                      className="text-xl text-primary hover:underline decoration-secondary decoration-4 underline-offset-4 transition-all duration-300"
-                    >
-                      Profile
-                    </Link>
-                    <span className="mx-1">|</span>
-                    <button
-                      onClick={logout}
-                      className="text-xl text-red-600 hover:underline decoration-red-800 decoration-4 underline-offset-4 transition-all duration-300"
-                    >
-                      Logout
-                    </button>
-                  </div>
-                ) : (
-                  <>
-                    <Button
-                      onClick={() => setShowLoginModal(true)}
-                      variant="transparent"
-                      color="black"
-                      size="compact-xl"
-                    >
-                      <label className="font-normal text-primary hover:underline decoration-secondary decoration-4 underline-offset-4 transition-all duration-300">
-                        Sign In
-                      </label>
-                    </Button>
-                    <LoginModal
-                      openRegisterModal={openRegisterModal}
-                      triggerOpen={showLoginModal}
-                      setTriggerOpen={setShowLoginModal}
-                    />
-                    <span className="mx-1">|</span>
-                    <RegisterModal openLoginModal={openLoginModal} />
-                  </>
-                )}
+                <button
+                  onClick={logout}
+                  className="text-lg text-red-600 hover:underline decoration-red-800 decoration-4 underline-offset-4 transition-all duration-300"
+                >
+                  Logout
+                </button>
+              </>
+            ) : (
+              <div className="flex items-center">
+                <Button
+                  onClick={() => setShowLoginModal(true)}
+                  variant="transparent"
+                  color="black"
+                  size="compact-xl"
+                >
+                  <label className="text-lg font-normal text-primary hover:underline decoration-secondary decoration-4 underline-offset-4 transition-all duration-300">
+                    Sign In
+                  </label>
+                </Button>
+                <LoginModal
+                  openRegisterModal={openRegisterModal}
+                  triggerOpen={showLoginModal}
+                  setTriggerOpen={setShowLoginModal}
+                />
+                <RegisterModal openLoginModal={openLoginModal} />
               </div>
-            </li>
-          </ul>
+            )}
+          </div>
         </section>
       </section>
     </main>

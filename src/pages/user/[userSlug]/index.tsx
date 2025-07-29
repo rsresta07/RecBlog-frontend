@@ -4,6 +4,7 @@ import { ApiGetMe, ApiGetPreferences, ApiGetUser } from "@/api/user";
 import HeroLayout from "@/layouts/HeroLayout";
 import UserInfo from "@/components/modules/UserInfo";
 import UserPostList from "@/components/modules/UserPostList";
+import Head from "next/head";
 
 /**
  * Displays a user's profile page.
@@ -63,13 +64,25 @@ const UserPage = () => {
   const isOwner = me && me.data?.username === userData?.username;
 
   return (
-    <div className="p-6 max-w-7xl mx-auto">
-      {/* ────── header ────── */}
-      <UserInfo userData={userData} isOwner={isOwner} />
+    <>
+      <Head>
+        <title>{userData?.fullName} | RecBlog</title>
+        <meta
+          name="description"
+          content={`Profile Page of ${userData?.fullName}.`}
+        />
+        <meta property="og:title" content="Profile" />
+        <meta property="og:image" content="/favicon.ico" />
+      </Head>
 
-      {/* ────── posts ────── */}
-      <UserPostList userData={userData} isOwner={isOwner} />
-    </div>
+      <div className="p-6 max-w-7xl mx-auto">
+        {/* ────── header ────── */}
+        <UserInfo userData={userData} isOwner={isOwner} />
+
+        {/* ────── posts ────── */}
+        <UserPostList userData={userData} isOwner={isOwner} />
+      </div>
+    </>
   );
 };
 
