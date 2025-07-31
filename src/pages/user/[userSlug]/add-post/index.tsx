@@ -9,6 +9,7 @@ import { APIAddBlog } from "@/api/blog";
 import { ApiGetTag } from "@/api/tag";
 import CustomSunEditor from "@/components/common/CommonSunEditor";
 import CommonImageUpload from "@/components/common/CommonImageUpload";
+import Link from "next/link";
 
 type FormValues = {
   title: string;
@@ -111,6 +112,10 @@ const AddPost = () => {
    * and notifying the parent component of the image change.
    *
    * @param {string | null} imageUrl - The URL of the uploaded image or null if the image is removed.
+   *
+   * This function updates the component state with the new image URL and notifies the parent
+   * component by calling the `setValue` function from `react-hook-form` to update the form
+   * value for validation.
    */
   const handleImageChange = (imageUrl: string | null) => {
     setUploadedImageUrl(imageUrl);
@@ -118,7 +123,7 @@ const AddPost = () => {
     setValue("image", imageUrl as any);
   };
 
-  /* ───────────── UI ───────────── */
+  /* Render UI  */
   return (
     <main className="pt-5 p-[5rem] bg-light-bg">
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -132,7 +137,7 @@ const AddPost = () => {
             <Button type="submit" radius="xl" color="dark" loading={loading}>
               Publish
             </Button>
-            <Text>Profile</Text>
+            <Link href={`/user/${slug}`}>Profile</Link>
           </div>
         </section>
 
