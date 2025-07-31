@@ -1,15 +1,8 @@
-import { useForm, Controller } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import "suneditor/dist/css/suneditor.min.css";
 import CommonLogo from "@/components/common/CommonLogo";
 import showNotify from "@/utils/notify";
-import {
-  Grid,
-  Button,
-  Text,
-  TextInput,
-  Input,
-  MultiSelect,
-} from "@mantine/core";
+import { Button, Input, MultiSelect, Text, TextInput } from "@mantine/core";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { APIAddBlog } from "@/api/blog";
@@ -152,7 +145,12 @@ const AddPost = () => {
               placeholder="Your post title"
               withAsterisk
               className="w-2/4"
-              {...register("title", { required: "Title is required" })}
+              {...register("title", {
+                required: "Title is required",
+                validate: (value) =>
+                  /^[a-zA-Z0-9\s]+$/.test(value) ||
+                  "Title cannot contain special characters",
+              })}
               error={errors.title?.message?.toString()}
             />
 
