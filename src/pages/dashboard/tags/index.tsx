@@ -1,7 +1,13 @@
 import { useState, useEffect } from "react";
 import { AdminDashboardLayout } from "@/layouts/AdminDashboardLayout";
-import { ApiGetAllTags, ApiAddTag, ApiDeleteTag } from "@/api/tag";
+import {
+  ApiGetAllTags,
+  ApiAddTag,
+  ApiToggleTagStatus,
+  ApiEditTag,
+} from "@/api/tag";
 import { Button } from "@mantine/core";
+import { Switch } from "@mantine/core";
 
 /**
  * AdminTags component for managing tags in the admin dashboard.
@@ -28,6 +34,7 @@ const AdminTags = () => {
   type Tag = {
     id: string;
     title: string;
+    status: boolean;
   };
 
   const [tags, setTags] = useState<Tag[]>([]);
@@ -87,25 +94,26 @@ const AdminTags = () => {
     }
   };
 
-  /**
-   * Deletes a tag by its ID from the server.
-   *
-   * Calls the `ApiDeleteTag` function to perform the delete operation.
-   * Refreshes the list of tags by invoking `fetchTags` upon successful deletion.
-   * If an error occurs, logs the error and sets the error state to display a message.
-   *
-   * @async
-   * @function
-   * @param {string} tagId - The ID of the tag to be deleted.
-   * @returns {Promise<void>}
-   */
-  const handleDeleteTag = async (tagId: string) => {
+  const handleToggleStatus = async (tagId: string) => {
     try {
-      await ApiDeleteTag(tagId); // Call DELETE API
-      fetchTags(); // Refresh list
+      await ApiToggleTagStatus(tagId);
+      fetchTags();
     } catch (err) {
-      console.error("Failed to delete tag", err);
-      setError("Could not delete tag.");
+      console.error("Failed to toggle tag status", err);
+      setError("Could not toggle tag status.");
+    }
+  };
+
+  const handleEditTag = async (tagId: string, currentTitle: string) => {
+    const newTitle = prompt("Enter new tag title:", currentTitle);
+    if (!newTitle || newTitle.trim() === "") return;
+
+    try {
+      await ApiEditTag(tagId, { title: newTitle.trim() });
+      fetchTags();
+    } catch (err) {
+      console.error("Failed to edit tag", err);
+      setError("Could not edit tag.");
     }
   };
 
@@ -151,18 +159,19 @@ const AdminTags = () => {
               className="flex justify-between items-center border p-3 rounded-lg"
             >
               <span className="text-secondary">{tag.title}</span>
-              <div className="flex gap-4">
-                {/* <button
+              <div className="flex gap-4 items-center">
+                <Switch
+                  checked={tag.status}
+                  onChange={() => handleToggleStatus(tag.id)}
+                  color="green"
+                  size="md"
+                  className="scale-110"
+                />
+                <button
                   onClick={() => handleEditTag(tag?.id, tag?.title)}
                   className="bg-primary px-2 py-1 rounded-lg shadow-lg shadow-secondary hover:bg-accent hover:shadow-accent transition-colors duration-300"
                 >
-                  Edit Tag
-                </button> */}
-                <button
-                  onClick={() => handleDeleteTag(tag?.id)}
-                  className="bg-accent px-2 py-1 rounded-lg shadow-lg shadow-accent hover:bg-accent transition-colors duration-300"
-                >
-                  Delete Tag
+                  Edit
                 </button>
               </div>
             </li>

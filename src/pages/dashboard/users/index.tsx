@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
-import { Table, Loader, Text } from "@mantine/core";
+import { Table, Loader, Text, Button, Switch, Tooltip } from "@mantine/core";
 import { AdminDashboardLayout } from "@/layouts/AdminDashboardLayout";
-import { ApiGetAllUsers } from "@/api/user";
+import { ApiGetAllUsers, ApiToggleUserStatus } from "@/api/user";
+import EditUserModal from "@/components/modals/EditUserModal";
 
 type User = {
   id: string;
@@ -14,22 +15,13 @@ type User = {
   last_login_at: string;
 };
 
-/**
- * AdminUsers component.
- *
- * This component is responsible for fetching and displaying a list of users in a table format
- * within the admin dashboard. It utilizes the `ApiGetAllUsers` function to retrieve user data
- * from the server. The component handles loading and error states, providing feedback to the user.
- * If no users are found, it displays a message indicating so. Each user is displayed in a table
- * row, showing details such as full name, email, username, position, role, status, and last login.
- *
- * @returns {JSX.Element} The AdminUsers component.
- */
 const AdminUsers = () => {
+  // Keep your states
   const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-
+  const [modalOpen, setModalOpen] = useState(false);
+  const [editUser, setEditUser] = useState<string | null>(null);
   /**
    * Fetches the list of users from the server using the `ApiGetAllUsers` function.
    * Sets the `loading` state to true while the request is in progress and
@@ -58,6 +50,18 @@ const AdminUsers = () => {
     fetchUsers();
   }, []);
 
+  const toggleUserStatus = async (username: string, currentStatus: string) => {
+    try {
+      // Call your API to toggle status
+      await ApiToggleUserStatus(username);
+      // Refresh the list to show updated status
+      fetchUsers();
+    } catch (err) {
+      console.error("Failed to toggle user status", err);
+      setError("Failed to toggle user status.");
+    }
+  };
+
   if (loading)
     return <Loader size="xl" style={{ margin: "auto", display: "block" }} />;
   if (error)
@@ -73,6 +77,16 @@ const AdminUsers = () => {
       </Text>
     );
 
+  const openModalForUser = (username: string) => {
+    setEditUser(username);
+    setModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setModalOpen(false);
+    setEditUser(null);
+  };
+  // Render your table rows WITHOUT the modal inside the loop:
   const rows = users.map((user) => (
     <Table.Tr key={user.id} className="text-secondary">
       <Table.Td>{user.fullName}</Table.Td>
@@ -82,6 +96,17 @@ const AdminUsers = () => {
       <Table.Td>{user.role}</Table.Td>
       <Table.Td>{user.status}</Table.Td>
       <Table.Td>{new Date(user.last_login_at).toLocaleString()}</Table.Td>
+      <Table.Td className="flex items-center gap-2">
+        <Button onClick={() => openModalForUser(user.username)}>Edit</Button>
+
+        <Switch
+          checked={user.status === "APPROVED"}
+          onChange={() => toggleUserStatus(user.username, user.status)}
+          size="sm"
+          color={user.status === "APPROVED" ? "green" : "red"}
+          aria-label="Toggle user status"
+        />
+      </Table.Td>
     </Table.Tr>
   ));
 
@@ -99,23 +124,29 @@ const AdminUsers = () => {
             <Table.Th>Role</Table.Th>
             <Table.Th>Status</Table.Th>
             <Table.Th>Last Login</Table.Th>
+            <Table.Th>
+              <Tooltip label="Toggle to change status" withArrow position="top">
+                <span style={{ cursor: "help" }}>Actions</span>
+              </Tooltip>
+            </Table.Th>
           </Table.Tr>
         </Table.Thead>
         <tbody>{rows}</tbody>
       </Table>
+
+      {/* Only ONE modal rendered here, controlled by state */}
+      <EditUserModal
+        opened={modalOpen}
+        onClose={closeModal}
+        username={editUser}
+        refresh={fetchUsers}
+      />
     </div>
   );
 };
 
 export default AdminUsers;
 
-/**
- * getLayout is a method that returns a JSX.Element which will be used
- * as the layout for the AdminUsers component. It is used by Next.js to
- * wrap the component with the specified layout.
- * @param {any} page The page component to be rendered inside the layout.
- * @returns {JSX.Element} The layout component.
- */
 AdminUsers.getLayout = (page: any) => (
   <AdminDashboardLayout>{page}</AdminDashboardLayout>
 );

@@ -68,11 +68,11 @@ const EditPost = () => {
         const { data: tags } = await ApiGetTag();
 
         setTagOptions(
-          tags.map((t: any) => ({ value: t?.id, label: t?.title }))
+          tags.map((t: any) => ({ value: t?.id, label: t?.title })),
         );
 
         setPostId(post?.id);
-        setAuthorSlug(post?.user?.username);
+        setAuthorSlug(post?.user?.slug);
         setExistingImageUrl(post?.image);
         setCurrentImageUrl(post?.image);
 
@@ -123,7 +123,7 @@ const EditPost = () => {
       } else {
         router.push(`/blog/${slug}`);
         console.warn(
-          "Author slug not found, navigating to post details instead of user profile."
+          "Author slug not found, navigating to post details instead of user profile.",
         );
       }
     } catch (err) {

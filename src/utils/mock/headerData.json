@@ -3,11 +3,6 @@
   "logoImage": "/L038.jpg",
   "options": [
     {
-      "id": "02",
-      "title": "For You",
-      "link": "/recommendation"
-    },
-    {
       "id": "01",
       "title": "Explore",
       "link": "/blog"

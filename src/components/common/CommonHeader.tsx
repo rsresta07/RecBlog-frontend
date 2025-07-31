@@ -206,12 +206,21 @@ export default function CommonHeader() {
         {/* Navigation links */}
         <section className="flex items-center gap-[1rem] text-dark-font">
           {user && (
-            <Link
-              href={`/user/${user?.slug}/add-post`}
-              className="text-lg text-primary hover:underline decoration-secondary decoration-4 underline-offset-4 transition-all duration-300"
-            >
-              Add Post
-            </Link>
+            <>
+              <Link
+                href={`/user/${user?.slug}/add-post`}
+                className="text-lg text-primary hover:underline decoration-secondary decoration-4 underline-offset-4 transition-all duration-300"
+              >
+                Add Post
+              </Link>
+
+              <Link
+                href={`/recommendation`}
+                className="text-lg text-primary hover:underline decoration-secondary decoration-4 underline-offset-4 transition-all duration-300"
+              >
+                For You
+              </Link>
+            </>
           )}
           {headerData?.options?.map((item: any) => (
             <Link

@@ -2,8 +2,9 @@ import CommonBlogList from "@/components/common/CommonBlogList";
 import CommonLoader from "@/components/common/CommonLoader";
 import { AdminDashboardLayout } from "@/layouts/AdminDashboardLayout";
 import { useState, useEffect } from "react";
-import { ApiDeletePost, ApiGetAllPost, ApiGetPost } from "@/api/blog";
-import { Button, Pagination } from "@mantine/core";
+import { ApiDeletePost, ApiGetAllPost } from "@/api/blog";
+import { Pagination, Switch, Text } from "@mantine/core";
+import Link from "next/link";
 
 /**
  * Splits an array into chunks of a specified size.
@@ -13,7 +14,6 @@ import { Button, Pagination } from "@mantine/core";
  * @param size - The size of each chunk.
  * @returns A two-dimensional array where each sub-array is a chunk of the specified size.
  */
-
 function chunk<T>(array: T[], size: number): T[][] {
   return array.length
     ? [array.slice(0, size), ...chunk(array.slice(size), size)]
@@ -26,7 +26,7 @@ function chunk<T>(array: T[], size: number): T[][] {
  *
  * @param {{ limit: number }} props - The number of posts to display per page.
  *
- * @returns {JSX.Element} A main container with blog posts displayed in a grid layout.
+ * @returns A main container with blog posts displayed in a grid layout.
  */
 const AdminPost = ({ limit }: any) => {
   const itemsPerPage = 30;
@@ -36,13 +36,6 @@ const AdminPost = ({ limit }: any) => {
   const paginatedPosts = chunk(postData, itemsPerPage);
   const currentPosts = paginatedPosts[activePage - 1] || [];
 
-  /**
-   * Fetches all blog posts from the server and updates the state of the component.
-   *
-   * @async
-   * @function
-   * @returns {Promise<void>}
-   */
   const fetchData = async () => {
     setLoading(true);
     try {
@@ -61,11 +54,10 @@ const AdminPost = ({ limit }: any) => {
    *
    * @async
    * @function
-   * @returns {Promise<void>}
    */
   const handleDeletePost = async (id: string) => {
     const confirmDelete = window.confirm(
-      "Are you sure you want to delete this post?"
+      "Are you sure you want to delete this post?",
     );
     if (!confirmDelete) return;
 
@@ -93,21 +85,41 @@ const AdminPost = ({ limit }: any) => {
           </div>
         ) : (
           currentPosts?.slice(0, limit)?.map((post) => (
-            // will fit 4 post cards in the column
             <div
               key={post.id}
-              className="col-span-4 transform transition-transform duration-300 hover:scale-[1.05]"
+              className="col-span-4"
+              // transform transition-transform duration-300 hover:scale-[1.05]
             >
-              {/* Render Blog Post */}
               <CommonBlogList post={post} />
 
-              {/* Delete Button */}
-              <button
-                onClick={() => handleDeletePost(post.id)}
-                className="px-4 py-2 bg-accent text-[#fefefe] rounded-lg shadow-lg shadow-[#A65418] hover:bg-[#A65418] transition-colors duration-300"
-              >
-                Delete
-              </button>
+              <div className={`flex justify-between items-center`}>
+                <Link href={`/dashboard/posts/${post.id}/edit`}>
+                  <button className="px-4 py-2 bg-secondary text-[#fefefe] rounded-lg shadow-lg shadow-primary hover:bg-primary transition-colors duration-300">
+                    Edit
+                  </button>
+                </Link>
+
+                <div className="flex items-center gap-2">
+                  <text className={`text-primary`}>
+                    {post.status ? "Active" : "Inactive"}
+                  </text>
+
+                  {/* Toggle Button */}
+                  <Switch
+                    checked={post.status} // assuming status is boolean
+                    onChange={async () => {
+                      try {
+                        await ApiDeletePost(post.id); // your toggle API call
+                        fetchData(); // refresh after toggle
+                      } catch (err) {
+                        console.error("Failed to toggle post status:", err);
+                        alert("Failed to toggle post status.");
+                      }
+                    }}
+                    size="md"
+                  />
+                </div>
+              </div>
             </div>
           ))
         )}

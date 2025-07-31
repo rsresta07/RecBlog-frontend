@@ -48,3 +48,17 @@ export const ApiGetPreferences = () =>
  */
 export const ApiUpdatePreferences = (tagIds: any) =>
   PatchRequest("/user/preferences", { tagIds }, { withCredentials: true });
+
+export const ApiUpdateUserByAdmin = (slug: string, payload: any) =>
+  PatchRequest(`/user/update-by-admin/${slug}`, payload, {
+    withCredentials: true,
+  });
+
+export const ApiToggleUserStatus = (username: string) =>
+  PatchRequest(
+    `/user/status-by-admin/${username}`,
+    {},
+    {
+      withCredentials: true,
+    },
+  );
