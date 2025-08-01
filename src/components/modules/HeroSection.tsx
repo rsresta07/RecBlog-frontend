@@ -1,6 +1,7 @@
 import RecentBlog from "@/components/modules/RecentBlog";
 import PostPagination from "./BlogPostPagination";
 import RecommendedBlog from "./RecommendedBlog";
+import Head from "next/head";
 
 /**
  * The hero section of the homepage, which includes a greeting, a recent blog posts list, a recommended blog posts list, and a pagination component.
@@ -10,6 +11,12 @@ import RecommendedBlog from "./RecommendedBlog";
 export default function HeroSection() {
   return (
     <main className="pt-4 flex w-full container mx-auto bg-light-bg">
+      <Head>
+        <title>RecBlog</title>
+        <meta name="description" content={`Homepage of RecBlog.`} />
+        <meta property="og:title" content={`RecBlog`} />
+        <meta property="og:image" content="/favicon.ico" />
+      </Head>
       <section className="flex-grow">
         <div className="mt-12 flex flex-col gap-4 mb-[10rem]">
           <h1 className="text-center text-[50px] font-bold text-primary">

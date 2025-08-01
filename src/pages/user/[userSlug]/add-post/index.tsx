@@ -153,8 +153,8 @@ const AddPost = () => {
               {...register("title", {
                 required: "Title is required",
                 validate: (value) =>
-                  /^[a-zA-Z0-9\s]+$/.test(value) ||
-                  "Title cannot contain special characters",
+                  /^[a-zA-Z0-9][a-zA-Z0-9\s\-:;'""]*$/.test(value) ||
+                  "Title must start with a letter or number and can only contain letters, numbers, spaces, -, :, ;, ', \"",
               })}
               error={errors.title?.message?.toString()}
             />

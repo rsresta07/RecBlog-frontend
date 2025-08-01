@@ -1,32 +1,42 @@
 import Link from "next/link";
 import Image from "next/image";
 import SidebarSkeleton from "./CommonListSkeleton";
+import sanitizeHtml from "sanitize-html";
 
-/**
- * A single blog post item.
- *
- * @param {object} post - Post data. See {@link ApiGetPost} for the shape of the data.
- * @param {boolean} loading - Whether to display a loading skeleton or not.
- *
- * @returns {ReactElement} A single blog post item.
- */
 const CommonBlogList = ({ post, loading }: any) => {
   if (loading || !post) return <SidebarSkeleton />;
 
+  const cleanHtml = sanitizeHtml(post.content, {
+    allowedTags: sanitizeHtml.defaults.allowedTags,
+    allowedAttributes: {
+      "*": ["href", "src", "alt"], // allow minimal useful stuff
+    },
+    allowedSchemes: ["http", "https", "mailto"],
+    transformTags: {
+      "*": (tagName, attribs) => {
+        // strip style attributes completely
+        delete attribs.style;
+        return { tagName, attribs };
+      },
+    },
+  });
+
   return (
     <div
-      className={`col-span-4 grid grid-row-2 gap-4 bg-light-bg p-2 rounded-lg `}
+      className="w-full h-full bg-light-bg p-4 rounded-lg flex flex-col overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300"
       key={post?.id}
     >
-      <Link href={`/blog/${post?.slug}`}>
-        <Image
-          src={post?.image}
-          alt={post?.title}
-          width={1024}
-          height={1024}
-          className="h-[18rem] object-cover rounded-lg"
-        />
-      </Link>
+      <div className="overflow-hidden rounded-lg flex-shrink-0 mb-4">
+        <Link href={`/blog/${post?.slug}`}>
+          <Image
+            src={post?.image}
+            alt={post?.title}
+            width={1024}
+            height={1024}
+            className="w-full h-[18rem] object-cover hover:scale-105 transition-transform duration-300"
+          />
+        </Link>
+      </div>
       <div>
         <span className={`text-btn-text text-sm text-primary`}>
           {post?.user && (
@@ -41,9 +51,9 @@ const CommonBlogList = ({ post, loading }: any) => {
           <h3 className={`text-lg line-clamp-1 text-primary font-bold`}>
             {post?.title}
           </h3>
-          <p
-            dangerouslySetInnerHTML={{ __html: post?.content }}
-            className={`mb-4 line-clamp-2 text-sm text-[#1e1e1e]`}
+          <div
+            dangerouslySetInnerHTML={{ __html: cleanHtml }}
+            className="mb-4 text-[#1e1e1e] text-sm [&_*]:text-sm [&_*]:m-0 line-clamp-2"
           />
         </Link>
         {post?.tags?.map((tag: any) => (

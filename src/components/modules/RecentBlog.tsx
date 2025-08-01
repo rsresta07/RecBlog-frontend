@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { ApiGetPost } from "@/api/blog";
 import { useAuth } from "@/utils/hooks/useAuth";
 import { APIGetRecommendedPosts } from "@/api/recommendation";
+import sanitizeHtml from "sanitize-html";
 
 /**
  * A single blog post item rendered vertically.
@@ -13,6 +14,21 @@ import { APIGetRecommendedPosts } from "@/api/recommendation";
  * @returns {ReactElement} A single blog post item rendered vertically.
  */
 const BlogPostVertical = ({ post }: any) => {
+  const cleanHtml = sanitizeHtml(post?.content, {
+    allowedTags: sanitizeHtml.defaults.allowedTags,
+    allowedAttributes: {
+      "*": ["href", "src", "alt"], // allow minimal useful stuff
+    },
+    allowedSchemes: ["http", "https", "mailto"],
+    transformTags: {
+      "*": (tagName, attribs) => {
+        // strip style attributes completely
+        delete attribs.style;
+        return { tagName, attribs };
+      },
+    },
+  });
+
   return (
     <div className="flex flex-col gap-4 transform transition-transform duration-300 hover:scale-[1.05]">
       <Link href={`/blog/${post?.slug}`}>
@@ -37,9 +53,9 @@ const BlogPostVertical = ({ post }: any) => {
           <h3 className="text-lg font-bold line-clamp-2 text-primary">
             {post?.title}
           </h3>
-          <p
-            dangerouslySetInnerHTML={{ __html: post?.content }}
-            className={`mb-4 line-clamp-3`}
+          <div
+            dangerouslySetInnerHTML={{ __html: cleanHtml }}
+            className="mb-4 text-[#1e1e1e] text-sm [&_*]:text-sm [&_*]:m-0 line-clamp-3"
           />
         </Link>
         {post?.tags?.map((tag: any) => (
@@ -64,6 +80,21 @@ const BlogPostVertical = ({ post }: any) => {
  * @returns {ReactElement} A single blog post item rendered horizontally.
  */
 const BlogPostHorizontal = ({ post, imageHeight }: any) => {
+  const cleanHtml = sanitizeHtml(post?.content, {
+    allowedTags: sanitizeHtml.defaults.allowedTags,
+    allowedAttributes: {
+      "*": ["href", "src", "alt"], // allow minimal useful stuff
+    },
+    allowedSchemes: ["http", "https", "mailto"],
+    transformTags: {
+      "*": (tagName, attribs) => {
+        // strip style attributes completely
+        delete attribs.style;
+        return { tagName, attribs };
+      },
+    },
+  });
+
   return (
     <div className="grid grid-cols-2 gap-8 transform transition-transform duration-300 hover:scale-[1.05]">
       <Link href={`/blog/${post?.slug}`}>
@@ -88,9 +119,9 @@ const BlogPostHorizontal = ({ post, imageHeight }: any) => {
           <h3 className="text-lg font-bold line-clamp-1 text-primary">
             {post?.title}
           </h3>
-          <p
-            dangerouslySetInnerHTML={{ __html: post?.content }}
-            className={`mb-4 line-clamp-3`}
+          <div
+            dangerouslySetInnerHTML={{ __html: cleanHtml }}
+            className="mb-4 text-[#1e1e1e] text-sm [&_*]:text-sm [&_*]:m-0 line-clamp-3"
           />
         </Link>
         {post?.tags?.map((tag: any) => (
