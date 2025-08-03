@@ -194,7 +194,7 @@ export default function CommonHeader() {
             leftSection: <IconSearch size={20} stroke={1.5} />,
             placeholder: "Search anything…",
           }}
-          nothingFound="Nothing found..."
+          // nothingFound="Nothing found..."
           highlightQuery
           className="bg-light-bg"
         >

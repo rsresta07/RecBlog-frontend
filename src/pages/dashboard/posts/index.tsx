@@ -87,7 +87,7 @@ const AdminPost = ({ limit }: any) => {
           currentPosts?.slice(0, limit)?.map((post) => (
             <div
               key={post.id}
-              className="col-span-4"
+              className="col-span-4 mb-8"
               // transform transition-transform duration-300 hover:scale-[1.05]
             >
               <CommonBlogList post={post} />
@@ -139,15 +139,6 @@ const AdminPost = ({ limit }: any) => {
 
 export default AdminPost;
 
-/**
- * AdminPost.getLayout()
- *
- * A function that returns a layout that wraps the AdminPost component with the AdminDashboardLayout component.
- *
- * @param {any} page - The page component to be wrapped.
- *
- * @returns {JSX.Element} A JSX element that wraps the AdminPost component.
- */
 AdminPost.getLayout = (page: any) => (
   <AdminDashboardLayout>{page}</AdminDashboardLayout>
 );

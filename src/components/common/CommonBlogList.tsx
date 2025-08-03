@@ -2,6 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import SidebarSkeleton from "./CommonListSkeleton";
 import sanitizeHtml from "sanitize-html";
+import { IconEye, IconHeart, IconMessage } from "@tabler/icons-react";
 
 const CommonBlogList = ({ post, loading }: any) => {
   if (loading || !post) return <SidebarSkeleton />;
@@ -44,8 +45,6 @@ const CommonBlogList = ({ post, loading }: any) => {
               {post?.user?.fullName}
             </Link>
           )}
-          {/*&nbsp;-&nbsp;*/}
-          {/*<Link href={`#`}>{post?.date}</Link>*/}
         </span>
         <Link href={`/blog/${post?.slug}`}>
           <h3 className={`text-lg line-clamp-1 text-primary font-bold`}>
@@ -55,15 +54,29 @@ const CommonBlogList = ({ post, loading }: any) => {
             dangerouslySetInnerHTML={{ __html: cleanHtml }}
             className="mb-4 text-[#1e1e1e] text-sm [&_*]:text-sm [&_*]:m-0 line-clamp-2"
           />
+          {post?.tags?.map((tag: any) => (
+            <span
+              key={tag?.id}
+              className="text-sm px-2 bg-secondary rounded-lg text-[#fdfdfd] m-1"
+            >
+              {tag?.title}
+            </span>
+          ))}
+          <div className="mt-6 text-sm text-muted-foreground flex items-center justify-end space-x-[1.5rem] text-primary">
+            <div className={`flex items-center gap-2 text-sm`}>
+              <IconEye /> {post?.viewCount || 0}
+            </div>
+            <div className="flex items-center gap-2">
+              <div className={`text-heart-red`}>
+                <IconHeart />
+              </div>
+              {post?.likeCount || 0}
+            </div>
+            <div className={`flex items-center gap-2`}>
+              <IconMessage /> {post?.commentCount || 0}
+            </div>
+          </div>
         </Link>
-        {post?.tags?.map((tag: any) => (
-          <span
-            key={tag?.id}
-            className="text-sm px-2 bg-secondary rounded-lg text-[#fdfdfd] m-1"
-          >
-            <Link href={`#`}>{tag?.title}</Link>
-          </span>
-        ))}
       </div>
     </div>
   );

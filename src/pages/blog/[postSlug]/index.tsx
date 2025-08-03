@@ -24,6 +24,7 @@ import { useEffect, useState, useCallback } from "react";
 import CommonButton from "@/components/common/CommonButton";
 import {
   IconChevronDown,
+  IconEye,
   IconHeart,
   IconHeartFilled,
   IconMessage,
@@ -145,11 +146,8 @@ const PostDetail = () => {
 
   useEffect(() => {
     if (isReady) loadDetails();
-  }, [isReady, loadDetails]);
-
-  useEffect(() => {
     loadRecent();
-  }, [loadRecent]);
+  }, [isReady, loadDetails, loadRecent]);
 
   useEffect(() => {
     if (user) {
@@ -286,9 +284,9 @@ const PostDetail = () => {
    * @function
    * @returns
    */
-  const likeCommentSection = () => (
-    <section className="flex items-center justify-between bg-slate-100 p-2 px-4 rounded-lg">
-      <div className="flex items-center">
+  const likeCommentSection = (post: any, comments: any) => (
+    <section className="flex items-center justify-between bg-slate-100 p-2 px-4 rounded-lg text-sm font-normal">
+      <div className="flex items-center justify-between">
         <ActionIcon
           onClick={handleLikeToggle}
           variant="transparent"
@@ -296,20 +294,27 @@ const PostDetail = () => {
           color="red"
           aria-label={liked ? "Unlike post" : "Like post"}
         >
-          {liked ? <IconHeartFilled /> : <IconHeart />}
+          {liked ? <IconHeartFilled /> : <IconHeart />}&nbsp;
+          <span className={`text-sm font-normal`}>{post?.likeCount || 0}</span>
         </ActionIcon>
         <Button
           onClick={scrollToComments}
           variant="transparent"
           aria-label="Comment on post"
         >
-          <IconMessage stroke={2} />
+          <IconMessage />
+          &nbsp;
+          <span className={`text-sm font-normal`}>{comments?.length || 0}</span>
         </Button>
-        <Button onClick={openShare} variant="transparent" radius="lg">
-          <IconShare stroke={2} />
-        </Button>
-        <ShareModal opened={shareOpen} onClose={closeShare} />
+        <div className={`flex items-center text-sm font-normal text-primary`}>
+          <IconEye />
+          &nbsp;{post?.viewCount || 0}
+        </div>
       </div>
+      <Button onClick={openShare} variant="transparent" radius="lg">
+        <IconShare />
+      </Button>
+      <ShareModal opened={shareOpen} onClose={closeShare} />
     </section>
   );
 
@@ -433,7 +438,7 @@ const PostDetail = () => {
 
             {/* comments */}
             <section className="flex flex-col gap-4 mt-12" id="comment-section">
-              {isLoggedIn && likeCommentSection()}
+              {isLoggedIn && likeCommentSection(details, comments)}
 
               {(isLoggedIn || comments.length > 0) && ( // show nothing if guest & 0 comments
                 <>

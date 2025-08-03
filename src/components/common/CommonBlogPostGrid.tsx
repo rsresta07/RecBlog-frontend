@@ -43,13 +43,6 @@ const BlogPostGrid = ({
   const paginatedPosts = chunk(postData, itemsPerPage);
   const currentPosts = paginatedPosts[activePage - 1] || [];
 
-  /**
-   * Fetches the list of blog posts from the server using the provided fetch function.
-   *
-   * @async
-   * @function
-   * @returns {Promise<void>}
-   */
   const fetchData = async () => {
     setLoading(true);
     try {
@@ -60,7 +53,6 @@ const BlogPostGrid = ({
     }
     setLoading(false);
   };
-
   useEffect(() => {
     fetchData();
   }, []);

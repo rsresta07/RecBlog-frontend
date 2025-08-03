@@ -46,8 +46,8 @@ export default function ShareModal({ opened, onClose, url }: ShareModalProps) {
     >
       <Text mb="sm">Copy the link below to share this blog post:</Text>
 
-      <Group grow>
-        <div>
+      <section className="flex w-full gap-6 items-center">
+        <div className="w-full">
           <TextInput value={link} readOnly />
         </div>
         <div>
@@ -65,7 +65,7 @@ export default function ShareModal({ opened, onClose, url }: ShareModalProps) {
             )}
           </CopyButton>
         </div>
-      </Group>
+      </section>
     </Modal>
   );
 }
