@@ -61,3 +61,6 @@ export const APIInteractionRecommendedPosts = () =>
  */
 export const APIFinalRecommendedPosts = () =>
   GetRequest("/recommendation-service/final-recommendations");
+
+export const APIGetPostContextRecommendations = (postId: string) =>
+  GetRequest(`/recommendation-service/post-context-recommendations/${postId}`);

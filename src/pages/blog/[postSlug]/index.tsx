@@ -34,17 +34,12 @@ import ShareModal from "@/components/modals/ShareModal";
 import { ActionIcon, Button } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import LoginModal from "@/components/modals/LoginModal";
-import { APIGetRecommendedPosts } from "@/api/recommendation";
+import {
+  APIGetPostContextRecommendations,
+  APIGetRecommendedPosts,
+} from "@/api/recommendation";
 import Head from "next/head";
 
-/**
- * A skeleton for a single post.
- *
- * A grayish-blue background with a skeleton layout to mimic a blog post.
- * This is used to indicate that the post is loading.
- *
- * @returns A skeleton element.
- */
 const PostSkeleton = () => (
   <section className="col-span-8 flex flex-col gap-4 animate-pulse">
     <div className="h-8 bg-gray-300 rounded w-3/4" />
@@ -57,14 +52,6 @@ const PostSkeleton = () => (
   </section>
 );
 
-/**
- * A skeleton for the sidebar.
- *
- * A grayish-blue background with a skeleton layout to mimic the sidebar.
- * This is used to indicate that the sidebar is loading.
- *
- * @returns A skeleton element.
- */
 const SidebarSkeleton = () => (
   <aside className="col-span-4 space-y-4 animate-pulse">
     <div className="h-6 bg-gray-300 w-1/2 rounded" />
@@ -79,18 +66,6 @@ const SidebarSkeleton = () => (
   </aside>
 );
 
-/**
- * A component that displays detailed information about a blog post.
- *
- * The component fetches and displays post details, including title, tags, author information,
- * and content. It allows users to like, comment, and share the post. Users can also follow
- * the post's author. If the user is not logged in, certain interactions prompt a login modal.
- *
- * Recommended posts are displayed in the sidebar, and the component handles both logged-in
- * and guest user states. It also manages UI state for loading, likes, comments, and modal visibility.
- *
- * @returns A detailed blog post view with interaction capabilities.
- */
 const PostDetail = () => {
   const router = useRouter();
   const { isReady, query } = router;
@@ -150,33 +125,52 @@ const PostDetail = () => {
   }, [isReady, loadDetails, loadRecent]);
 
   useEffect(() => {
-    if (user) {
+    if (!user) {
+      // not logged in → show recent blogs
+      setRecommendedPosts(postData.slice(0, 8));
+      return;
+    }
+
+    if (!details?.id) {
+      // user is logged in but blog details missing → fallback to general
       APIGetRecommendedPosts()
         .then((res: any) => {
           setRecommendedPosts(res.data || []);
         })
-        .catch((e: any) => {
-          console.error("Failed to fetch recommended posts", e);
-          // fallback to recent
+        .catch(() => {
           setRecommendedPosts(postData.slice(0, 8));
         });
-    } else {
-      // if user is not logged in, fallback to recent blogs
-      setRecommendedPosts(postData.slice(0, 8));
+      return;
     }
-  }, [user, postData]);
 
-  /**
-   * Toggles the follow status of the post's author.
-   *
-   * If the user is not logged in, a login modal is displayed. If logged in, it sends
-   * a follow or unfollow request based on the current following status. Updates the
-   * `isFollowing` state accordingly.
-   *
-   * @async
-   * @function
-   * @returns {Promise<void>}
-   */
+    // user logged in & blog detail exists → try post-context recommendations
+    APIGetPostContextRecommendations(details.id)
+      .then((res: any) => {
+        if (res.data?.length) {
+          setRecommendedPosts(res.data); // tag-based recommendations
+        } else {
+          // fallback to general if no matched tags
+          APIGetRecommendedPosts()
+            .then((res2: any) => {
+              setRecommendedPosts(res2.data || []);
+            })
+            .catch(() => {
+              setRecommendedPosts(postData.slice(0, 8)); // fallback to recent
+            });
+        }
+      })
+      .catch(() => {
+        // even context call failed → fallback to general
+        APIGetRecommendedPosts()
+          .then((res2: any) => {
+            setRecommendedPosts(res2.data || []);
+          })
+          .catch(() => {
+            setRecommendedPosts(postData.slice(0, 8)); // fallback to recent
+          });
+      });
+  }, [user, details, postData]);
+
   const handleFollowToggle = async () => {
     if (!details?.user?.id) return;
 
@@ -199,17 +193,6 @@ const PostDetail = () => {
     }
   };
 
-  /**
-   * Toggles the like status of the post.
-   *
-   * If the user is not logged in, a login modal is displayed. If logged in, it sends
-   * a like or unlike request based on the current like status. Updates the
-   * `liked` state accordingly.
-   *
-   * @async
-   * @function
-   * @returns {Promise<void>}
-   */
   const handleLikeToggle = async () => {
     if (!details?.id) return;
     try {
@@ -224,33 +207,12 @@ const PostDetail = () => {
     }
   };
 
-  /**
-   * Fetches the list of comments for a given post ID and updates the component
-   * state accordingly.
-   *
-   * @async
-   * @function
-   * @param {string} postId
-   *   The ID of the post for which to retrieve comments.
-   * @returns {Promise<void>}
-   */
   const refreshComments = async (postId: string) => {
     if (!postId) return;
     const r = await APIListComments(postId);
     setComments(r.data || []);
   };
 
-  /**
-   * Handles the submission of a comment.
-   *
-   * Checks if the comment is not empty and if the post ID is available. If so,
-   * it sends a request to add the comment and then refreshes the list of
-   * comments.
-   *
-   * @async
-   * @function
-   * @returns {Promise<void>}
-   */
   const handleCommentSubmit = async () => {
     if (!newComment.trim() || !details?.id) return;
     try {
@@ -262,28 +224,11 @@ const PostDetail = () => {
     }
   };
 
-  /**
-   * Smoothly scrolls to the section containing the comments.
-   *
-   * Retrieves the element with the id of "comment-section" and if it exists,
-   * scrolls to it using the "smooth" behavior.
-   *
-   * @async
-   * @function
-   * @returns {Promise<void>}
-   */
   const scrollToComments = () => {
     const el = document.getElementById("comment-section");
     if (el) el.scrollIntoView({ behavior: "smooth" });
   };
 
-  /**
-   * Generates a section containing buttons for liking/unliking a post, commenting
-   * on a post, and sharing a post.
-   *
-   * @function
-   * @returns
-   */
   const likeCommentSection = (post: any, comments: any) => (
     <section className="flex items-center justify-between bg-slate-100 p-2 px-4 rounded-lg text-sm font-normal">
       <div className="flex items-center justify-between">
@@ -499,7 +444,7 @@ const PostDetail = () => {
 
             {recommendedPosts.length === 0 && <p>No posts available.</p>}
 
-            {recommendedPosts.slice(0, 8).map((p) => (
+            {recommendedPosts.map((p) => (
               <article
                 key={p.id}
                 className="mb-8 transform transition-transform duration-300 hover:scale-[1.05]"
@@ -529,15 +474,15 @@ const PostDetail = () => {
                       dangerouslySetInnerHTML={{ __html: p.content }}
                       className="mb-4 line-clamp-2 text-sm"
                     />
+                    {p.tags?.map((t: any) => (
+                      <span
+                        key={t.id}
+                        className="text-sm px-2 bg-secondary rounded-lg text-[#fefe] m-1"
+                      >
+                        {t.title}
+                      </span>
+                    ))}
                   </Link>
-                  {p.tags?.map((t: any) => (
-                    <span
-                      key={t.id}
-                      className="text-sm px-2 bg-secondary rounded-lg text-[#fefe] m-1"
-                    >
-                      <Link href="#">{t.title}</Link>
-                    </span>
-                  ))}
                 </div>
               </article>
             ))}
